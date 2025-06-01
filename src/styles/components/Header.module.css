@@ -1,0 +1,253 @@
+.header {
+	position: sticky;
+	top: 0;
+	z-index: 3;
+	width: 100%;
+	height: 100px;
+	padding: 20px 50px;
+	box-sizing: border-box;
+	background: white;
+	display: flex;
+}
+
+.logo {
+	width: 20%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.logo img {
+	width: 100%;
+/*      min-width: 100px; */
+max-width: 150px;
+}
+
+.address {
+/*  width: 70%; */
+height: 100%;
+display: flex;
+flex: 1;
+/* flex-direction: column; */
+/* gap: 5px; */
+align-items: center;
+justify-content: center;
+font-family: var(--font);
+}
+
+.address .addressContainer * {
+	pointer-events: none;
+}
+
+.address .addressContainer {
+	max-width: 80%;
+	display: flex;
+	gap: 15px;
+	align-items: center;
+	justify-content: center;
+	padding: 15px 30px;
+	box-sizing: border-box;
+	border-radius: 15px;
+	cursor: pointer;
+	pointer-events: auto;
+	user-select: none;
+	transition: .3s linear;
+}
+
+.address .addressContainer:active {
+	background: var(--gray-2-color);
+}
+
+.address .addressContainer .left {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.address .addressContainer .right {
+	transition: .3s ease;
+}
+
+.address .addressContainer .right.up {
+	transform: rotateX(180deg);
+}
+
+.address .addressContainer .left .label {
+	color: var(--gray-color);
+	font-weight: lighter;
+	font-size: 12px;
+}
+
+.address .addressContainer .left .addressName {
+	color: black;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.btnLogin {
+	width: 15%;
+	height: 70%;
+	align-self: center;
+	align-content: center;
+	border-radius: 7px;
+	text-align: center;
+	font-family: var(--font);
+	text-decoration: none;
+	transition: .05s ease;
+}
+
+.btnLogin:active {
+	transform: scale(.9);
+	filter: brightness(0.9);
+}
+
+.profile {
+	width: 10%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.profile .pictProfile {
+	background: gray;
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.profile .pictProfile img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.dropdownProfile {
+	width: 170px;
+	padding: 15px;
+	box-sizing: border-box;
+	position: absolute;
+	top: 80px;
+	right: 50px;
+	display: flex;
+	flex-direction: column;
+	background: #ffffff;
+	border: 1px solid #e5e5e5;
+	border-radius: 15px;
+/* 	box-shadow: 0px 11px 25px -10px #0000007a; */
+box-shadow: 0px 11px 25px -10px #000000c7;
+font-family: var(--font);
+/* 	color: var(--gray-color); */
+font-size: .9rem;
+opacity: 0;
+transform: scale(0);
+transform-origin: top;
+transition: .3s ease;
+}
+
+.dropdownProfile.open {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.dropdownProfile span {
+	height: 45px;
+	padding: 10px 0;
+	align-content: center;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: black;
+	letter-spacing: 1px;
+	line-height: 1rem;
+}
+
+.dropdownProfile .action {
+	padding-top: 10px;
+	display: flex;
+	flex-direction: column;
+	border-top: 1px solid #dbdbdb;
+	padding-top: 10px 5px;
+	gap: 10px;
+}
+
+.dropdownProfile .action a {
+	padding: 5px 10px;
+	text-decoration: none;
+	color: var(--gray-color);
+	transition: .3s;
+}
+
+.dropdownProfile .action a:active {
+	background: var(--blue-2-color);
+	border-radius: 7px;
+	color: white;
+}
+
+.dropdownProfile .action a.btnLogout {
+/* 	padding: 5px 0; */
+padding-top: 10px;
+border-top: 1px solid #dbdbdb;
+text-align: center;
+color: var(--danger-color);
+}
+
+@media (max-width: 500px){
+	.header {
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+
+	.logo {
+		width: 25%;
+	}
+
+	.logo img {
+		width: 100%;
+	}
+
+  /* .logo {
+    width: 30%;
+  }
+
+  .address {
+    width: 60%;
+  } */
+
+  .address .addressContainer {
+  	width: 100%;
+  	padding: 15px;
+  }
+
+  .btnLogin {
+  	height: 50%;
+  	font-size: .8rem;
+  }
+
+  .dropdownProfile {
+  	width: 190px;
+  	right: 10px;
+  	font-size: 1rem;
+  	transform-origin: top right;
+  }
+
+  .dropdownProfile .action {
+/*   	padding-top: 10px; */
+/*   	gap: 15px; */
+gap: 0;
+}
+
+.dropdownProfile .action a {
+	padding: 10px;
+}
+
+.dropdownProfile .action a.btnLogout {
+	margin-top: 10px;
+}
+}

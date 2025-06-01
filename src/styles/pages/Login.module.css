@@ -1,0 +1,130 @@
+a, button {
+	-webkit-tap-highlight-color: transparent;
+}
+
+a:active {
+	background: none !important;
+}
+
+.box {
+	background: white;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+/* 	width: 95%; */
+width: 450px;
+/* 	max-width: 500px; */
+height: 550px;
+border-radius: 10px;
+padding: 55px;
+box-sizing: border-box;
+box-shadow: var(--box-shadow);
+}
+
+.top {
+/* 	height: 20%; */
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+margin-bottom: 15px;
+}
+
+.top h1 {
+	font-size: 2.5rem;
+	font-family: var(--font);
+	font-weight: 700;
+}
+
+.top .logo {
+	width: 30%;
+	padding: 25px 0;
+}
+
+.top .logo img {
+	width: 100%;
+}
+
+.middle {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 30px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+}
+
+.form span {
+	font-family: var(--font);
+	color: #2d2c2c;
+	font-size: 0.9rem;
+	margin-bottom: 10px;
+}
+
+.form input {
+	background: transparent;
+	height: 45px;
+	margin-bottom: 30px;
+	border:  none;
+	border-bottom: 2px solid #d9d9d9;
+	font-family: var(--font);
+	font-size: 1rem;
+	transition: 0.3s;
+}
+
+.form input::placeholder {
+	color: #c7d0dd;
+	font-family: var(--font);
+	font-size: 1rem;
+}
+
+.form input:focus-visible {
+	outline: none;
+	border-color: #e816ed;
+/* border-color: #1668ed; */
+}
+
+.middle button {
+	border: none;
+	height: 55px;
+	border-radius: 100px;
+/* 	background: #6a7acd; */
+background: linear-gradient(135deg, #28cdff, #ff00eb);
+color: white;
+font-family: var(--font);
+font-size: 1rem;
+transition: 0.5s;
+cursor: pointer;
+}
+
+.middle button:active {
+	transform: scale(.95);
+/* 	box-shadow: black 0px 25px 25px -23px; */
+filter: brightness(0.8);
+transition: none;
+/* cursor: pointer; */
+}
+
+.bottom {
+	width: 100%;
+	font-family: var(--font);
+	font-size: 0.8rem;
+	color: var(--gray-color);
+	text-align: center;
+	letter-spacing: 1px;
+	line-height: 1.1rem;
+}
+
+.bottom a {
+	color: #d250fb;
+}
+
+@media (max-width: 500px) {
+	.box {
+		width: 85%;
+/* 		height: 500px; */
+}
+}

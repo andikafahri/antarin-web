@@ -1,0 +1,33 @@
+import homeStyle from '../styles/pages/Home.module.css'
+import {Link} from 'react-router-dom'
+import image from '../../public/img/1.jpg'
+const Card1Component = ({data}) => {
+	// const idMerchant = {data.id}
+
+	return(
+		<Link to={`/${data.id}`}>
+		<div className={homeStyle.card}>
+		<div className={homeStyle.cover}>
+		{/*<img src="/img/1.jpg" />*/}
+		<img src={image} />
+		</div>
+		<div className={homeStyle.infoMerchant}>
+		<h2>{data.name}</h2>
+		<h3>{data.address} | 2 km</h3>
+		<div className={homeStyle.rating}>
+		<div className={homeStyle.star}>
+		<i className="fas fa-star"></i>
+		<i className="fas fa-star"></i>
+		<i className="fas fa-star"></i>
+		<i className="fas fa-star"></i>
+		<i className="far fa-star"></i>
+		</div>
+		<h3 className={homeStyle.count}>(100)</h3>
+		</div>
+		</div>
+		</div>
+		</Link>
+		)
+}
+
+export default Card1Component

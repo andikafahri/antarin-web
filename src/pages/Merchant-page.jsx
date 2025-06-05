@@ -256,7 +256,7 @@ const MerchantPage = () => {
 		<AlertComponent isOpen={alert.isOpen} status={alert.status} message={alert.message} />
 
 		<div className={merchantStyle.coverCurrentMerchant}>
-		<img src="/img/1.jpg" alt="" />
+		<img src={`img/${currentMerchant?.image}`} alt="" />
 		<div className={merchantStyle.infoCurrentMerchant}>
 		<div className={merchantStyle.left}>
 		<h1 className={merchantStyle.nameCurrentMerchant}>{currentMerchant?.name}</h1>

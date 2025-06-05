@@ -6,15 +6,18 @@ import alertStyle from '../styles/components/Alert.module.css'
 const AlertComponent = ({isOpen, status, message}) => {
 	// const [isOpen, setIsOpen] = useState(true)
 
+	let delay = 3500
+	if(typeof message === 'object'){
+		delay = 1700 * Object.values(message).flat().length
+	}
+
 	const {setAlert} = useContext(AlertContext)
 	useEffect(() => {
-	// if(open){
+
 		const timer = setTimeout(() => {
 			setAlert({isOpen: false, status: '', message: ''})
-			// open = false
-		}, 3500)
+		}, delay)
 		return() => clearTimeout(timer)
-	// }
 	}, [isOpen])
 
 	return(

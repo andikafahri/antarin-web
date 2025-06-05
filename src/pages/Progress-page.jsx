@@ -156,7 +156,7 @@ const ProgressPage = () => {
 			</div>
 			<div className={progressStyle.cardMerchant}>
 			<div className={progressStyle.cover}>
-			<img src="/img/1.jpg" />
+			<img src={`img/${dataOrderContext?.merchant?.image}`} />
 			</div>
 			<div className={progressStyle.infoContainer}>
 			<div className={progressStyle.info}>
@@ -177,7 +177,7 @@ const ProgressPage = () => {
 			{dataOrderContext?.items.map((item, key) => { return (
 				<div className={progressStyle.row} key={key}>
 				<div className={progressStyle.picture}>
-				<img src="/img/1.jpg" alt="" />
+				<img src={`img/${item.image}`} alt="" />
 				</div>
 				<div className={progressStyle.info}>
 				<div className={progressStyle.top}>

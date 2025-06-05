@@ -1,6 +1,6 @@
 import homeStyle from '../styles/pages/Home.module.css'
 import {Link} from 'react-router-dom'
-import image from '../../public/img/1.jpg'
+// import image from '../../public/img/1.jpg'
 const Card1Component = ({data}) => {
 	// const idMerchant = {data.id}
 
@@ -9,7 +9,7 @@ const Card1Component = ({data}) => {
 		<div className={homeStyle.card}>
 		<div className={homeStyle.cover}>
 		{/*<img src="/img/1.jpg" />*/}
-		<img src={image} />
+		<img src={`img/${data.image}`} />
 		</div>
 		<div className={homeStyle.infoMerchant}>
 		<h2>{data.name}</h2>

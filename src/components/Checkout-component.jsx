@@ -62,7 +62,7 @@ const CheckoutComponent = () => {
 					<div key={i}>
 					<div className={merchantStyle.item}>
 					<div className={merchantStyle.picture}>
-					<img src='/img/1.jpg' />
+					<img src={`img/${item.image}`} />
 					</div>
 					<div className={merchantStyle.infoItem}>
 					<div className={merchantStyle.top}>

@@ -15,6 +15,7 @@ import { AlertProvider } from "./context/Alert-context.jsx";
 import { DestinationProvider } from "./context/Destination-context.jsx";
 import { OrderProvider } from "./context/Order-context.jsx";
 import LoginPage from "./pages/Login-page.jsx";
+import RegisterPage from "./pages/Register-page.jsx";
 import HeaderComponent from "./components/Header-component.jsx";
 import HomePage from "./pages/Home-page.jsx";
 import MerchantPage from "./pages/Merchant-page.jsx";
@@ -62,6 +63,7 @@ const Content = () => {
 		<Route path="/:id_merchant" element={<MerchantPage />} />
 		</Route>
 		<Route path="/login" element={<LoginPage />} />
+		<Route path="/register" element={<RegisterPage />} />
 		<Route path='/profile' element={<Auth token={token}><ProfilePage /></Auth>} />
 		<Route path='/progress' element={<Auth token={token}><ProgressPage /></Auth>} />
 					{/*<Route path='*' element={<MerchantPage />} />*/}

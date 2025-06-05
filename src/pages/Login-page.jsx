@@ -37,16 +37,7 @@ const LoginPage = () => {
 				setAlert({isOpen: true, status: 'danger', message: 'Maaf, server error'})
 			}else{
 				const err = error.response.data.errors
-				if(typeof err === 'string'){
-					console.log(err)
-					setAlert({isOpen: true, status: 'danger', message: err})
-				}else if(typeof err === 'object'){
-					console.log(Object.values(err).flat().join(', '))
-					setAlert({isOpen: true, status: 'warning', message: Object.values(err).flat().join(' | ')})
-				}else{
-					console.log('Error')
-					setAlert({isOpen: true, status: 'danger', message: 'Maaf, terjadi kesalahan'})
-				}	
+				setAlert({isOpen: true, status: 'warning', message: err})
 			}
 		}).finally(() => {
 			setLoading(false)
@@ -64,17 +55,17 @@ const LoginPage = () => {
 		</div>
 		<div className={loginStyle.middle}>
 		<div className={loginStyle.form}>
-		<span>Username</span>
+		<span>Username<i className='required'> *</i></span>
 		<input type="text" placeholder="Masukkan Username" autoCapitalize="none" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleLogin()} />
 		</div>
 		<div className={loginStyle.form}>
-		<span>Password</span>
+		<span>Password<i className='required'> *</i></span>
 		<input type="password" placeholder="Masukkan Password" autoCapitalize="none" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleLogin()} />
 		</div>
-		<button onClick={handleLogin}>{loading ? `Autentikasi . . .` : 'LOGIN'}</button>
+		<button onClick={handleLogin} disabled={loading}>{loading ? `Autentikasi . . .` : 'LOGIN'}</button>
 		</div>
 		<div className={loginStyle.bottom}>
-		Belum punya akun?&nbsp;<Link>Daftar Sekarang</Link>
+		Belum punya akun?&nbsp;<Link to='/register'>Daftar Sekarang</Link>
 		</div>
 		</div>
 		</>

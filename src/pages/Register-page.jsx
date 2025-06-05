@@ -46,7 +46,7 @@ const RegisterPage = () => {
 		<div className={registerStyle.middle}>
 		<div className={registerStyle.form}>
 		<span>Nama<i className='required'> *</i></span>
-		<input type="text" placeholder="Masukkan Nama" autoCapitalize="none" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
+		<input type="text" placeholder="Masukkan Nama" autoCapitalize="" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
 		</div>
 		<div className={registerStyle.form}>
 		<span>Username<i className='required'> *</i></span>

@@ -14,7 +14,11 @@ const HeaderComponent = () => {
 	const btnLogin = () => {
 		console.log('LOCATION: ')
 		console.log(location)
-		navigate('/login', {state: {from: location}, replace: true})
+		if(location.pathname !== '/'){
+			navigate('/login', {state: {from: location}, replace: true})
+		}else{
+			navigate('/login', {state: {from: location}})
+		}
 	}
 
 

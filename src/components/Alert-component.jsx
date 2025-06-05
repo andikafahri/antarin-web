@@ -12,7 +12,7 @@ const AlertComponent = ({isOpen, status, message}) => {
 		const timer = setTimeout(() => {
 			setAlert({isOpen: false, status: '', message: ''})
 			// open = false
-		}, 5000)
+		}, 3500)
 		return() => clearTimeout(timer)
 	// }
 	}, [isOpen])

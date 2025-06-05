@@ -9,6 +9,15 @@ import CheckoutComponent from '../components/Checkout-component.jsx'
 import FooterComponent from '../components/Footer-component.jsx'
 
 const HomePage = () => {
+	// GET STATUS ORDER
+	const {getDataOrder, dataOrderContext} = useContext(OrderContext)
+	console.log(dataOrderContext)
+
+	useEffect(() => {
+		getDataOrder()
+		console.log('HOME MOUNT AGAIN')
+	}, [])
+
 	const navigate = useNavigate()
 	// useEffect(() => {
 	// 	const token = localStorage.getItem('token')
@@ -83,6 +92,10 @@ const HomePage = () => {
 		})
 	}
 
+	const handleProgress = () => {
+		navigate('/progress')
+	}
+
 	const {cartItems} = useContext(OrderContext)
 	console.log('Cart Items: '+cartItems.length)
 
@@ -91,8 +104,9 @@ const HomePage = () => {
 		{/*<HeaderComponent />*/}
 
 		<div className={homeStyle.info}>
-		<div className={homeStyle.progress}>
-		<label>Sedang Diantar</label>
+		<div className={homeStyle.progress} role='button' onClick={handleProgress}>
+		{/*<label>Sedang Diantar</label>*/}
+		<label>{dataOrderContext?.status?.status || 'Order Sekarang'}</label>
 		</div>
 		<div className={homeStyle.point}>
 		<label>Poin</label>

@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {DestinationContext} from '../context/Destination-context.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
+import {LoginContext} from '../context/Login-context.jsx'
 import {getSystemCost, reqCheckout} from '../api.jsx'
 import merchantStyle from '../styles/pages/Merchant.module.css'
 
@@ -31,7 +32,7 @@ const CheckoutComponent = () => {
 		setIsCheckoutOpen((x) => !x)
 	}
 
-	const {cartItems} = useContext(OrderContext)
+	const {cartItems, setCartItems} = useContext(OrderContext)
 	const [totalPriceItem, setTotalPriceItem] = useState(0)
 	const [totalPrice, setTotalPrice] = useState(0)
 	const totalQty = cartItems.reduce((total, item) => total + item.qty, 0)
@@ -101,9 +102,10 @@ const CheckoutComponent = () => {
 	// CHECKOUT
 	// const {id_merchant} = useParams()
 	const {idMerchant} = useContext(OrderContext)
-	const [loading, setLoading] = useState(false)
 	const {alert, setAlert} = useContext(AlertContext)
 	const {getDataOrder} = useContext(OrderContext)
+	const {token} = useContext(LoginContext)
+	const [loading, setLoading] = useState(false)
 	const checkout = () => {
 		const items = cartItems.map(item => ({
 			id_menu: item.id,
@@ -125,14 +127,24 @@ const CheckoutComponent = () => {
 			return
 		}
 
+		console.log('TOKEN FOR CHECKOUT: '+token)
+		if(!token){
+			setAlert({isOpen: true, status: 'danger', message: 'Lakukan login untuk memesan'})
+			return
+		}
+
 		console.log(request)
 		setLoading(true)
 		reqCheckout(idMerchant, request).then((result) => {
 			console.log(result.data.message)
 			setAlert({isOpen: true, status: 'success', message: 'Order Sukses'})
 			getDataOrder()
+			setCartItems([])
 		}).catch(error => {
 			console.log(error.response.data.errors)
+			if(error.status === 500){
+				setAlert({isOpen: true, status: 'danger', message: 'Maaf, server error'})
+			}
 		}).finally(() => {
 			setLoading(false)
 		})

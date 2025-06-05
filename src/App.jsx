@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+import {useContext, useState, useEffect} from 'react'
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -19,10 +19,20 @@ import HeaderComponent from "./components/Header-component.jsx";
 import HomePage from "./pages/Home-page.jsx";
 import MerchantPage from "./pages/Merchant-page.jsx";
 import ProfilePage from "./pages/Profile-page.jsx";
+import ProgressPage from './pages/Progress-page.jsx'
 
 const Auth = ({children, token}) => {
 	// const {token} = useContext(LoginContext)
+	const [loading, setLoading] = useState(true)
 	const location = useLocation()
+	
+	useEffect(() => {
+		setLoading(false)
+	}, [])
+
+	if(loading){
+		return 'Mengautentikasi . . .'
+	}
 
 	if(!token){
 		return <Navigate to='/login' state={{from: location}} replace />
@@ -44,7 +54,6 @@ const WithHeader = () => {
 
 const Content = () => {
 	const {token} = useContext(LoginContext)
-
 	return(
 		<Routes>
 		{/*<Route element={<Auth token={token}><WithHeader /></Auth>}>*/}
@@ -54,6 +63,7 @@ const Content = () => {
 		</Route>
 		<Route path="/login" element={<LoginPage />} />
 		<Route path='/profile' element={<Auth token={token}><ProfilePage /></Auth>} />
+		<Route path='/progress' element={<Auth token={token}><ProgressPage /></Auth>} />
 					{/*<Route path='*' element={<MerchantPage />} />*/}
 		</Routes>
 		)

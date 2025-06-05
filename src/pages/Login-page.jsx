@@ -25,22 +25,28 @@ const LoginPage = () => {
 			localStorage.setItem("token", result.data.token);
 			setToken(result.data.token);
 			if(from === '/login' || !from){
-				navigate('/');
+				// navigate('/');
+				window.location.href = '/'
 			}else{
-				navigate(from, {replace: true})
+				// navigate(from, {replace: true})
+				window.location.replace(from)
 			}
 		}).catch((error) => {
 			console.log(error.response.data.errors);
-			const err = error.response.data.errors
-			if(typeof err === 'string'){
-				console.log(err)
-				setAlert({isOpen: true, status: 'danger', message: err})
-			}else if(typeof err === 'object'){
-				console.log(Object.values(err).flat().join(', '))
-				setAlert({isOpen: true, status: 'warning', message: Object.values(err).flat().join(' | ')})
+			if(error.status === 500){
+				setAlert({isOpen: true, status: 'danger', message: 'Maaf, server error'})
 			}else{
-				console.log('Error')
-				setAlert({isOpen: true, status: 'danger', message: 'Maaf, terjadi kesalahan'})
+				const err = error.response.data.errors
+				if(typeof err === 'string'){
+					console.log(err)
+					setAlert({isOpen: true, status: 'danger', message: err})
+				}else if(typeof err === 'object'){
+					console.log(Object.values(err).flat().join(', '))
+					setAlert({isOpen: true, status: 'warning', message: Object.values(err).flat().join(' | ')})
+				}else{
+					console.log('Error')
+					setAlert({isOpen: true, status: 'danger', message: 'Maaf, terjadi kesalahan'})
+				}	
 			}
 		}).finally(() => {
 			setLoading(false)

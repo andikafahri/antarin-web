@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
 	baseURL: import.meta.env.VITE_BASEURL
+	// baseURL: 'http://localhost:3000/api'
 })
 
 api.interceptors.request.use((config) => {
@@ -106,6 +107,14 @@ async function getOrder() {
 	}
 }
 
+async function reqCancel(id_order) {
+	try{
+		const result = await api.post(`/user/order/cancel/${id_order}`)
+	}catch(error){
+		throw error
+	}
+}
+
 export {
 	getMerchantList,
 	getCurrentMerchant,
@@ -115,5 +124,6 @@ export {
 	getProfile,
 	reqUpdateProfile,
 	reqCheckout,
-	getOrder
+	getOrder,
+	reqCancel
 }

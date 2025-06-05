@@ -7,7 +7,11 @@ const LoginProvider = ({children}) => {
 	const tokenValue = localStorage.getItem('token') || ''
 
 	useEffect(() => {
-		setToken(tokenValue)
+		if(tokenValue){
+			setToken(tokenValue)
+		}else{
+			setToken('')
+		}
 	}, [tokenValue])
 	console.log('Token: '+token)
 

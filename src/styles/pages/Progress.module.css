@@ -1,0 +1,439 @@
+.border {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 75%;
+	background: var(--gradient-color);
+	border-radius: 25px;
+	font-family: var(--font);
+/* 	box-shadow: 0px 13px 30px -20px #000000b5; */
+/* box-shadow: 0px 13px 30px -20px #002bff; */
+box-shadow: 0px 15px 30px -20px #000000e0;
+/* padding: 2px; */
+padding-bottom: 7px;
+}
+
+.box {
+	height: 350px;
+	background: white;
+	border-radius: 25px;
+	display: flex;
+	gap: 20px;
+	padding: 25px;
+	box-sizing: border-box;
+}
+
+.box > .top > .left,
+.box > .top > .middle,
+.box > .bottom > .right {
+	flex: 1;
+}
+
+.title {
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.1rem;
+	margin-bottom: 15px;
+}
+
+.box > .top > .left .content,
+.box > .top > .middle .content,
+.box > .bottom > .right .content {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.box > .top {
+	width: calc(100% / 3 * 2);
+	height: 100%;
+	display: flex;
+	gap: 20px;
+}
+
+.box > .top > .left,
+.box > .top > .middle {
+	width: 50%;
+	height: 100%;
+}
+
+.box > .top > .left .content .text {
+	margin-top: 75px;
+	text-align: center;
+	line-height: 1.1rem;
+}
+
+.box > .top > .left .content > button {
+	background: var(--danger-color);
+	height: 35px;
+	border-radius: 10px;
+	margin-top: 25px;
+	font-family: var(--font);
+/* 	font-weight: bold; */
+letter-spacing: 1px;
+color: white;
+cursor: pointer;
+transition: .05s;
+}
+
+.box > .top > .left .content > button:active {
+	transform: scale(.9);
+	filter: brightness(.9);
+}
+
+.box > .top > .left .content > button:disabled {
+	background: var(--gray-color);
+	cursor: no-drop;
+	font-size: .7rem;
+}
+
+.box > .top > .middle {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-self: center;
+	justify-content: center;
+}
+
+.box > .top > .middle .cardCourier {
+	background: white;
+/* 	border: 1px solid #9b9b9b; */
+border: 1px solid #ebebeb;
+border-radius: 20px;
+height: 130px;
+padding: 15px 25px;
+box-sizing: border-box;
+display: flex;
+gap: 20px;
+align-items: center;
+/* box-shadow: 0px 13px 30px -20px #000000b5; */
+box-shadow: 0px 13px 30px -20px #000000;
+transform: scale(1);
+transform-origin: top;
+opacity: 1;
+transition: .3s ease;
+}
+
+.middle:has(.cardCourier.hide) {
+	gap: 0;
+}
+
+.box > .top > .middle .cardCourier.hide {
+	height: 0;
+	padding: 0;
+	opacity: 0;
+	transform: scale(0);
+}
+
+.box > .top > .middle .cardCourier .profile {
+	position: relative;
+	width: 30%;
+	height: 0;
+	padding-top: 30%;
+	border-radius: 50px;
+	overflow: hidden;
+}
+
+.box > .top > .middle .cardCourier .profile img {
+	position: absolute;
+	top: 0;
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+
+.box > .top > .middle .cardCourier .info {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	gap: 7px;
+}
+
+.box > .top > .middle .cardCourier .info h2 {
+	font-weight: bold;
+}
+
+.box > .top > .middle .cardCourier .info .vehicle {
+	font-size: .75rem;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.box > .top > .middle .cardCourier .info .vehicle .plateNumber {
+	background: black;
+	border-radius: 3px;
+	padding: 3px 7px;
+	box-sizing: border-box;
+	width: fit-content;
+	color: white;
+}
+
+.box > .top > .middle .cardMerchant {
+	position: relative;
+	background: black;
+	height: 130px;
+	border-radius: 20px;
+/* 	display: flex; */
+box-sizing: border-box;
+gap: 10px;
+align-items: center;
+overflow: hidden;
+box-shadow: 0px 13px 30px -20px #000000b5;
+}
+
+.box > .top > .middle .cardMerchant .cover {
+	width: 45%;
+	height: 100%;
+}
+
+.box > .top > .middle .cardMerchant .cover img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+
+.box > .top > .middle .cardMerchant .infoContainer {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 90%;
+	padding: 15px;
+	box-sizing: border-box;
+	background: linear-gradient(90deg, #00000000 0%, #000000f2 35%, #000000 100%);
+}
+
+.box > .top > .middle .cardMerchant .infoContainer .info {
+	margin-top: 10%;
+	margin-left: 40%;
+	color: white;
+}
+
+.box > .top > .middle .cardMerchant .infoContainer .info h2 {
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.box > .top > .middle .cardMerchant .infoContainer .info span {
+	font-size: .75rem;
+/* 	letter-spacing: 1px; */
+}
+
+.box > .bottom {
+	width: calc(100% / 3);
+}
+
+.box > .bottom > .right {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.box > .bottom > .right .content .scrollArea {
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+	max-height: 235px;
+	flex: 1;
+}
+
+.box > .bottom > .right .content .scrollArea .row {
+	display: flex;
+	padding: 5px 10px;
+	box-sizing: border-box;
+	gap: 10px;
+}
+
+.box > .bottom > .right .content .scrollArea .row .picture {
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.box > .bottom > .right .content .scrollArea .row .picture img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+
+.box > .bottom > .right .content .scrollArea .row .info {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	align-self: center;
+}
+
+.box > .bottom > .right .content .scrollArea .row .info .top {
+	display: flex;
+}
+
+.box > .bottom > .right .content .scrollArea .row .info .top > .left {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.box > .bottom > .right .content .scrollArea .row .info .top > .left h3 {
+	font-size: .85rem;
+}
+
+.box > .bottom > .right .content .scrollArea .row .info .top > .left h4 {
+	font-size: .8rem;
+	color: var(--gray-color);
+}
+
+.box > .bottom > .right .content .scrollArea .row .info .top > .right {
+	margin-left: auto;
+	align-self: center;
+	font-size: .85rem;
+	width: 40px;
+	text-align: right;
+}
+
+.box > .bottom > .right .content .scrollArea .row .info .bottom {
+	text-align: right;
+	font-weight: bold;
+	font-size: .9rem;
+}
+
+.box > .bottom > .right .content .scrollArea .rowPriceSystem {
+	display: flex;
+	align-items: center;
+	padding: 5px 10px;
+	border-bottom: 1px dashed gray;
+}
+
+.box > .bottom > .right .content .scrollArea .rowPriceSystem > .left {
+	width: 50%;
+	font-size: .8rem;
+}
+
+.box > .bottom > .right .content .scrollArea .rowPriceSystem > .right {
+	width: 50%;
+	text-align: right;
+	font-weight: bold;
+	font-size: .9rem;
+}
+
+.box > .bottom > .right .content .total {
+	width: 100%;
+	display: flex;
+	padding: 15px 10px;
+	padding-bottom: 0;
+	box-sizing: border-box;
+	align-items: center;
+}
+
+.box > .bottom > .right .content .total .left {
+	width: 50%;
+}
+
+.box > .bottom > .right .content .total .left label {
+	font-weight: bold;
+	font-size: 1.05rem;
+}
+
+.box > .bottom > .right .content .total .left label span {
+	font-weight: normal;
+	font-size: .75rem;
+}
+
+.box > .bottom > .right .content .total .right {
+	width: 50%;
+	font-weight: bold;
+	text-align: right;
+	font-size: 1.3rem;
+}
+
+.boxCanceled {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50%;
+	height: 35%;
+	background: white;
+	box-shadow: var(--box-shadow);
+	border-radius: 25px;
+	font-family: var(--font);
+	align-content: center;
+	text-align: center;
+	font-size: 1.17rem;
+}
+
+.boxCanceled i {
+	margin-bottom: 25px;
+	font-size: 5rem;
+	color: #89e789;
+}
+
+@media (max-width: 800px) {
+	.box {
+		flex-direction: column;
+		gap: 25px;
+	}
+
+	.box > .top {
+		width: 100%;
+		flex-direction: column;
+		gap: 25px;
+	}
+
+	.box > .top > .left,
+	.box > .top > .middle {
+		width: 100%;
+	}
+
+	.box > .top > .middle {
+		flex-direction: row;
+	}
+
+	.box > .top > .middle .cardCourier,
+	.box > .top > .middle .cardMerchant {
+		width: 50%;
+	}
+
+	.box > .bottom {
+		width: 100%;
+	}
+}
+
+@media (max-width: 500px) {
+	.border {
+		position: relative;
+		top: 20px;
+		transform: translateX(-50%);
+		width: 90%;
+		margin-bottom: 50px;
+	}
+
+	.box > .top > .middle {
+		flex-direction: column;
+	}
+
+	.box > .top > .middle .cardCourier,
+	.box > .top > .middle .cardMerchant {
+		width: 100%;
+	}
+
+	.box > .bottom > .right .content .scrollArea {
+		max-height: 300px;
+	}
+
+	.box > .bottom > .right .content .total {
+
+		font-size: 1.4rem;
+	}
+
+	.box > .bottom > .right .content .total .left label span {
+		font-size: 1rem;
+	}
+
+	.boxCanceled {
+		width: 80%;
+		height: 250px;
+	}
+}

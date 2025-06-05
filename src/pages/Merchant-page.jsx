@@ -1,6 +1,6 @@
 import {useState, useEffect, useMemo, useRef, useContext} from 'react'
 import clsx from 'clsx'
-import {Link, useSearchParams, useParams, useNavigate, useLocation} from 'react-router-dom'
+import {Link, useSearchParams, useParams, useNavigate, useLocation, useNavigationType} from 'react-router-dom'
 import debounce from 'lodash.debounce'
 import {io} from 'socket.io-client'
 import {AlertContext} from '../context/Alert-context.jsx'
@@ -173,15 +173,23 @@ const MerchantPage = () => {
 	const {getDataOrder, dataOrderContext} = useContext(OrderContext)
 	const messageStatus = {
 		1: 'Pesanan telah dibuat. Menunggu konfirmasi dari merchant',
-		2: 'Pesanan sedang diproses merchant'
+		2: 'Pesanan sedang diproses merchant',
+		5: 'Kurir mengambil pesanan'
 	}
+	// const navigationType = useNavigationType()
 	useEffect(() => {
+		// setTimeout(() => getDataOrder(), 0)
+		// getDataOrder()
+		// console.log('INI GET ORDER DARI MERCHANT PAGE USEEFFECT []')
 		getDataOrder()
+		console.log('MERCHANT PAGE MOUNT AGAIN')
+		console.log(dataOrderContext)
 	}, [])
 
 	const socket = io('http://192.168.43.226:3000')
 	useEffect(() => {
 		if(dataOrderContext?.status){
+			console.log('INI GET ORDER DARI MERCHANT PAGE USEEFFECT [dataOrderContext]')
 			console.log(dataOrderContext)
 			setStatusOrder({
 				id: dataOrderContext.status.id,
@@ -235,6 +243,13 @@ const MerchantPage = () => {
 			document.body.classList.remove('no-scroll')
 		}
 	}, [isModalOperationalTimeOpen])
+
+
+
+	// HADLE BUTTON DETAIL
+	const handleDetail = () => {
+		navigate('/progress')
+	}
 
 	return(
 		<>
@@ -297,7 +312,7 @@ const MerchantPage = () => {
 			<h2>{statusOrder.message}</h2>
 			</div>
 			<div className={merchantStyle.btnDetail}>
-			<button className="btn-primary">DETAIL</button>
+			<button className="btn-primary" onClick={handleDetail}>DETAIL</button>
 			</div>
 			</div>
 			</div>

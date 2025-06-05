@@ -12,6 +12,8 @@ const HeaderComponent = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const btnLogin = () => {
+		console.log('LOCATION: ')
+		console.log(location)
 		navigate('/login', {state: {from: location}, replace: true})
 	}
 
@@ -44,8 +46,8 @@ const HeaderComponent = () => {
 	// LOGOUT
 	const logout = () => {
 		localStorage.removeItem('token')
-		setToken('')
-		setIsOpenPopUpProfile(false)
+		// setToken('')
+		// setIsOpenPopUpProfile(false)
 		setTimeout(() => window.location.href = '/', 0)
 	}
 

@@ -115,6 +115,6 @@ cursor: pointer;
 @media (max-width: 500px) {
 	.box {
 		width: 85%;
-/* 		height: 500px; */
-}
+		padding: 55px 45px;
+	}
 }

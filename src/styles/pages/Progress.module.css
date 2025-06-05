@@ -70,11 +70,10 @@ padding-bottom: 7px;
 	border-radius: 10px;
 	margin-top: 25px;
 	font-family: var(--font);
-/* 	font-weight: bold; */
-letter-spacing: 1px;
-color: white;
-cursor: pointer;
-transition: .05s;
+	letter-spacing: 1px;
+	color: white;
+	cursor: pointer;
+	transition: .05s;
 }
 
 .box > .top > .left .content > button:active {
@@ -412,6 +411,10 @@ box-shadow: 0px 13px 30px -20px #000000b5;
 
 	.box {
 		height: max-content;
+	}
+
+	.box > .top > .left .content > button {
+		height: 40px;
 	}
 
 	.box > .top > .middle {

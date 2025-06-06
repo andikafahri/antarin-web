@@ -226,18 +226,20 @@ color: var(--danger-color);
   }
 
   .btnLogin {
-  	height: 50%;
-  	font-size: .8rem;
-  }
+/*   	height: 50%; */
+width: 20%;
+height: 60%;
+font-size: .8rem;
+}
 
-  .dropdownProfile {
-  	width: 190px;
-  	right: 10px;
-  	font-size: 1rem;
-  	transform-origin: top right;
-  }
+.dropdownProfile {
+	width: 190px;
+	right: 10px;
+	font-size: 1rem;
+	transform-origin: top right;
+}
 
-  .dropdownProfile .action {
+.dropdownProfile .action {
 /*   	padding-top: 10px; */
 /*   	gap: 15px; */
 gap: 0;

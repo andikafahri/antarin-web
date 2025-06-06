@@ -9,6 +9,7 @@ import {
 	Navigate
 } from "react-router-dom";
 import "./App.css";
+import { SocketProvider } from "./context/Socket-context.jsx";
 import { LoginProvider } from "./context/Login-context.jsx";
 import { LoginContext} from './context/Login-context.jsx'
 import { AlertProvider } from "./context/Alert-context.jsx";
@@ -75,6 +76,7 @@ const App = () => {
 	return (
 		<Router>
 		<LoginProvider>
+		<SocketProvider>
 		<AlertProvider>
 		<DestinationProvider>
 		<OrderProvider>
@@ -82,6 +84,7 @@ const App = () => {
 		</OrderProvider>
 		</DestinationProvider>
 		</AlertProvider>
+		</SocketProvider>
 		</LoginProvider>
 		</Router>
 		);

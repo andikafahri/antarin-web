@@ -2,7 +2,7 @@ import {useState, useEffect, useMemo, useRef, useContext} from 'react'
 import clsx from 'clsx'
 import {Link, useSearchParams, useParams, useNavigate, useLocation, useNavigationType} from 'react-router-dom'
 import debounce from 'lodash.debounce'
-import {io} from 'socket.io-client'
+import socket from '../function/Socket-function.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {DestinationContext} from '../context/Destination-context.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
@@ -173,7 +173,7 @@ const MerchantPage = () => {
 	const {getDataOrder, dataOrderContext} = useContext(OrderContext)
 	const messageStatus = {
 		1: 'Pesanan telah dibuat. Menunggu konfirmasi dari merchant',
-		2: 'Pesanan sedang diproses merchant',
+		2: 'Pesanan diproses merchant',
 		5: 'Kurir mengambil pesanan'
 	}
 	// const navigationType = useNavigationType()
@@ -186,22 +186,21 @@ const MerchantPage = () => {
 		console.log(dataOrderContext)
 	}, [])
 
-	const socket = io('http://192.168.43.226:3000')
 	useEffect(() => {
 		if(dataOrderContext?.status){
 			console.log('INI GET ORDER DARI MERCHANT PAGE USEEFFECT [dataOrderContext]')
 			console.log(dataOrderContext)
 			setStatusOrder({
 				id: dataOrderContext.status.id,
-				message: messageStatus[dataOrderContext.status.id]
+				message: messageStatus[dataOrderContext.status.id] || dataOrderContext?.status?.message
 			})
 			console.log('INI GET DATA ORDER')
 			socket.emit('subscribeToOrder', dataOrderContext.id_order)
 
 			socket.on('updateStatusOrder', (data) => {
 				console.log('Order update: ', data)
-									// setStatusOrder(data.status)
-				getDataOrder()
+				setStatusOrder(data?.status)
+				// getDataOrder()
 			})
 
 			return () => {

@@ -122,14 +122,14 @@ const CheckoutComponent = () => {
 			items
 		}
 
-		if(!request.destination || request.items.length === 0){
-			setAlert({isOpen: true, status: 'warning', message: 'Harap pilih item dan alamat tujuan terlebih dahulu'})
-			return
-		}
-
 		console.log('TOKEN FOR CHECKOUT: '+token)
 		if(!token){
 			setAlert({isOpen: true, status: 'danger', message: 'Lakukan login untuk memesan'})
+			return
+		}
+
+		if(!request.destination || request.items.length === 0){
+			setAlert({isOpen: true, status: 'warning', message: 'Harap pilih item dan alamat tujuan terlebih dahulu'})
 			return
 		}
 
@@ -142,6 +142,10 @@ const CheckoutComponent = () => {
 			setCartItems([])
 		}).catch(error => {
 			console.log(error.response.data.errors)
+			if(error.status === 401){
+				setAlert({isOpen: true, status: 'danger', message: 'Sesi kamu sudah habis. Silahkan login kembali!'})
+			}
+
 			if(error.status === 500){
 				setAlert({isOpen: true, status: 'danger', message: 'Maaf, server error'})
 			}
@@ -180,7 +184,7 @@ const CheckoutComponent = () => {
 		</div>
 		</div>
 		<div className={merchantStyle.btnOrder}>
-		<button className="btn-primary" onClick={checkout} disabled={loading}>PESAN</button>
+		<button className={clsx('btn-primary', !token && merchantStyle.notLogin)} onClick={checkout} disabled={loading}>PESAN</button>
 		</div>
 		</div>
 		</div>

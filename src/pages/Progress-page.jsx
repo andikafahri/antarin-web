@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import clsx from 'clsx'
-import {io} from 'socket.io-client'
+import socket from '../function/Socket-function.jsx'
 import progressStyle from '../styles/pages/Progress.module.css'
 import {OrderContext} from '../context/Order-context.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
@@ -35,7 +35,7 @@ const ProgressPage = () => {
 	}
 	const [status, setStatus] = useState('')
 	useEffect(() => {
-		setStatus(statusMessage[dataOrderContext?.status?.id])
+		setStatus(statusMessage[dataOrderContext?.status?.id] || dataOrderContext?.status?.message)
 	}, [dataOrderContext?.status?.id])
 
 
@@ -52,10 +52,9 @@ const ProgressPage = () => {
 
 
 		// REALTIME UPDATE
-	const socket = io('http://192.168.43.226:3000')
 	useEffect(() => {
 		socket.emit('subscribeToOrder', dataOrderContext?.id_order)
-		socket.on('updateStatusOrder', (data) => {
+		socket.on('updateStatusOrder', () => {
 			getDataOrder()
 			console.log('UPDATE WITH SOCKET')
 		})

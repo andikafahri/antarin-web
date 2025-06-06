@@ -1,21 +1,25 @@
 import {useState,useEffect, useMemo, useRef, useContext} from 'react'
 import {Link, useSearchParams, useLocation, useNavigate} from 'react-router-dom'
 import debounce from 'lodash.debounce'
-import {OrderContext} from '../context/Order-context.jsx'
 import homeStyle from '../styles/pages/Home.module.css'
-import {getMerchantList} from '../api.jsx'
+import socket from '../function/Socket-function.jsx'
+import {OrderContext} from '../context/Order-context.jsx'
 import Card1Component from '../components/Card1-component.jsx'
 import CheckoutComponent from '../components/Checkout-component.jsx'
 import FooterComponent from '../components/Footer-component.jsx'
+import {getMerchantList} from '../api.jsx'
 
 const HomePage = () => {
 	// GET STATUS ORDER
-	const {getDataOrder, dataOrderContext} = useContext(OrderContext)
-	console.log(dataOrderContext)
+	const {loadingDataOrder, getDataOrder, dataOrderContext} = useContext(OrderContext)
+	const [statusOrder, setStatusOrder] = useState({})
 
 	useEffect(() => {
-		getDataOrder()
-		console.log('HOME MOUNT AGAIN')
+		const result = async () => {
+			await getDataOrder()
+		}
+
+		result()
 	}, [])
 
 	const navigate = useNavigate()
@@ -92,12 +96,40 @@ const HomePage = () => {
 		})
 	}
 
+
+
+	// REALTIME UPDATE STATUS ORDER
+	useEffect(() => {
+		if(dataOrderContext){
+			setStatusOrder(dataOrderContext?.status)
+			console.log('HOME MOUNT AGAIN')
+			console.log(statusOrder)
+			console.log(dataOrderContext)
+
+			socket.emit('subscribeToOrder', dataOrderContext?.id_order)
+			socket.on('updateStatusOrder', (data) => {
+			// getDataOrder()
+				setStatusOrder(data?.status)
+				console.log('UPDATE REALTIME')
+				console.log(data)
+			})
+			return () => {
+				socket.off('updateStatusOrder')
+			}
+			console.log('UPDATE STATUS ORDER VIA SOCKET')
+		}
+	}, [dataOrderContext, loadingDataOrder])
+
 	const handleProgress = () => {
 		navigate('/progress')
 	}
 
 	const {cartItems} = useContext(OrderContext)
 	console.log('Cart Items: '+cartItems.length)
+
+	if(loadingDataOrder){
+		return 'Memuat . . .'
+	}
 
 	return (
 		<div>
@@ -106,7 +138,7 @@ const HomePage = () => {
 		<div className={homeStyle.info}>
 		<div className={homeStyle.progress} role='button' onClick={handleProgress}>
 		{/*<label>Sedang Diantar</label>*/}
-		<label>{dataOrderContext?.status?.status || 'Order Sekarang'}</label>
+		<label>{statusOrder?.message || 'Order Sekarang'}</label>
 		</div>
 		<div className={homeStyle.point}>
 		<label>Poin</label>

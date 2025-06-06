@@ -1,4 +1,4 @@
-import {createContext, useContext, useState} from 'react'
+import {createContext, useContext, useState, useEffect} from 'react'
 import {useLocation, useNavigate} from 'react-router-dom'
 import {LoginContext} from '../context/Login-context.jsx'
 import {getOrder} from '../api.jsx'
@@ -6,6 +6,7 @@ import {getOrder} from '../api.jsx'
 const OrderContext = createContext()
 
 const OrderProvider = ({children}) => {
+	const [loadingDataOrder, setLoadingDataOrder] = useState(true)
 	// SAVE ID MERCHANT
 	const [idMerchant, setIdMerchant] = useState('')
 	const [nameMerchant, setNameMerchant] = useState('')
@@ -53,25 +54,33 @@ const OrderProvider = ({children}) => {
 				setDataOrderContext(result)
 				console.log('INI GET DATA ORDER DI CONTEXT')
 			}catch(error){
-				if(error.status === 404){
-					setDataOrderContext(null)
-				}else{
-					console.log(error)
+				setDataOrderContext(null)
+				// if(error.status === 404){
+				// 	setDataOrderContext(null)
+				// }else{
+				// 	console.log(error)
 
-					if(error.status === 401){
-						setDataOrderContext(null)
-						localStorage.removeItem('token')
-						console.log('REMOVE TOKEN')
-						navigate('/login', {state: {from: location}, replace: true})
-					}	
-				}
+				// 	if(error.status === 401){
+				// 		setDataOrderContext(null)
+				// 		localStorage.removeItem('token')
+				// 		console.log('REMOVE TOKEN')
+				// 		navigate('/login', {state: {from: location}, replace: true})
+				// 	}
+				// }
+			}finally{
+				setLoadingDataOrder(false)
 			}
+		}else{
+			setLoadingDataOrder(false)
 		}
 	}
-	console.log(dataOrderContext)
+
+	useEffect(() => {
+		getDataOrder()
+	}, [token])
 
 	return (
-		<OrderContext.Provider value={{idMerchant, setIdMerchant, nameMerchant, setNameMerchant, cartItems, setCartItems, addToCart, getDataOrder, dataOrderContext}}>
+		<OrderContext.Provider value={{loadingDataOrder, idMerchant, setIdMerchant, nameMerchant, setNameMerchant, cartItems, setCartItems, addToCart, getDataOrder, dataOrderContext}}>
 		{children}
 		</OrderContext.Provider>
 		)

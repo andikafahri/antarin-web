@@ -8,7 +8,9 @@ const AlertComponent = ({isOpen, status, message}) => {
 
 	let delay = 3500
 	if(typeof message === 'object'){
-		delay = 1700 * Object.values(message).flat().length
+		if(Object.values(message).flat().length > 1){
+			delay = 1700 * Object.values(message).flat().length
+		}
 	}
 
 	const {setAlert} = useContext(AlertContext)

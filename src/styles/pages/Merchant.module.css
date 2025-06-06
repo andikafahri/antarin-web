@@ -153,11 +153,22 @@ border-radius: 15px;
 /*  box-shadow: 3px 10px 20px -10px #0000008f; */
 font-family: var(--font);
 font-size: .9rem;
+transition: .3s;
+}
+
+.searchBar2 input:focus-visible {
+	outline: none;
+	border-color: black;
 }
 
 .searchBar2 input::placeholder {
 	color: #5b87ff;
 	font-family: var(--font);
+	transition: .3s;
+}
+
+.searchBar2 input:focus-visible::placeholder {
+	color: black;
 }
 
 .btnClear {
@@ -574,6 +585,12 @@ transition: .3s ease-in-out;
 	border: none;
 	box-shadow: none;
 	transition: .05s linear;
+}
+
+.checkout .final .btnOrder button.notLogin {
+	background: var(--gray-2-color);
+	border: none;
+	color: white;
 }
 
 .checkout .final .btnOrder button:active {

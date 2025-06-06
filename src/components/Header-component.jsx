@@ -14,11 +14,11 @@ const HeaderComponent = () => {
 	const btnLogin = () => {
 		console.log('LOCATION: ')
 		console.log(location)
-		if(location.pathname !== '/'){
-			navigate('/login', {state: {from: location}, replace: true})
-		}else{
-			navigate('/login', {state: {from: location}})
-		}
+		// if(location.pathname !== '/'){
+		// 	navigate('/login', {state: {from: location}, replace: true})
+		// }else{
+		navigate('/login', {state: {from: location}})
+		// }
 	}
 
 
@@ -83,7 +83,9 @@ const HeaderComponent = () => {
 		<>
 		<div className={headerStyle.header}>
 		<div className={headerStyle.logo}>
+		<Link to='/'>
 		<img src='/img/Logo Antarin.png' />
+		</Link>
 		</div>
 		<div className={headerStyle.address}>
 		<div role='button' className={clsx(headerStyle.addressContainer, 'notHighlight')} onClick={togglePopUpDestination}>

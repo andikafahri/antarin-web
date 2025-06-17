@@ -1,0 +1,124 @@
+/* SELECT OPTION*/
+.selectWrapper {
+	position: relative;
+}
+
+.selectWrapper .selectInput {
+	height: 25px;
+	border-bottom: 1px solid var(--gray-color);
+	padding: 1px;
+	cursor: pointer;
+}
+
+/* .selectWrapper .selectInput > input {
+	width: 100%;
+	pointer-events: none;
+} */
+
+.selectWrapper .selectInput label {
+	font-size: .9rem;
+	color: black;
+}
+
+.selectWrapper .selectInput i {
+	position: absolute;
+	top: 50%;
+	right: 7px;
+	transform: translateY(-50%);
+	font-size: .7rem;
+	color: var(--gray-color);
+	transition: .3s;
+}
+
+.selectWrapper .selectInput i.open {
+	transform: translateY(-50%) rotateX(180deg);
+}
+
+.selectWrapper .selectDropdown {
+	position: absolute;
+	top: calc(100% + 5px);
+	z-index: 10;
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	border-radius: 10px;
+	background: white;
+	box-shadow: var(--box-shadow);
+	font-size: .9rem;
+	transform: scale(0);
+	transform-origin: 90% 0;
+	transition: .3s;
+}
+
+.selectWrapper .selectDropdown.open {
+	transform: scale(1);
+}
+
+.selectWrapper .selectDropdown input {
+	width: -webkit-fill-available;
+	height: 30px;
+	border: 1px solid var(--blue-2-color);
+	border-radius: 7px;
+	margin-bottom: 5px;
+	padding: 0 5px;
+}
+
+.selectWrapper .selectDropdown ul {
+	max-height: 130px;
+	overflow: auto;
+}
+
+.selectWrapper .selectDropdown li {
+	padding: 10px 5px;
+	border-radius: 7px;
+	align-content: center;
+	cursor: pointer;
+	transition: .3s;
+}
+
+.selectWrapper .selectDropdown li.select {
+	background: var(--blue-3-color);
+	color: white;
+}
+
+.selectWrapper .selectDropdown li.disabled {
+	font-style: italic;
+	font-size: .8rem;
+	color: var(--gray-color);
+	cursor: not-allowed;
+	pointer-events: none;
+	user-select: none;
+}
+
+@media (hover:hover) and (pointer: fine) {
+	.selectWrapper .selectDropdown li:not(.disabled):hover {
+/* 		background: #ebf5ff; */
+background: #6cb3ff;
+border-radius: 5px;
+}
+}
+
+@media (max-width: 500px){
+	.selectWrapper .selectInput label {
+		font-size: 1rem;
+	}
+
+	.selectWrapper .selectDropdown input {
+		padding: 3px 5px;
+		font-size: .9rem;
+	}
+
+	.selectWrapper .selectDropdown li {
+		height: 20px;
+	}
+
+	.selectWrapper .selectDropdown li:active {
+		background: #6cb3ff;
+	}
+
+	.footer p {
+		width: 80%;
+		font-size: .8rem;
+		line-height: normal;
+	}
+}

@@ -62,7 +62,7 @@ const CheckoutComponent = () => {
 					<div key={i}>
 					<div className={merchantStyle.item}>
 					<div className={merchantStyle.picture}>
-					<img src={`img/${item.image}`} />
+					<img src={`/img/${item.image}`} />
 					</div>
 					<div className={merchantStyle.infoItem}>
 					<div className={merchantStyle.top}>
@@ -172,7 +172,7 @@ const CheckoutComponent = () => {
 		</div>
 		</div>
 		<div className={clsx(merchantStyle.checkout)}>
-		{cartItems.length !== 0 ? <Link to={`/${idMerchant}`} className={merchantStyle.nameMerchant}>{nameMerchant}</Link> : ''}
+		{cartItems.length !== 0 ? <Link to={`/menu/${idMerchant}`} className={merchantStyle.nameMerchant}>{nameMerchant}</Link> : ''}
 		<div className={merchantStyle.final}>
 		<div role='button' tabIndex='0' onClick={toggleListOrder} className={merchantStyle.totalPrice}>
 		<div className={merchantStyle.text}>

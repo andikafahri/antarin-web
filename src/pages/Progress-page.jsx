@@ -1,21 +1,22 @@
-import {useContext, useEffect, useState} from 'react'
+import {useContext, useEffect, useState, useRef} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import clsx from 'clsx'
 import socket from '../function/Socket-function.jsx'
 import progressStyle from '../styles/pages/Progress.module.css'
 import {OrderContext} from '../context/Order-context.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
+import {SocketContext} from '../context/Socket-context.jsx'
 import {reqCancel} from '../api.jsx'
 
 const ProgressPage = () => {
 	// GET DATA ORDER
 	const {dataOrderContext, getDataOrder} = useContext(OrderContext)
 	const [loading, setLoading] = useState(true)
-	console.log('GET ORDER PROGRESS PAGE')
 	useEffect(() => {
 		getDataOrder()
+		console.log('GET ORDER PROGRESS PAGE')
+		console.log(dataOrderContext)
 	}, [])
-	console.log(dataOrderContext)
 
 	useEffect(() => {
 		// setLoading(true)
@@ -31,6 +32,7 @@ const ProgressPage = () => {
 	const statusMessage = {
 		1: 'Pesanan telah dibuat. Menunggu konfirmasi dari merchant',
 		2: 'Pesanan diproses oleh merchant',
+		3: 'Maaf, pesanan ditolak oleh merchant',
 		5: 'Kurir mengambil pesanan'
 	}
 	const [status, setStatus] = useState('')
@@ -52,16 +54,30 @@ const ProgressPage = () => {
 
 
 		// REALTIME UPDATE
+	const token = localStorage.getItem('token')
+	const {useSocket, setRoleSocket} = useContext(SocketContext)
 	useEffect(() => {
-		socket.emit('subscribeToOrder', dataOrderContext?.id_order)
-		socket.on('updateStatusOrder', () => {
-			getDataOrder()
-			console.log('UPDATE WITH SOCKET')
-		})
-		return () => {
-			socket.off('updateStatusOrder')
+		setRoleSocket('user')
+		if(token){
+			if(useSocket?.connected){
+				useSocket?.emit('subscribeOrderUser', dataOrderContext?.id_order)
+				console.log('SUBSCRIBED')
+			}else{
+				useSocket?.once('connect', () => {
+					useSocket?.emit('subscribeOrderUser', dataOrderContext?.id_order)
+				})
+			}
+
+			useSocket?.on('updateStatusOrder', () => {
+				getDataOrder()
+				console.log('UPDATE WITH SOCKET')
+			})
 		}
-	}, [dataOrderContext])
+		return () => {
+			useSocket?.off('updateStatusOrder')
+			useSocket?.off('connect')
+		}
+	}, [dataOrderContext, useSocket])
 
 
 
@@ -155,7 +171,7 @@ const ProgressPage = () => {
 			</div>
 			<div className={progressStyle.cardMerchant}>
 			<div className={progressStyle.cover}>
-			<img src={`img/${dataOrderContext?.merchant?.image}`} />
+			<img src={`/img/${dataOrderContext?.merchant?.image}`} />
 			</div>
 			<div className={progressStyle.infoContainer}>
 			<div className={progressStyle.info}>
@@ -176,7 +192,7 @@ const ProgressPage = () => {
 			{dataOrderContext?.items.map((item, key) => { return (
 				<div className={progressStyle.row} key={key}>
 				<div className={progressStyle.picture}>
-				<img src={`img/${item.image}`} alt="" />
+				<img src={`/img/${item.image}`} alt="" />
 				</div>
 				<div className={progressStyle.info}>
 				<div className={progressStyle.top}>

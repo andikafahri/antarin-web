@@ -6,6 +6,7 @@ import socket from '../function/Socket-function.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {DestinationContext} from '../context/Destination-context.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
+import {SocketContext} from '../context/Socket-context.jsx'
 import {getCurrentMerchant, getMenuList, getSystemCost, reqCheckout} from '../api.jsx'
 import merchantStyle from '../styles/pages/Merchant.module.css'
 import AlertComponent from '../components/Alert-component.jsx'
@@ -186,8 +187,11 @@ const MerchantPage = () => {
 		console.log(dataOrderContext)
 	}, [])
 
+	const token = localStorage.getItem('token')
+	const {useSocket, setRoleSocket} = useContext(SocketContext)
 	useEffect(() => {
-		if(dataOrderContext?.status){
+		setRoleSocket('user')
+		if(token && dataOrderContext?.status){
 			console.log('INI GET ORDER DARI MERCHANT PAGE USEEFFECT [dataOrderContext]')
 			console.log(dataOrderContext)
 			setStatusOrder({
@@ -195,16 +199,23 @@ const MerchantPage = () => {
 				message: messageStatus[dataOrderContext.status.id] || dataOrderContext?.status?.message
 			})
 			console.log('INI GET DATA ORDER')
-			socket.emit('subscribeToOrder', dataOrderContext.id_order)
+			if(useSocket?.connected){
+				useSocket?.emit('subscribeOrderUser', dataOrderContext.id_order)
+			}else{
+				useSocket?.once('connect', () => {
+					useSocket?.emit('subscribeOrderUser', dataOrderContext.id_order)
+				})
+			}
 
-			socket.on('updateStatusOrder', (data) => {
+			useSocket?.on('updateStatusOrder', (data) => {
 				console.log('Order update: ', data)
 				setStatusOrder(data?.status)
 				// getDataOrder()
 			})
 
 			return () => {
-				socket.off('updateStatusOrder')
+				useSocket?.off('updateStatusOrder')
+				useSocket?.off('connect')
 			}
 		}
 	}, [dataOrderContext])
@@ -255,7 +266,7 @@ const MerchantPage = () => {
 		<AlertComponent isOpen={alert.isOpen} status={alert.status} message={alert.message} />
 
 		<div className={merchantStyle.coverCurrentMerchant}>
-		<img src={`img/${currentMerchant?.image}`} alt="" />
+		<img src={`/img/${currentMerchant?.image}`} alt="" />
 		<div className={merchantStyle.infoCurrentMerchant}>
 		<div className={merchantStyle.left}>
 		<h1 className={merchantStyle.nameCurrentMerchant}>{currentMerchant?.name}</h1>

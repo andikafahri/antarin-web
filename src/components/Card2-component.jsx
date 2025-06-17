@@ -1,10 +1,13 @@
+import {useParams} from 'react-router-dom'
 import merchantStyle from '../styles/pages/Merchant.module.css'
 
 const Card2Component = ({onClick, data}) => {
+	const {id_merchant} = useParams()
+
 	return(
 		<div className={merchantStyle.card} onClick={onClick}>
 		<div className={merchantStyle.cover}>
-		<img src={`img/${data.image}`} />
+		<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${data.image}`} />
 		</div>
 		<div className={merchantStyle.infoMerchant}>
 		<h2>{data.name}</h2>

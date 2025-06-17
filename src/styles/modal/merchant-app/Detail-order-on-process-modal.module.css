@@ -1,0 +1,271 @@
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+	background: #00000050;
+	overflow: auto;
+	opacity: 0;
+	transition: .5s;
+	pointer-events: none;
+}
+
+.modal.open {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.modal .box {
+	/* position: absolute;
+	top: 30px;
+	left: 50%;
+	transform: translateX(-50%); */
+	margin: 20px auto;
+	background: white;
+	width: 50%;
+/* 	height: 500px; */
+border-radius: 25px;
+padding: 25px;
+box-sizing: border-box;
+display: flex;
+flex-direction: column;
+font-family: var(--font);
+transform: scale(.9);
+transition: .3s;
+}
+
+.modal.open .box {
+	transform: scale(1);
+}
+
+.modal .box > span {
+	width: max-content;
+	font-size: 1.3rem;
+	text-align: right;
+	cursor: pointer;
+	align-self:  flex-end;
+}
+
+.modal .box > .title {
+	margin-bottom: 15px;
+	font-size: 1.5rem;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-align: center;
+}
+
+.modal .box > .title span {
+	font-size: .9rem;
+	color: var(--gray-color);
+}
+
+.modal .box .body {
+	display: flex;
+	flex-direction: column;
+}
+
+.modal .box .body .entity {
+	display: flex;
+	flex-direction: column;
+}
+
+.modal .box .body .entity label {
+	margin-top: 10px;
+	font-size: .8rem;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.modal .box .body .entity .buyer,
+.modal .box .body .entity .courier {
+	margin-top: 7px;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.modal .box .body .entity .profile {
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.modal .box .body .entity .profile img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.modal .box .body .entity .info {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.modal .box .body .entity .info h2 {
+	font-weight: bold;
+	font-size: 1rem;
+}
+
+.modal .box .body .entity .info h4 {
+	font-size: .7rem;
+	letter-spacing: 1px;
+	color: var(--gray-color);
+}
+
+.modal .box .body .entity .info h3 {
+	font-size: .8rem;
+}
+
+.modal .box .body .list {
+	margin-top: 15px;
+	max-height: 300px;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+}
+
+.modal .box .body .list .row {
+	background: #f5f5f5;
+	padding: 5px;
+	box-sizing: border-box;
+	gap: 10px;
+	align-items: center;
+	border-radius: 10px;
+	display: flex;
+}
+
+.modal .box .body .list .row .picture {
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	border-radius: 10px;
+}
+
+.modal .box .body .list .row .picture img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.modal .box .body .list .row .info {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.modal .box .body .list .row .info .top {
+	width: 100%;
+	display: flex;
+}
+
+.modal .box .body .list .row .info .top .left {
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	font-size: .9rem;
+}
+
+.modal .box .body .list .row .info .top .left h3 {
+
+}
+
+.modal .box .body .list .row .info .top .left h4 {
+	font-size: .8rem;
+/* 	color: var(--gray-color); */
+}
+
+.modal .box .body .list .row .info .top .right {
+	width: 10%;
+	align-content: center;
+	text-align: right;
+	font-size: .9rem;
+}
+
+.modal .box .body .list .row .info .bottom {
+	font-weight: bold;
+	text-align: right;
+}
+
+.modal .box .body .total {
+	display: flex;
+	padding: 25px 0 15px 0;
+	align-items: center;
+}
+
+.modal .box .body .total .left {
+	width: 40%;
+}
+
+.modal .box .body .total .left label {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.modal .box .body .total .left label span {
+	font-size: .9rem;
+	font-weight: normal;
+}
+
+.modal .box .body .total .right {
+	width: 60%;
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: right;
+}
+
+.modal .box .footer {
+	display: flex;
+	gap: 5px;
+	height: 45px;
+}
+
+.modal .box .footer button {
+	width: 50%;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background .3s, filter .3s, transform .1s;
+}
+
+.modal .box .footer button:active {
+	transform: scale(.9);
+	filter: brightness(0.9);
+	transition: 0;
+}
+
+.modal .box .footer button:disabled {
+	cursor: no-drop;
+	background: var(--gray-color);
+	border: none;
+	color: white;
+}
+
+.modal .box .footer .btnReject {
+	background: transparent;
+	border: 1px solid var(--danger-color);
+	color: var(--danger-color);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.modal .box .footer button:hover {
+		filter: brightness(0.8);
+	}
+
+	.modal .box .footer .btnReject:hover {
+		background: var(--danger-color);
+		filter: none;
+		color: white;
+	}
+}
+
+@media (max-width: 500px) {
+	.modal .box {
+		width: 95%;
+	}
+}

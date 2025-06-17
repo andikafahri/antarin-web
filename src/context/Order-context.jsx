@@ -52,31 +52,39 @@ const OrderProvider = ({children}) => {
 			try{
 				const result = await getOrder()
 				setDataOrderContext(result)
+				console.log(result)
 				console.log('INI GET DATA ORDER DI CONTEXT')
 			}catch(error){
+				console.log(error.status)
 				setDataOrderContext(null)
 				// if(error.status === 404){
 				// 	setDataOrderContext(null)
 				// }else{
 				// 	console.log(error)
 
-				// 	if(error.status === 401){
-				// 		setDataOrderContext(null)
-				// 		localStorage.removeItem('token')
-				// 		console.log('REMOVE TOKEN')
-				// 		navigate('/login', {state: {from: location}, replace: true})
-				// 	}
+				if(error?.status === 401 && location.pathname === '/progress'){
+					setDataOrderContext(null)
+					localStorage.removeItem('token')
+					console.log('REMOVE TOKEN')
+					navigate('/login', {state: {from: location}, replace: true})
+				}
 				// }
 			}finally{
 				setLoadingDataOrder(false)
 			}
 		}else{
 			setLoadingDataOrder(false)
+			if(location.pathname === '/progress'){
+				setDataOrderContext(null)
+				navigate('/login', {state: {from: location}, replace: true})
+			}
 		}
 	}
 
 	useEffect(() => {
-		getDataOrder()
+		if(token){
+			getDataOrder()
+		}
 	}, [token])
 
 	return (

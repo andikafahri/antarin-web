@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce'
 import homeStyle from '../styles/pages/Home.module.css'
 import socket from '../function/Socket-function.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
+import {SocketContext} from '../context/Socket-context.jsx'
 import Card1Component from '../components/Card1-component.jsx'
 import CheckoutComponent from '../components/Checkout-component.jsx'
 import FooterComponent from '../components/Footer-component.jsx'
@@ -99,22 +100,32 @@ const HomePage = () => {
 
 
 	// REALTIME UPDATE STATUS ORDER
+	const token = localStorage.getItem('token')
+	const {useSocket, setRoleSocket} = useContext(SocketContext)
 	useEffect(() => {
-		if(dataOrderContext){
+		setRoleSocket('user')
+		if(token && dataOrderContext){
 			setStatusOrder(dataOrderContext?.status)
 			console.log('HOME MOUNT AGAIN')
 			console.log(statusOrder)
 			console.log(dataOrderContext)
+			if(useSocket?.connected){
+				useSocket?.emit('subscribeOrderUser', dataOrderContext?.id_order)
+			}else{
+				useSocket?.once('connect', () => {
+					useSocket?.emit('subscribeOrderUser', dataOrderContext?.id_order)
+				})
+			}
 
-			socket.emit('subscribeToOrder', dataOrderContext?.id_order)
-			socket.on('updateStatusOrder', (data) => {
+			useSocket?.on('updateStatusOrder', (data) => {
 			// getDataOrder()
 				setStatusOrder(data?.status)
 				console.log('UPDATE REALTIME')
 				console.log(data)
 			})
 			return () => {
-				socket.off('updateStatusOrder')
+				useSocket?.off('updateStatusOrder')
+				useSocket?.off('connect')
 			}
 			console.log('UPDATE STATUS ORDER VIA SOCKET')
 		}

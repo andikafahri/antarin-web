@@ -58,6 +58,14 @@ button,
 	box-shadow: none;
 }
 
+button:disabled {
+	background: var(--gray-color) !important;
+	border: none !important;
+	color: white !important;
+	cursor: no-drop !important;
+	pointer-events: none !important;
+}
+
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
 	-webkit-appearance: none;

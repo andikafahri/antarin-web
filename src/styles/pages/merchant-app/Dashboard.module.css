@@ -1,0 +1,330 @@
+.empty {
+	height: 100%;
+	text-align: center;
+	align-content: center;
+	color: var(--gray-color);
+	font-size: .9rem;
+}
+
+.container {
+	width: 100%;
+	height: 100%;
+	padding: 25px;
+	box-sizing: border-box;
+	user-select: none;
+}
+
+.container .widgetGroup {
+	margin-bottom: 25px;
+	width: 100%;
+	display: flex;
+	gap: 5px;
+}
+
+.container .widgetGroup .widget {
+/* 	background: var(--gradient-color); */
+width: 20%;
+height: 100px;
+border-radius: 20px;
+box-shadow: var(--box-shadow);
+/* padding: 1px; */
+box-sizing: border-box;
+overflow: hidden;
+}
+
+.container .widgetGroup .widget .box {
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	font-family: var(--font);
+}
+
+.container .widgetGroup .widget.onProcess {
+/* 	background: linear-gradient(135deg, #f7ff79, #ff8d00); */
+}
+
+.container .widgetGroup .widget.waitingCourier {
+/* 	background: linear-gradient(135deg, #7efb76, #00c4ff); */
+}
+
+.container .widgetGroup .widget.toBeConfirm .box {
+	background: var(--gradient-color);
+/* background: white; */
+color: white;
+}
+
+.container .widgetGroup .widget.onProcess .box {
+	background: white;
+/* 	border: 1px solid var(--gray-2-color); */
+}
+
+.container .widgetGroup .widget.waitingCourier .box {
+/* 	background: #e8f962; */
+background: white;
+}
+
+.container .widgetGroup .widget .box label {
+	font-size: .9rem;
+	flex: 1;
+}
+
+.container .widgetGroup .widget .box span {
+	font-size: 1.8rem;
+	font-weight: bold;
+	text-align: right;
+}
+
+
+
+/* CONTENT */
+.containerContent {
+	display: flex;
+	gap: 10px;
+}
+
+.container .content {
+	width: 33.33%;
+	display: flex;
+	font-family: var(--font);
+}
+
+.container .content .box {
+	background: white;
+	width: 100%;
+	padding: 25px 10px 5px 10px;
+	box-sizing: border-box;
+	border-radius: 25px;
+	box-shadow: var(--box-shadow);
+}
+
+.container .content .box .title {
+	margin-bottom: 15px;
+	font-size: 1.1rem;
+	font-weight: bold;
+}
+
+.container .content .box .table {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	overflow:  auto;
+	height: 280px;
+}
+
+.container .content .box .table .row {
+	background: #f5f5f5;
+	padding: 10px 15px;
+	box-sizing: border-box;
+	border-radius: 15px;
+	display: flex;
+	gap: 10px;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	border: none;
+	box-shadow: none;
+	transition: background .3s, transform .05s;
+}
+
+.container .content .box .table .row.new {
+	animation: scaleFromTop .7s;
+}
+
+@keyframes scaleFromTop {
+	from {
+		transform: scale(0);
+		transform-origin: top;
+	}
+
+	to {
+		transform: scale(1);
+	}
+}
+
+.container .content .box .table > .row:active {
+	transform: scale(.95);
+	filter: brightness(0.9);
+	transition: 0;
+}
+
+.container .content .box .table .row .picture {
+	width: 35px;
+	height: 35px;
+	border-radius: 100%;
+	overflow: hidden;
+}
+
+.container .content .box .table .row .picture img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.container .content .box .table .row .info {
+	width: calc(100% - 10px - 35px);
+	height: 100%;
+	display: flex;
+	align-self: center;
+}
+
+.container .content .box .table .row .info .left {
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.container .content .box .table .row .info .left h2 {
+	font-size: .9rem;
+	font-weight: bold;
+}
+
+.container .content .box .table .row .info .left h3 {
+	height: -webkit-fill-available;
+	font-size: .7rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.container .content .box .table .row .info .left .status {
+	display: flex;
+	gap: 7px;
+	align-items: center;
+}
+
+.container .content .box .table .row .info .left .status i {
+	font-size: .9rem;
+	color: var(--blue-2-color);
+}
+
+.container .content .box .table .row .info .left .status h4 {
+	font-size: .75rem;
+	font-style: italic;
+}
+
+.container .content .box .table .row .info .right {
+	width: 20%;
+	align-content: flex-end;
+}
+
+.container .content .box .table .row .info .right h2 {
+	font-size: .8rem;
+	text-align: right;
+}
+
+.container .content .box .table .border {
+	padding: 2px;
+	box-sizing: border-box;
+	border-radius: 15px;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	border: none;
+	box-shadow: none;
+	transition: background .3s, transform .05s;
+}
+
+.container .content .box .table.waitingConfirm .border {
+	background: linear-gradient(135deg, #79e0ff, #e400ff);
+	background-size: 400% 400%;
+	animation: runningBorder 3s linear infinite;
+}
+
+.container .content .box .table.finish .border {
+	background: linear-gradient(135deg, #2ad100, #16dee7);
+	background-size: 400% 400%;
+	animation: runningBorder 3s linear infinite;
+}
+
+@keyframes runningBorder {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.container .content .box .table .border.new {
+	animation: scaleFromTop .7s;
+}
+
+.container .content .box .table .border:active {
+	transform: scale(.95);
+	filter: brightness(0.9);
+	transition: 0;
+}
+
+.container .content .box .table .border .row {
+	background: #f5f5f5;
+	padding: 10px 15px;
+	box-sizing: border-box;
+	border-radius: 13px;
+	display: flex;
+	gap: 10px;
+}
+
+@media (hover:hover) and (pointer: fine){
+	.container .content .box .table .row:hover {
+/* 		background: #7774f3; */
+background: #6cb3ff;
+}
+}
+
+@media (max-width: 750px) {
+	.container {
+		padding: 15px;
+	}
+
+	.container .widgetGroup {
+		flex-wrap: wrap;
+		gap: 7px;
+	}
+
+	.container .widgetGroup .widget .box label {
+		font-size: .8rem;
+		font-weight: bold;
+	}
+
+	.container .widgetGroup .widget .box span {
+		font-size: 1.9rem;	
+	}
+
+	.container .widgetGroup .widget.toBeConfirm,
+	.container .widgetGroup .widget.onProcess {
+		flex:  1 1;
+		height: 90px;
+	}
+
+	.container .widgetGroup .widget.waitingCourier {
+		flex: 0 0 100%;
+		height: 90px;
+	}
+
+/* 	CONTENT */
+.containerContent {
+	flex-direction: column;
+}
+
+.containerContent .content {
+	width: 100%;
+}
+
+.container .content .box .table .row {
+	transition: background .3s, transform .05s;
+}
+
+.container .content .box .table .row:active {
+	background: #6cb3ff;
+	color: white;
+	transform: scale(.93);
+	filter: brightness(0.9);
+	transition: 0;
+}
+}

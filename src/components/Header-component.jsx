@@ -83,9 +83,9 @@ const HeaderComponent = () => {
 		<>
 		<div className={headerStyle.header}>
 		<div className={headerStyle.logo}>
-		<Link to='/'>
+		<a href='/'>
 		<img src='/img/Logo Antarin.png' />
-		</Link>
+		</a>
 		</div>
 		<div className={headerStyle.address}>
 		<div role='button' className={clsx(headerStyle.addressContainer, 'notHighlight')} onClick={togglePopUpDestination}>
@@ -119,7 +119,6 @@ const HeaderComponent = () => {
 			</>
 
 			) : (
-			// <Link to='/login' className={clsx(headerStyle.btnLogin, 'btn-second notHighlight')}>LOGIN</Link>
 			<button className={clsx(headerStyle.btnLogin, 'btn-second notHighlight')} onClick={btnLogin}>LOGIN</button>
 			)}
 			</div>

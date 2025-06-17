@@ -5,7 +5,7 @@ const Card1Component = ({data}) => {
 	// const idMerchant = {data.id}
 
 	return(
-		<Link to={`/${data.id}`}>
+		<Link to={`/menu/${data.id}`}>
 		<div className={homeStyle.card}>
 		<div className={homeStyle.cover}>
 		{/*<img src="/img/1.jpg" />*/}

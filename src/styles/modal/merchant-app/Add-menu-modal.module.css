@@ -119,34 +119,41 @@ justify-items: center;
 		font-size: .8rem;
 		color: var(--blue-2-color);
 		cursor: pointer;
+		transform: scale(1);
+		transition: .15s;
 	}
 
-	.modal .box .body .middle {
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-	}
+	.btnUpload:active {
+/* 		background: var(--gray-2-color); */
+transform: scale(.9);
+}
 
-	.modal .box .body .middle .inputGroup {
-		width: 90%;
-		align-self: center;
-		display: flex;
-		flex-direction: column;
-	}
+.modal .box .body .middle {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
 
-	.modal .box .body .middle .inputGroup > label {
-		font-size: .83rem;
-		color: var(--gray-color);
-	}
+.modal .box .body .middle .inputGroup {
+	width: 90%;
+	align-self: center;
+	display: flex;
+	flex-direction: column;
+}
 
-	.modal .box .body .middle .inputGroup input {
-		height: 30px;
-		background: transparent;
-		border: none;
-		border-bottom: 1px solid var(--gray-color);
-		padding: 0 5px;
-		font-family: var(--font);
-		font-size: .9rem;
+.modal .box .body .middle .inputGroup > label {
+	font-size: .83rem;
+	color: var(--gray-color);
+}
+
+.modal .box .body .middle .inputGroup input {
+	height: 30px;
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid var(--gray-color);
+	padding: 0 5px;
+	font-family: var(--font);
+	font-size: .9rem;
 /* 	letter-spacing: 1px; */
 transition: .5s ease;
 }

@@ -265,10 +265,10 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		<div className={s.picture}>
 		<img src={imageReview || '/img/mi-chili-oil.jpg'} alt="" />
 		</div>
-		<div className={clsx(sa.btnUpload)}>
+		<label className={clsx(sa.btnUpload, 'notHighlight')}>
 		<input type="file" ref={inputFileRef} onChange={handleAddImage}/>
 		Unggah Gambar
-		</div>
+		</label>
 		<span>Ketersediaan Menu</span>
 		<input type="checkbox" id='isReady' checked={request?.is_ready ?? true} onChange={e => setRequest({...request, is_ready: e.target.checked})} />
 		<label className={clsx(s.isReady, 'notHighlight')} htmlFor='isReady'></label>

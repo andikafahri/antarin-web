@@ -13,7 +13,7 @@ const MenuPage = () => {
 	const {setAlert} = useContext(AlertContext)
 	const navigate = useNavigate()
 	const location = useLocation()
-	const idMerchant = jwtDecode(localStorage.getItem('token')).id || null
+	const idMerchant = jwtDecode(localStorage.getItem('token') || '')?.id || null
 	const [filter, setFilter] = useState({search: null, category: null})
 	const [searchValue, setSearchValue] = useState('')
 	// const [categoryValue, setCategoryValue] = useState(null)

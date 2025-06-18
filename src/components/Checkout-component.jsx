@@ -10,6 +10,7 @@ import merchantStyle from '../styles/pages/Merchant.module.css'
 
 const CheckoutComponent = () => {
 	// GET NAME MERCHANT
+	const {id_merchant} = useParams()
 	const {nameMerchant} = useContext(OrderContext)
 
 	// GET SYSTEM COST
@@ -62,7 +63,7 @@ const CheckoutComponent = () => {
 					<div key={i}>
 					<div className={merchantStyle.item}>
 					<div className={merchantStyle.picture}>
-					<img src={`/img/${item.image}`} />
+					<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${item.image}`} />
 					</div>
 					<div className={merchantStyle.infoItem}>
 					<div className={merchantStyle.top}>

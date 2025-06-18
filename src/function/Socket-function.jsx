@@ -5,7 +5,8 @@ const socket = (token, role) => {
 		autoConnect: false,
 		query: {
 			token: token
-		}
+		},
+		transports: ['websocket']
 	})
 }
 

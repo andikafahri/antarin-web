@@ -40,7 +40,7 @@ const CheckoutComponent = () => {
 
 	useEffect(() => {
 		const newTotal = cartItems.reduce((sum, item) => {
-			return sum+item.price*item.qty
+			return sum+(Number(item.price)+Number(item.variant.price))*item.qty
 		}, 0)
 		setTotalPriceItem(newTotal)
 		setTotalPrice(Number(newTotal)+Number(shippingCost)+Number(serviceCost))
@@ -76,7 +76,7 @@ const CheckoutComponent = () => {
 					</div>
 					</div>
 					<div className={merchantStyle.bottom}>
-					<label htmlFor="">{(item.price * item.qty).toLocaleString('id-ID')}</label>
+					<label htmlFor="">{((Number(item.price) + Number(item.variant.price)) * item.qty).toLocaleString('id-ID')}</label>
 					</div>
 					</div>
 					</div>

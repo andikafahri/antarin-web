@@ -132,7 +132,8 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 			image: data.image,
 			variant: {
 				id: variantItemSelected.id,
-				name: variantItemSelected.name
+				name: variantItemSelected.name,
+				price: variantItemSelected.price
 			}
 		}
 		console.log('Id Merchant: '+idMerchant)

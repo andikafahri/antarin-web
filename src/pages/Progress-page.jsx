@@ -114,7 +114,7 @@ const ProgressPage = () => {
 	const handleCancel = async () => {
 		setLoadingBtnCancel(true)
 		try{
-			await reqCancel(dataOrderContext.id_order)
+			await reqCancel()
 			setAlert({isOpen: true, status: 'success', message: 'Pesanan berhasil dibatalkan'})
 			getDataOrder()
 			setOrderCanceled(true)

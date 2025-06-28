@@ -1,0 +1,242 @@
+.container {
+
+}
+
+.container .box {
+	background: white;
+	width: 50%;
+	min-width: 500px;
+	margin: 25px auto;
+	padding: 25px;
+	box-sizing: border-box;
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	font-family: var(--font);
+	user-select: none;
+}
+
+.container .box h1 {
+	margin-bottom: 20px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.1rem;
+}
+
+.container .box .list {
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	align-self: center;
+}
+
+.container .box .list .row {
+	display: flex;
+	align-items: center;
+	font-size: .9rem;
+	color: black;
+}
+
+.container .box .list .row .btnAdd {
+	width: 100%;
+	height: 30px;
+	border-radius: 10px;
+	font-size: .75rem;
+	letter-spacing: 1px;
+}
+
+.container .box .list .row span {
+	flex: 1;
+	font-weight: bold;
+}
+
+.container .box .list .row span.time {
+	text-align: center;
+	font-weight: normal;
+}
+
+.container .box .list .row span.action {
+	display: flex;
+	gap: 3px;
+/* 	justify-content: center; */
+justify-content: flex-end;
+}
+
+.container .box .list .row span.action button {
+	width: 30px;
+	height: 30px;
+	border-radius: 10px;
+	font-size: .75rem;
+	cursor: pointer;
+}
+
+.container .box .list .row span.action button.btnCancel {
+	width: 50%;
+	font-size: .65rem;
+}
+
+.container .box .list .row span.action button.btnSave {
+	width: 50%;
+	font-size: .65rem;
+}
+
+.container .box .list .row span.action button.btnUpdate {
+	background: gold;
+}
+
+.container .box .list .row span.action button.btnDelete {
+	background: var(--danger-color);
+	color: white;
+}
+
+.container .box .list .rowAdd {
+	display: flex;
+	align-items: center;
+	font-size: .9rem;
+	color: black;
+}
+
+.container .box .list .rowAdd div {
+	flex: 1;
+}
+
+.container .box .list .rowAdd .middle {
+	position: relative;
+	text-align: center;
+}
+
+.container .box .list .rowAdd .middle .value {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.container .box .list .rowAdd .middle .value span {
+	width: 80%;
+	font-size: .9rem;
+}
+
+.container .box .list .rowAdd .middle .value i {
+	width: 20%;
+	font-size: .7rem;
+	color: var(--gray-color);
+	transition: .3s;
+}
+
+.container .box .list .rowAdd .middle .value i.open {
+	transform: rotateX(180deg);
+}
+
+.container .box .list .rowAdd .action {
+	display: flex;
+	gap: 3px;
+/* 	justify-content: center; */
+justify-content: flex-end;
+}
+
+.container .box .list .rowAdd .action button {
+	height: 30px;
+	border-radius: 10px;
+	font-size: .65rem;
+	cursor: pointer;
+}
+
+
+
+/* BOX TIME INPUT */
+.boxTimeInput {
+	position: absolute;
+	top: calc(100% + 5px);
+	background: white;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	padding: 15px;
+	box-sizing: border-box;
+	border-radius: 15px;
+	box-shadow: var(--box-shadow);
+	font-weight: normal;
+	transform: scale(0);
+	transform-origin: top;
+	transition: .3s;
+}
+
+.boxTimeInput.open {
+	transform: scale(1);
+}
+
+.boxTimeInput .row {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	align-items: flex-start;
+	font-size: .85rem;
+}
+
+.boxTimeInput .row input {
+	height: 25px;
+	width: 100%;
+	border: 1px solid var(--blue-2-color);
+	border-radius: 5px;
+	font-family: var(--font);
+}
+
+.boxTimeInput .row input::placeholder {
+	font-family: var(--font);
+	font-size: .8rem;
+	color: #cfcfcf;
+	font-style: italic;
+}
+
+.boxTimeInput .row.btnGroup {
+	flex-direction: unset;
+	gap: 3px;
+}
+
+.boxTimeInput .row button {
+	width: 50%;
+	height: 27px;
+	border-radius: 7px;
+	font-size: .7rem;
+	letter-spacing: 1px;
+}
+
+@media (max-width: 500px) {
+	.container .box {
+		min-width: 0;
+		width: 95%;
+/* 		padding: 25px 20px; */
+}
+
+.container .box .list {
+	width: 100%;
+}
+
+.container .box .list .row .btnAdd,
+.container .box .list .row span.action button,
+.container .box .list .rowAdd .action button {
+	height: 40px;
+}
+
+.container .box .list .row span.action button {
+	width: 40px;
+}
+
+.boxTimeInput {
+	width: 250px;
+	left: -50%;
+}
+
+.boxTimeInput .row input {
+	height: 30px;
+}
+
+.boxTimeInput .row input::placeholder {
+	font-size: .9rem;
+}
+
+.boxTimeInput .row button {
+	height: 35px;
+}
+}

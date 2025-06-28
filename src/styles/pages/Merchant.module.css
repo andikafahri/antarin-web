@@ -92,13 +92,21 @@ border-radius: 15px;
 }
 
 .infoCurrentMerchant .right .top .text span {
-	background: #27cb27;
 	padding: 5px 10px;
 	box-sizing: border-box;
 	border-radius: 10px;
 	color: black;
 	font-size: .9rem;
 	align-self: flex-start;
+}
+
+.infoCurrentMerchant .right .top .text span.open {
+	background: #27cb27;
+}
+
+.infoCurrentMerchant .right .top .text span.close {
+	background: var(--danger-color);
+	color: white;
 }
 
 .infoCurrentMerchant .right .top .text h2 {

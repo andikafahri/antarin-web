@@ -84,14 +84,22 @@ font-family: var(--font);
 }
 
 .operational .operationalContainer .left .statusOperational {
-	background: #8cf58c;
 	padding: 5px 15px;
 	box-sizing: border-box;
 	border-radius: 7px;
 /* 	box-shadow: 0px 7px 10px -5px #00000069; */
-color: black;
 font-weight: bold;
 font-size: .8rem;
+}
+
+.operational .operationalContainer .left .statusOperational.open {
+	background: #8cf58c;
+	color: black;
+}
+
+.operational .operationalContainer .left .statusOperational.close {
+	background: var(--danger-color);
+	color: white;
 }
 
 .menuBar {

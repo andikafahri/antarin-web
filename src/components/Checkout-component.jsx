@@ -143,13 +143,16 @@ const CheckoutComponent = () => {
 			setCartItems([])
 		}).catch(error => {
 			console.log(error.response.data.errors)
-			if(error.status === 401){
-				setAlert({isOpen: true, status: 'danger', message: 'Sesi kamu sudah habis. Silahkan login kembali!'})
-			}
-
 			if(error.status === 500){
-				setAlert({isOpen: true, status: 'danger', message: 'Maaf, server error'})
+				setAlert({isOpen: true, status: 'danger', message: 'Server error'})
+			}else if(error.status === 401){
+				setAlert({isOpen: true, status: 'danger', message: 'Sesi kamu sudah habis. Silahkan login kembali!'})
+			}else if(error.status === 400 || error.status === 402 || error.status === 403 || error.status === 404){
+				setAlert({isOpen: true, status: 'danger', message: error.response.data.errors})
+			}else{
+				setAlert({isOpen: true, status: 'danger', message: 'Maaf, terjadi kesalahan'})
 			}
+			return
 		}).finally(() => {
 			setLoading(false)
 		})

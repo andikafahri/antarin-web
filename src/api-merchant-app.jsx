@@ -3,6 +3,7 @@ import axios from 'axios'
 const api = axios.create({
 	// baseURL: import.meta.env.VITE_BASEURL_API_MERCHANT
 	baseURL: import.meta.env.VITE_BASEURL_API
+	// baseURL: 'http://localhost:3000/api'
 })
 
 api.interceptors.request.use(config => {
@@ -134,6 +135,56 @@ async function reqDeleteMenu(idMenu) {
 	}
 }
 
+async function getTimeOperational() {
+	try{
+		const result = await api.get('/merchant/timeoperational')
+
+		return result.data.data
+	}catch(error){
+		throw error
+	}
+}
+
+async function reqAddTimeOperational(request) {
+	try{
+		const result = await api.post('/merchant/timeoperational', request)
+
+		return result.data.message
+	}catch(error){
+		throw error
+	}
+}
+
+async function reqUpdateTimeOperational(id, request) {
+	try{
+		const result = await api.put(`/merchant/timeoperational/${id}`, request)
+
+		return result.data.message
+	}catch(error){
+		throw error
+	}
+}
+
+async function reqDeleteTimeOperational(id) {
+	try{
+		const result = await api.delete(`/merchant/timeoperational/${id}`)
+
+		return result.data.message
+	}catch(error){
+		throw error
+	}
+}
+
+async function reqChangeMode(mode) {
+	try{
+		const result = await api.post(`/merchant/timeoperational/changemode/${mode}`)
+
+		return result.data.message
+	}catch(error){
+		throw error
+	}
+}
+
 export {
 	reqLogin,
 	getProfile,
@@ -146,5 +197,10 @@ export {
 	getMenu,
 	reqAddMenu,
 	reqUpdateMenu,
-	reqDeleteMenu
+	reqDeleteMenu,
+	getTimeOperational,
+	reqAddTimeOperational,
+	reqUpdateTimeOperational,
+	reqDeleteTimeOperational,
+	reqChangeMode
 }

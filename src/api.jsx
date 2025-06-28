@@ -26,6 +26,16 @@ async function getCurrentMerchant(id_merchant) {
 	return merchant.data.data
 }
 
+async function getTimeOperational() {
+	try{
+		const result = await api.get('/public/timeoperational')
+
+		return result.data.data
+	}catch(error){
+		throw error
+	}
+}
+
 async function getMenuList(id_merchant, filter) {
 	const menu = await api.get(`/public/merchant/${id_merchant}/menu`, {params: filter})
 
@@ -84,7 +94,7 @@ async function reqUpdateProfile(request) {
 
 async function reqCheckout(id_merchant, request) {
 	try {
-		const result = await api.post(`/user/order/${id_merchant}`, request)
+		const result = await api.post(`/user/order/create/${id_merchant}`, request)
 
 		return result
 	}catch(error) {
@@ -102,9 +112,9 @@ async function getOrder() {
 	}
 }
 
-async function reqCancel(id_order) {
+async function reqCancel() {
 	try{
-		const result = await api.post(`/user/order/cancel/${id_order}`)
+		const result = await api.post(`/user/order/cancel`)
 	}catch(error){
 		throw error
 	}
@@ -113,6 +123,7 @@ async function reqCancel(id_order) {
 export {
 	getMerchantList,
 	getCurrentMerchant,
+	getTimeOperational,
 	getMenuList,
 	getSystemCost,
 	reqLogin,

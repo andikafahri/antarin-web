@@ -1,11 +1,13 @@
 import {useState, useEffect} from 'react'
 import {useLocation, Link, useNavigate} from 'react-router-dom'
 import clsx from 'clsx'
+import {jwtDecode} from 'jwt-decode'
 import m from '../../styles/components/merchant-app/SideMenu.module.css'
 
-const SideMenuComponent = ({isOpen, onClose}) => {
+const SideMenuComponent = ({isOpen, onClose, data}) => {
 	const navigate = useNavigate()
 	const location = useLocation()
+	const idMerchant = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')).id || null : null
 
 	const handleProfile = () => {
 		navigate('/merchant/profile')
@@ -15,9 +17,9 @@ const SideMenuComponent = ({isOpen, onClose}) => {
 		<>
 		<div className={clsx(m.box, isOpen && m.open)}>
 		<div role='button' className={m.boxProfile} onClick={handleProfile}>
-		<img src="/img/mi-chili-oil.jpg" alt="" />
+		<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${data.image}`} alt="" />
 		<div className={m.info}>
-		<h1>Andika Chili Oil</h1>
+		<h1>{data.name}</h1>
 		</div>
 		</div>
 		<div className={m.menu}>
@@ -28,7 +30,7 @@ const SideMenuComponent = ({isOpen, onClose}) => {
 		<Link className={clsx(m.row, location.pathname.split('/')[2] === 'menu' ? m.active : '')} to='/merchant/menu' onClick={onClose}>Kelola Menu</Link>
 			{/*</div>*/}
 			{/*<div className={m.row}>*/}
-		<Link className={clsx(m.row, location.pathname.split('/')[2] === 'timeoperational' ? m.active : '')} onClick={onClose}>Kelola Jam Operasional</Link>
+		<Link className={clsx(m.row, location.pathname.split('/')[2] === 'time-operational' ? m.active : '')} to='/merchant/time-operational' onClick={onClose}>Kelola Jam Operasional</Link>
 			{/*</div>*/}
 			{/*<div className={m.row}>*/}
 		<Link className={clsx(m.row, location.pathname.split('/')[2] === 'history' ? m.active : '')} onClick={onClose}>Riwayat</Link>

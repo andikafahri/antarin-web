@@ -7,7 +7,7 @@ import {AlertContext} from '../context/Alert-context.jsx'
 import {DestinationContext} from '../context/Destination-context.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
 import {SocketContext} from '../context/Socket-context.jsx'
-import {getCurrentMerchant, getMenuList, getSystemCost, reqCheckout} from '../api.jsx'
+import {getCurrentMerchant, getMenuList, getSystemCost, reqCheckout, getTimeOperational} from '../api.jsx'
 import merchantStyle from '../styles/pages/Merchant.module.css'
 import AlertComponent from '../components/Alert-component.jsx'
 import Card2Component from '../components/Card2-component.jsx'
@@ -16,6 +16,7 @@ import FooterComponent from '../components/Footer-component.jsx'
 import ModalDetailMenu from '../modal/Detail-menu-modal.jsx'
 
 const MerchantPage = () => {
+	const {setAlert} = useContext(AlertContext)
 	const {id_merchant} = useParams()
 	const [params] = useSearchParams()
 	const searchParams = params.get('search')
@@ -99,6 +100,7 @@ const MerchantPage = () => {
 		getCurrentMerchant(id_merchant).then((result) => {
 			setCurrentMerchant(result)
 		})
+		getTime()
 	}, [id_merchant])
 
 	const TabCategory = () => {
@@ -261,6 +263,75 @@ const MerchantPage = () => {
 		navigate('/progress')
 	}
 
+
+
+	// GET TIME OPERATIONAL
+	const dataDay = [
+		{'id': 1, 'name': 'Senin'},
+		{'id': 2, 'name': 'Selasa'},
+		{'id': 3, 'name': 'Rabu'},
+		{'id': 4, 'name': 'Kamis'},
+		{'id': 5, 'name': "Jum'at"},
+		{'id': 6, 'name': 'Sabtu'},
+		{'id': 7, 'name': 'Minggu'}
+	]
+	const [loadingTimeOperational, setLoadingTimeOperational] = useState(true)
+	const [listTimeOperational, setListTimeOperational] = useState(null)
+	const getTime = () => {
+		setLoadingTimeOperational(true)
+		getTimeOperational().then(result => {
+			setListTimeOperational(result)
+		}).catch(error => {
+			if(error.status === 500){
+				setAlert({isOpen: true, status: 'danger', message: 'Server error'})
+			}else if(error.status === 401){
+				navigate('/merchant/login', {state: {from: location}, replace: true})
+			}else if(error.status === 400 || error.status === 402 || error.status === 403 || error.status === 404){
+				setAlert({isOpen: true, status: 'danger', message: error.response.data.errors})
+			}else{
+				setAlert({isOpen: true, status: 'danger', message: 'Maaf, terjadi kesalahan'})
+			}
+			return
+		}).finally(() => {
+			setLoadingTimeOperational(false)
+		})
+	}
+
+	const TimeOperationalList = () => {
+		// return listTimeOperational.map(time => {
+		// 	return (
+		// 		<span className={merchantStyle.active}>
+		// 		<h3>{dataDay.find(day => day.id === time.day).name}</h3>
+		// 		<h3>{time.start_time} - {time.end_time}</h3>
+		// 		</span>
+		// 		)
+		// })
+
+		return dataDay.map(time => {
+			const day = listTimeOperational?.find(x => x.day === time.id)
+			return (
+				day ? (
+					<span className={new Date().getDay() === time.id ? merchantStyle.active : ''}>
+					<h3>{time.name}</h3>
+					<h3>{day.start_time} - {day.end_time}</h3>
+					</span>
+					) : (
+					<span className={new Date().getDay() === time.id ? merchantStyle.active : ''}>
+					<h3>{time.name}</h3>
+					<h3 style={{
+						color: 'var(--danger-color)',
+						fontWeight: 'bold',
+						letterSpacing: '1px',
+						fontSize: '.9rem',
+						textAlign: 'center',
+						width: '100%'
+					}}>LIBUR</h3>
+					</span>
+					)
+					)
+		})
+	}
+
 	return(
 		<>
 		<AlertComponent isOpen={alert.isOpen} status={alert.status} message={alert.message} />
@@ -283,101 +354,113 @@ const MerchantPage = () => {
 		<div className={merchantStyle.right}>
 		<div role='button' onClick={toggleModalOperationalTime}className={merchantStyle.top}>
 		<div className={merchantStyle.text}>
-		<span>BUKA</span>
-		<h2>Tutup pukul 21.00</h2>
-		</div>
-		<div className={merchantStyle.icon}>
-		<i className="fas fa-info-circle"></i>
-		</div>
-		</div>
-		<div className={merchantStyle.bottom}>
-		<div className={merchantStyle.shippingCost}>
-		<span>Ongkir: Rp {Number(shippingCost).toLocaleString('id-ID')}</span>
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
-
-		<div className={merchantStyle.content} style={{paddingTop: '20px'}}>
-		<div className={merchantStyle.searchBar2}>
-								{/*<input type="text" name="" ref={searchInput} placeholder="Cari Di sini" />*/}
-		<input type="text" name="" ref={searchInput} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Cari Di sini" />
-								{/*<button type="button" className={merchantStyle.btnSearch} onClick={searchButton}>Cari</button>*/}
-		<button type="button" className={merchantStyle.btnClear} onClick={clearButton} disabled={searchValue.trim() === ''}>Hapus</button>
-		</div>
-		<div className={merchantStyle.category}>
-		<TabCategory />
-		</div>
-		<MenuByCategoryList />
-		</div>
-
-		{!dataOrderContext ? (
-			<CheckoutComponent />
+		{currentMerchant?.is_open?.status ? (
+			<>
+			<span className={merchantStyle.open}>BUKA</span>
+			<h2>Tutup pukul {currentMerchant?.is_open?.end_time}</h2>
+			</>
 			) : (
 			<>
-			<div className={merchantStyle.statusBox}>
-			<div className={merchantStyle.status}>
-			<div className={merchantStyle.text}>
-			<h2>{statusOrder.message}</h2>
-			</div>
-			<div className={merchantStyle.btnDetail}>
-			<button className="btn-primary" onClick={handleDetail}>DETAIL</button>
-			</div>
-			</div>
-			</div>
+			<span className={merchantStyle.close}>TUTUP</span>
+			{/*<h2>Buka pukul {currentMerchant?.is_open?.start_time}</h2>*/}
 			</>
-			)
-		}
+			)}
+			</div>
+			<div className={merchantStyle.icon}>
+			<i className="fas fa-info-circle"></i>
+			</div>
+			</div>
+			<div className={merchantStyle.bottom}>
+			<div className={merchantStyle.shippingCost}>
+			<span>Ongkir: Rp {Number(shippingCost).toLocaleString('id-ID')}</span>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
 
-		<FooterComponent />
+			<div className={merchantStyle.content} style={{paddingTop: '20px'}}>
+			<div className={merchantStyle.searchBar2}>
+								{/*<input type="text" name="" ref={searchInput} placeholder="Cari Di sini" />*/}
+			<input type="text" name="" ref={searchInput} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Cari Di sini" />
+								{/*<button type="button" className={merchantStyle.btnSearch} onClick={searchButton}>Cari</button>*/}
+			<button type="button" className={merchantStyle.btnClear} onClick={clearButton} disabled={searchValue.trim() === ''}>Hapus</button>
+			</div>
+			<div className={merchantStyle.category}>
+			<TabCategory />
+			</div>
+			<MenuByCategoryList />
+			</div>
 
-		<div role='button' className={clsx(merchantStyle.modal, isModalOperationalTimeOpen && merchantStyle.open)} onClick={(e) => {
-			if(e.target === e.currentTarget){setIsModalOperationalTimeOpen(false)
-		}
-}}>
+			{!dataOrderContext ? (
+				<CheckoutComponent />
+				) : (
+				<>
+				<div className={merchantStyle.statusBox}>
+				<div className={merchantStyle.status}>
+				<div className={merchantStyle.text}>
+				<h2>{statusOrder.message}</h2>
+				</div>
+				<div className={merchantStyle.btnDetail}>
+				<button className="btn-primary" onClick={handleDetail}>DETAIL</button>
+				</div>
+				</div>
+				</div>
+				</>
+				)
+			}
 
-<div className={merchantStyle.modalOperationalTime}>
-<button className={merchantStyle.btnClose} onClick={() => setIsModalOperationalTimeOpen(false)}><i className="fas fa-close"></i></button>
-<h2>Jam Buka</h2>
-<div className={merchantStyle.containerListTime}>
-<div className={merchantStyle.listTime}>
-<span>
-<h3>Senin</h3>
-<h3>08.00 - 21.00</h3>
-</span>
-<span className={merchantStyle.active}>
-<h3>Selasa</h3>
-<h3>08.00 - 21.00</h3>
-</span>
-<span>
-<h3>Rabu</h3>
-<h3>08.00 - 21.00</h3>
-</span>
-<span>
-<h3>Kamis</h3>
-<h3>08.00 - 21.00</h3>
-</span>
-<span>
-<h3>Jum'at</h3>
-<h3>08.00 - 21.00</h3>
-</span>
-<span>
-<h3>Sabtu</h3>
-<h3>08.00 - 21.00</h3>
-</span>
-<span>
-<h3>Minggu</h3>
-<h3>08.00 - 21.00</h3>
-</span>
-</div>
-</div>
-</div>
-</div>
+			<FooterComponent />
 
-<ModalDetailMenu isOpen={isOpenModalDetailMenu} onClose={handleCloseModalDetailMenu} nameMerchant={currentMerchant?.name} data={dataDetailMenu} />
-</>
-)
+			<div role='button' className={clsx(merchantStyle.modal, isModalOperationalTimeOpen && merchantStyle.open)} onClick={(e) => {
+				if(e.target === e.currentTarget){setIsModalOperationalTimeOpen(false)
+			}
+	}}>
+
+	<div className={merchantStyle.modalOperationalTime}>
+	<button className={merchantStyle.btnClose} onClick={() => setIsModalOperationalTimeOpen(false)}><i className="fas fa-close"></i></button>
+	<h2>Jam Buka</h2>
+	<div className={merchantStyle.containerListTime}>
+	<div className={merchantStyle.listTime}>
+
+	{/*<span>
+	<h3>Senin</h3>
+	<h3>08.00 - 21.00</h3>
+	</span>
+	<span className={merchantStyle.active}>
+	<h3>Selasa</h3>
+	<h3>08.00 - 21.00</h3>
+	</span>
+	<span>
+	<h3>Rabu</h3>
+	<h3>08.00 - 21.00</h3>
+	</span>
+	<span>
+	<h3>Kamis</h3>
+	<h3>08.00 - 21.00</h3>
+	</span>
+	<span>
+	<h3>Jum'at</h3>
+	<h3>08.00 - 21.00</h3>
+	</span>
+	<span>
+	<h3>Sabtu</h3>
+	<h3>08.00 - 21.00</h3>
+	</span>
+	<span>
+	<h3>Minggu</h3>
+	<h3>08.00 - 21.00</h3>
+	</span>*/}
+	<TimeOperationalList />
+
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<ModalDetailMenu isOpen={isOpenModalDetailMenu} onClose={handleCloseModalDetailMenu} nameMerchant={currentMerchant?.name} data={dataDetailMenu} />
+	</>
+	)
 }
 
 export default MerchantPage

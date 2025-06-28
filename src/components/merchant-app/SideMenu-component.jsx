@@ -13,6 +13,11 @@ const SideMenuComponent = ({isOpen, onClose, data}) => {
 		navigate('/merchant/profile')
 	}
 
+	const handleLogout = () => {
+		localStorage.removeItem('token')
+		navigate('/merchant/login')
+	}
+
 	return (
 		<>
 		<div className={clsx(m.box, isOpen && m.open)}>
@@ -37,7 +42,7 @@ const SideMenuComponent = ({isOpen, onClose, data}) => {
 			{/*</div>*/}
 		</div>
 		<div className={m.bottom}>
-		<button className={m.btnLogout}>LOGOUT</button>
+		<button className={m.btnLogout} onClick={handleLogout}>LOGOUT</button>
 		</div>
 		</div>
 		</>

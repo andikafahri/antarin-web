@@ -1,5 +1,6 @@
-import {useState, useEffect, useContext} from 'react'
+import {useState, useEffect, useContext, useRef} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
+import clsx from 'clsx'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {getProvince, getCity, getSubdistrict} from '../../api-public.jsx'
 import {reqRegister} from '../../api-merchant-app.jsx'
@@ -7,14 +8,16 @@ import s from '../../styles/pages/merchant-app/Register.module.css'
 import SelectWithSearchComponent from '../../components/Select-with-search-component.jsx'
 
 const RegisterPage = () => {
-	const {setAlert} = useContext(AlertContext)
-	const [loading, setLoading] = useState(true)
 	const navigate = useNavigate()
 	const location = useLocation()
+	const {setAlert} = useContext(AlertContext)
+	const inputFileRef = useRef('')
+	const [loading, setLoading] = useState(true)
 	const [request, setRequest] = useState({})
 
 	useEffect(() => {
 		console.log('REGISTER PAGE')
+		inputFileRef.current.value = ''
 		getDataProvince(0)
 		getDataCity(0)
 		getDataSubdistrict(0)
@@ -105,17 +108,36 @@ const RegisterPage = () => {
 
 	
 
+	const [imageValue, setImageValue] = useState(null)
+	const [imageReview, setImageReview] = useState(null)
+	const handleUploadImage = (e) => {
+		const file = e.target.files[0]
+		if(file?.type.startsWith('image/')){
+			setImageValue(file)
+			setImageReview(URL.createObjectURL(file))
+		}
+	}
+	console.log(imageValue)
+
 	// HANDLE REGISTER
 	const [loadingBtnRegister, setLoadingBtnRegister] = useState(false)
 	const handleRegister = () => {
 		const {subd, city, prov, ...req} = request
-		req.id_subd = request.subd.id
-		req.id_city = request.city.id
-		req.id_prov = request.prov.id
-		console.log(req)
+		req.id_subd = request?.subd?.id
+		req.id_city = request?.city?.id
+		req.id_prov = request?.prov?.id
+
+		const formData = new FormData()
+
+		formData.append('role', 'merchant')
+		formData.append('image', imageValue)
+		Object.entries(req).forEach(([key, value]) => {
+			formData.append(key, value)
+		})
+		// console.log(Object.fromEntries(formData.entries()))
 
 		setLoadingBtnRegister(true)
-		reqRegister(req).then(result => {
+		reqRegister(formData).then(result => {
 			setAlert({isOpen: true, status: 'success', message: result})
 			navigate('/merchant/login', {replace: true})
 		}).catch(error => {
@@ -138,6 +160,16 @@ const RegisterPage = () => {
 		<label>REGISTER</label>
 		<div className={s.logo}>
 		<img src="/img/Logo Antarin.png" alt="" />
+		</div>
+		<div className={s.profile}>
+		<div className={s.profilePicture}>
+		<img src={imageReview || '/public/img/no-image.jpg'} alt="" />
+		</div>
+		{/*<button className={clsx(s.btnUpload, 'btn-primary')}><input type="file" />Unggah Gambar</button>*/}
+		<label className={clsx(s.btnUpload, 'btn-primary')}>
+		<input type="file" ref={inputFileRef} onChange={handleUploadImage}/>
+		Unggah Gambar
+		</label>
 		</div>
 		<div className={s.body}>
 		<div className={s.left}>

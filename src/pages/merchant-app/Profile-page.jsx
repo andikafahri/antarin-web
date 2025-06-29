@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from 'react'
+import {useState, useEffect, useContext, useRef} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import {jwtDecode} from 'jwt-decode'
 import {AlertContext} from '../../context/Alert-context.jsx'
@@ -8,9 +8,12 @@ import s from '../../styles/pages/merchant-app/Profile.module.css'
 import SelectWithSearchComponent from '../../components/Select-with-search-component.jsx'
 
 const ProfilePage = () => {
-	const idMerchant = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')).id || null : null
 	const navigate = useNavigate()
 	const location = useLocation()
+	const inputFileRef = useRef(null)
+	const [imageReview, setImageReview] = useState(null)
+	const [imageValue, setImageValue] = useState(null)
+	const idMerchant = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')).id || null : null
 	const [dataProfile, setDataProfile] = useState(null)
 
 	const [loading, setLoading] = useState(true)
@@ -21,6 +24,12 @@ const ProfilePage = () => {
 		// getDataCity(dataProfile?.prov?.id)
 	// console.log('SELECTED: '+dataProfile?.prov?.name)
 	}, [])
+
+	useEffect(() => {
+		if(!imageValue){
+			setImageReview(`${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${dataProfile?.image}`)
+		}
+	}, [dataProfile])
 
 	// GET DATA PROFILE
 	const getDataProfile = () => {
@@ -131,6 +140,14 @@ const ProfilePage = () => {
 		setIsOpenSelectCity(false)
 	}
 
+	const handleUploadImage = (e) => {
+		const file = e.target.files[0]
+		if(file?.type.startsWith('image/')){
+			setImageValue(file)
+			setImageReview(URL.createObjectURL(file))
+		}
+	}
+
 	const {setAlert} = useContext(AlertContext)
 	const [loadingSave, setLoadingSave] = useState(false)
 	const btnSave = () => {
@@ -144,22 +161,37 @@ const ProfilePage = () => {
 		// delete dataProfile.city
 		// delete dataProfile.subd
 		const {status, subd, city, prov, phone, ...req} = dataProfile
-		const payload = {
-			...req,
-			id_subd: subd?.id ?? null,
-			id_city: city?.id ?? null,
-			id_prov: prov?.id ?? null,
-			phone: phone ?? null
+		// const payload = {
+		// 	...req,
+		// 	id_subd: subd?.id ?? null,
+		// 	id_city: city?.id ?? null,
+		// 	id_prov: prov?.id ?? null,
+		// 	phone: phone ?? null
+		// }
+		req.id_subd = dataProfile?.subd?.id
+		req.id_city = dataProfile?.city?.id
+		req.id_prov = dataProfile?.prov?.id
+		req.phone = phone ?? null
+
+		const formData = new FormData()
+
+		if(imageValue){
+			formData.append('image', imageValue)
 		}
+		Object.entries(req).forEach(([key, value]) => {
+			formData.append(key, value)
+		})
+		console.log(Object.fromEntries(formData.entries()))
 
 		// if(!dataProfile.phone){
 		// 	delete dataProfile.phone
 		// }
 		setLoadingSave(true)
 		console.log('Loading: '+loadingSave)
-		reqUpdateProfile(payload).then(result => {
+		reqUpdateProfile(formData).then(result => {
 			console.log(result)
 			getDataProfile()
+			inputFileRef.current.value = ''
 			setAlert({isOpen: true, status: 'success', message: 'Edit Profil Berhasil'})
 		}).catch(error => {
 			console.log(error)
@@ -192,7 +224,9 @@ const ProfilePage = () => {
 		<label>PROFIL</label>
 		<div className={s.profile}>
 		<div className={s.profilePicture}>
-		<img src={dataProfile?.image ? `${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${dataProfile?.image}` : '/public/img/no-image.jpg'} alt="" />
+		{/*<img src={dataProfile?.image ? `${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${dataProfile?.image}` : '/public/img/no-image.jpg'} alt="" />*/}
+		<img src={imageReview || '/public/img/no-image.jpg'} alt="" />
+		<label className='notHighlight'><i className='fas fa-pencil'></i><input type="file" ref={inputFileRef} onChange={handleUploadImage} /></label>
 		</div>
 		<label className={s.status}>AKTIF</label>
 		</div>

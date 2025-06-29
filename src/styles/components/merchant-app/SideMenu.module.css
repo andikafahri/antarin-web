@@ -23,7 +23,7 @@
 
 .box .boxProfile {
 	position: relative;
-	background: gold;
+	background: var(--gray-color);
 	width: 100%;
 	height: 130px;
 	border-radius: 15px;

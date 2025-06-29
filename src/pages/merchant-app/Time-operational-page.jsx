@@ -75,7 +75,7 @@ const TimeOperationalPage = () => {
 		{'id': 4, 'name': 'Kamis'},
 		{'id': 5, 'name': "Jum'at"},
 		{'id': 6, 'name': 'Sabtu'},
-		{'id': 7, 'name': 'Minggu'}
+		{'id': 0, 'name': 'Minggu'}
 	]
 	// const [list, setList] = useState({})
 	const [updating, setUpdating] = useState(null)

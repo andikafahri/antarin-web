@@ -15,6 +15,16 @@ api.interceptors.request.use(config => {
 	return config
 })
 
+async function reqRegister(request) {
+	try{
+		const result = await api.post('/merchant', request)
+
+		return result.data
+	}catch(error){
+		throw error
+	}
+}
+
 async function reqLogin(username, password) {
 	try{
 		const result = await api.post('/merchant/login', {username, password})
@@ -186,6 +196,7 @@ async function reqChangeMode(mode) {
 }
 
 export {
+	reqRegister,
 	reqLogin,
 	getProfile,
 	reqUpdateProfile,

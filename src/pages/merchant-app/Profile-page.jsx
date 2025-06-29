@@ -1,5 +1,6 @@
 import {useState, useEffect, useContext} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
+import {jwtDecode} from 'jwt-decode'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {getProvince, getCity, getSubdistrict} from '../../api-public.jsx'
 import {getProfile, reqUpdateProfile} from '../../api-merchant-app.jsx'
@@ -7,6 +8,7 @@ import s from '../../styles/pages/merchant-app/Profile.module.css'
 import SelectWithSearchComponent from '../../components/Select-with-search-component.jsx'
 
 const ProfilePage = () => {
+	const idMerchant = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')).id || null : null
 	const navigate = useNavigate()
 	const location = useLocation()
 	const [dataProfile, setDataProfile] = useState(null)
@@ -190,7 +192,7 @@ const ProfilePage = () => {
 		<label>PROFIL</label>
 		<div className={s.profile}>
 		<div className={s.profilePicture}>
-		<img src="/img/mi-chili-oil.jpg" />
+		<img src={dataProfile?.image ? `${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${dataProfile?.image}` : '/public/img/no-image.jpg'} alt="" />
 		</div>
 		<label className={s.status}>AKTIF</label>
 		</div>

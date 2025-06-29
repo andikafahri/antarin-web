@@ -15,7 +15,7 @@ const TimeOperationalComponent = ({isOpen, onClose, status}) => {
 		{'id': 4, 'name': 'Kamis'},
 		{'id': 5, 'name': "Jum'at"},
 		{'id': 6, 'name': 'Sabtu'},
-		{'id': 7, 'name': 'Minggu'}
+		{'id': 0, 'name': 'Minggu'}
 	]
 	// const [loading, setLoading] = useState(true)
 	// const [list, setList] = useState(null)

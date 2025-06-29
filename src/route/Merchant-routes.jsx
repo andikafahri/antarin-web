@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate, Outlet } from "react-router-dom";
 import { TimeOperationalProvider } from "../context/merchant-app/Time-operational-context.jsx";
 import LoginPage from "../pages/merchant-app/Login-page.jsx";
+import RegisterPage from "../pages/merchant-app/Register-page.jsx";
 import HeaderComponent from "../components/merchant-app/Header-component.jsx";
 import DashboardPage from "../pages/merchant-app/Dashboard-page.jsx";
 import ProfilePage from "../pages/merchant-app/Profile-page.jsx";
@@ -50,6 +51,7 @@ const MerchantRoutes = (token) => {
 	return (
 		<Routes>
 		<Route path="/login" element={<LoginPage />} />
+		<Route path="/register" element={<RegisterPage />} />
 		<Route element={<Auth />}>
 		<Route element={<ContextGroup />}>
 		<Route element={<WithHeader />}>

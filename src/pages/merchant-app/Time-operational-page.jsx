@@ -54,7 +54,7 @@ const ListComponent = ({listLoading, list, updating, setUpdating, handleDayDropd
 				<span>{dataDay.find(day => day.id === item.day).name}</span>
 				<span className={s.time}>{item.start_time} - {item.end_time}</span>
 				<span className={s.action}>
-				<button className={s.btnUpdate} onClick={() => {handleCancel(); setUpdating(item.id); setRequest(item)}} disabled={btnLoading}><i className='fas fa-pencil'></i></button>
+				<button className={s.btnUpdate} onClick={() => {handleCancel(); setUpdating(item.id); setStartTimeValue(item.start_time); setEndTimeValue(item.end_time); setRequest(item)}} disabled={btnLoading}><i className='fas fa-pencil'></i></button>
 				<button className={s.btnDelete} onClick={() => handleDelete(item.id)} disabled={btnLoading}><i className='fas fa-close'></i></button>
 				</span>
 				</div>
@@ -162,7 +162,7 @@ const TimeOperationalPage = () => {
 		setBtnLoading(true)
 		const {id, ...req} = request
 		reqUpdateTimeOperational(idTime, req).then(result => {
-			setAlert({isOpen: true, status: 'success', message: result})
+			// setAlert({isOpen: true, status: 'success', message: result})
 			// getList()
 			getTime()
 			setUpdating(null)

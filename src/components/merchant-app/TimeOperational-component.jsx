@@ -6,7 +6,7 @@ import {TimeOperationalContext} from '../../context/merchant-app/Time-operationa
 import {getTimeOperational, reqChangeMode} from '../../api-merchant-app.jsx'
 import s from '../../styles/components/merchant-app/TimeOperational.module.css'
 
-const TimeOperationalComponent = ({isOpen, onClose, status}) => {
+const TimeOperationalComponent = ({isOpen, onClose}) => {
 	const {setAlert} = useContext(AlertContext)
 	const dataDay = [
 		{'id': 1, 'name': 'Senin'},
@@ -25,9 +25,9 @@ const TimeOperationalComponent = ({isOpen, onClose, status}) => {
 		getTime()
 	}, [])
 
-	useEffect(() => {
-		status(timeOperational?.is_open)
-	}, [timeOperational.is_open])
+	// useEffect(() => {
+	// 	status(timeOperational?.is_open)
+	// }, [timeOperational.is_open])
 
 	// const getTime = () => {
 	// 	setLoading(true)
@@ -118,7 +118,7 @@ const TimeOperationalComponent = ({isOpen, onClose, status}) => {
 	const handleMode = (mode) => {
 		// setChangeLoading(true)
 		reqChangeMode(mode).then(result => {
-			setAlert({isOpen: true, status: 'success', message: result})
+			// setAlert({isOpen: true, status: 'success', message: result})
 			getTime()
 		}).catch(error => {
 			if(error.status === 500){

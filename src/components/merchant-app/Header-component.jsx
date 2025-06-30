@@ -1,15 +1,18 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import {useLocation, Link, useNavigate} from 'react-router-dom'
 import clsx from 'clsx'
+import {TimeOperationalContext} from '../../context/merchant-app/Time-operational-context.jsx'
 import {getProfile} from '../../api-merchant-app.jsx'
 import h from '../../styles/components/merchant-app/Header.module.css'
 import TimeOperationalComponent from './TimeOperational-component.jsx'
 import SideMenuComponent from './SideMenu-component.jsx'
 
 const HeaderComponent = () => {
+	const {loading, getTime, timeOperational} = useContext(TimeOperationalContext)
 	useEffect(() => {
 		getMerchant()
 		showTimeNow()
+		getTime()
 		const interval = setInterval(showTimeNow, 60000)
 		return () => clearInterval(interval)
 	}, [])
@@ -37,6 +40,9 @@ const HeaderComponent = () => {
 	}
 
 	const [status, setStatus] = useState(null)
+	useEffect(() => {
+		setStatus(timeOperational?.is_open)
+	}, [timeOperational?.is_open])
 	// HANDLE TIME OPERATIONAL DETAIL
 	const [isOpenTimeOperational, setIsOpenTimeOperational] = useState(false)
 	const toggleTimeOperational = () => {
@@ -101,7 +107,7 @@ const HeaderComponent = () => {
 			</div>
 
 		{/*TIME OPERATIONAL*/}
-			<TimeOperationalComponent isOpen={isOpenTimeOperational} onClose={toggleTimeOperational} status={x => setStatus(x)} />
+			<TimeOperationalComponent isOpen={isOpenTimeOperational} onClose={toggleTimeOperational} />
 
 		{/*MENU*/}
 			<SideMenuComponent isOpen={isOpenMenu} onClose={toggleMenu} data={info} />

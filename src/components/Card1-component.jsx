@@ -9,7 +9,8 @@ const Card1Component = ({data}) => {
 		<div className={homeStyle.card}>
 		<div className={homeStyle.cover}>
 		{/*<img src="/img/1.jpg" />*/}
-		<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${data.id}/${data.image}`} />
+		{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${data.id}/${data.image}`} />*/}
+		<img src={data.image} />
 		{!data.is_open ? (
 			<span>TUTUP</span>
 			) : ''}

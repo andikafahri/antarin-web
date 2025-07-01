@@ -7,7 +7,8 @@ const Card2Component = ({onClick, data}) => {
 	return(
 		<div className={merchantStyle.card} onClick={onClick}>
 		<div className={merchantStyle.cover}>
-		<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${data.image}`} />
+		{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${data.image}`} />*/}
+		<img src={data.image} />
 		</div>
 		<div className={merchantStyle.infoMerchant}>
 		<h2>{data.name}</h2>

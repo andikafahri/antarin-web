@@ -1,11 +1,12 @@
 import {useParams} from 'react-router-dom'
+import clsx from 'clsx'
 import merchantStyle from '../styles/pages/Merchant.module.css'
 
 const Card2Component = ({onClick, data}) => {
 	const {id_merchant} = useParams()
 
 	return(
-		<div className={merchantStyle.card} onClick={onClick}>
+		<div className={clsx(merchantStyle.card, 'notHighlight')} onClick={onClick}>
 		<div className={merchantStyle.cover}>
 		{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${data.image}`} />*/}
 		<img src={data.image} />

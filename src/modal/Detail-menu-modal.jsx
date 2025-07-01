@@ -182,7 +182,8 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 		}}>
 	<div className={merchantStyle.modalDetailMenu}>
 	<div className={merchantStyle.cover}>
-	<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${data.image}`} alt="" />
+	{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${data.image}`} alt="" />*/}
+	<img src={data.image} alt="" />
 	</div>
 	<div className={merchantStyle.body}>
 	<h1>{data.name}</h1>

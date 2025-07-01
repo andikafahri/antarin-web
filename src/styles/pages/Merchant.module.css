@@ -788,7 +788,8 @@ transition: .3s ease-in-out;
 
 .modal.open .modalDetailMenu {
 	max-height: 1000px;
-	transform: scaleY(1);
+/* 	transform: scaleY(1); */
+transform: scale(.9);
 }
 
 .modalDetailMenu .cover {
@@ -814,7 +815,8 @@ transition: .3s ease-in-out;
 }
 
 .modalDetailMenu .body h1 {
-	font-size: 1.9rem;
+/* 	font-size: 1.9rem; */
+font-size: 1.7rem;
 }
 
 .modalDetailMenu .body p {
@@ -838,6 +840,7 @@ transition: .3s ease-in-out;
 .modalDetailMenu .body .variant .listVariant {
 	font-size: .85rem;
 	display: flex;
+	flex-wrap: wrap;
 	gap: 7px;
 }
 

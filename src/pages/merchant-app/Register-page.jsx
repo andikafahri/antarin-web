@@ -115,6 +115,9 @@ const RegisterPage = () => {
 		if(file?.type.startsWith('image/')){
 			setImageValue(file)
 			setImageReview(URL.createObjectURL(file))
+		}else{
+			setImageValue(null)
+			setImageReview(null)
 		}
 	}
 	console.log(imageValue)
@@ -130,7 +133,7 @@ const RegisterPage = () => {
 		const formData = new FormData()
 
 		formData.append('role', 'merchant')
-		formData.append('image', imageValue)
+		formData.append('file', imageValue)
 		Object.entries(req).forEach(([key, value]) => {
 			formData.append(key, value)
 		})

@@ -27,7 +27,8 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		if(!imageValue){
-			setImageReview(`${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${dataProfile?.image}`)
+			// setImageReview(`${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${dataProfile?.image}`)
+			setImageReview(dataProfile?.image)
 		}
 	}, [dataProfile])
 
@@ -145,6 +146,9 @@ const ProfilePage = () => {
 		if(file?.type.startsWith('image/')){
 			setImageValue(file)
 			setImageReview(URL.createObjectURL(file))
+		}else{
+			setImageValue(null)
+			setImageReview(null)
 		}
 	}
 
@@ -176,7 +180,7 @@ const ProfilePage = () => {
 		const formData = new FormData()
 
 		if(imageValue){
-			formData.append('image', imageValue)
+			formData.append('file', imageValue)
 		}
 		Object.entries(req).forEach(([key, value]) => {
 			formData.append(key, value)

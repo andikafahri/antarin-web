@@ -30,6 +30,9 @@ const EditMenuModal = ({isOpen, data, onClose, updated}) => {
 		if(file.type.startsWith('image/')){
 			setImageValue(file)
 			setImageReview(URL.createObjectURL(file))
+		}else{
+			setImageValue(null)
+			setImageReview(null)
 		}
 	}
 
@@ -225,7 +228,7 @@ const EditMenuModal = ({isOpen, data, onClose, updated}) => {
 		const formData = new FormData()
 
 		if(imageValue){
-			formData.append('image', imageValue)
+			formData.append('file', imageValue)
 		}
 
 		if(variant?.length !== 0){
@@ -297,7 +300,7 @@ const EditMenuModal = ({isOpen, data, onClose, updated}) => {
 		<div className={s.body}>
 		<div className={s.left}>
 		<div className={s.picture}>
-		<img src={imageReview || '/img/mi-chili-oil.jpg'} alt="" />
+		<img src={imageReview || '/img/no-image.jpg'} alt="" />
 		<label><i className='fas fa-pencil'></i><input type="file" ref={inputFileRef} onChange={handleAddImage} /></label>
 		</div>
 		<span>Ketersediaan Menu</span>

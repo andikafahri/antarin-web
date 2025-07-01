@@ -139,7 +139,9 @@ const MenuPage = () => {
 						<div role='button' className={s.card} key={j} onClick={() => handleModalEditMenu(menu, item)}>
 						{menu.is_ready ? (<span className={s.ready}>Tersedia</span>) : (<span className={s.notReady}>Tidak Tersedia</span>)}
 						<div className={s.picture}>
-						<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${menu.image}`} alt="" />
+						{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${menu.image}`} alt="" 
+						/>*/}
+						<img src={menu.image} alt="" />
 						</div>
 						<div className={s.info}>
 						<h2>{menu.name}</h2>
@@ -175,10 +177,10 @@ const MenuPage = () => {
 		setIsOpenModalEditMenu(x => !x)
 		if(!isOpenModalEditMenu){
 			document.body.classList.add('no-scroll')
-			const {image, ...data} = menu
-			data.image = `${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${menu.image}`
-			data.category = category
-			setDataEdit(data)
+			// const {image, ...data} = menu
+			// data.image = `${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${menu.image}`
+			menu.category = category
+			setDataEdit(menu)
 		}else{
 			document.body.classList.remove('no-scroll')
 		}

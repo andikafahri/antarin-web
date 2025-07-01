@@ -32,6 +32,9 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		if(file.type.startsWith('image/')){
 			setImageValue(file)
 			setImageReview(URL.createObjectURL(file))
+		}else{
+			setImageValue(null)
+			setImageReview(null)
 		}
 	}
 
@@ -222,7 +225,10 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		const formData = new FormData()
 
 		if(imageValue){
-			formData.append('image', imageValue)
+			formData.append('file', imageValue)
+		}else{
+			setAlert({isOpen: true, status: 'warning', message: 'Gambar tidak boleh kosong'})
+			return
 		}
 
 		Object.entries(payload).forEach(([key, value]) => {
@@ -263,7 +269,7 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		<div className={s.body}>
 		<div className={s.left}>
 		<div className={s.picture}>
-		<img src={imageReview || '/img/mi-chili-oil.jpg'} alt="" />
+		<img src={imageReview || '/img/no-image.jpg'} alt="" />
 		</div>
 		<label className={clsx(sa.btnUpload, 'notHighlight')}>
 		<input type="file" ref={inputFileRef} onChange={handleAddImage}/>

@@ -324,6 +324,7 @@ const MerchantPage = () => {
 						letterSpacing: '1px',
 						fontSize: '.9rem',
 						textAlign: 'center',
+						alignContent: 'center',
 						width: '100%'
 					}}>LIBUR</h3>
 					</span>

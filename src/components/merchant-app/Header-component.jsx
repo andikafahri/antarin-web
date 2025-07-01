@@ -90,11 +90,11 @@ const HeaderComponent = () => {
 		<div role='button' className={clsx(h.operationalContainer, 'notHighlight')}>
 		<div className={h.left}>
 		<label className={h.time}>{time.day} | {time.hour}:{time.minute}</label>
-		{status ? (
+		{status === true ? (
 			<label className={clsx(h.statusOperational, h.open)}>BUKA</label>
-			) : (
+			) : status === false ? (
 			<label className={clsx(h.statusOperational, h.close)}>TUTUP</label>
-			)}
+			) : ('')}
 			</div>
 			<div className={clsx(h.right, isOpenTimeOperational && h.up)}>
 			<i className='fas fa-chevron-down'></i>

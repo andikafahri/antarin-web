@@ -22,7 +22,8 @@ const SideMenuComponent = ({isOpen, onClose, data}) => {
 		<>
 		<div className={clsx(m.box, isOpen && m.open)}>
 		<div role='button' className={m.boxProfile} onClick={handleProfile}>
-		<img src={data.image ? `${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${data.image}` : '/public/img/no-image.jpg'} alt="" />
+		{/*<img src={data.image ? `${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${data.image}` : '/public/img/no-image.jpg'} alt="" />*/}
+		<img src={data.image || '/public/img/no-image.jpg'} alt="" />
 		<div className={m.info}>
 		<h1>{data.name}</h1>
 		</div>

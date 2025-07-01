@@ -184,6 +184,10 @@ transition: .5s ease;
 		width: 90%;
 	}
 
+	.box .logo {
+		width: 23%;
+	}
+
 	.input input {
 		font-size: 1rem;
 	}

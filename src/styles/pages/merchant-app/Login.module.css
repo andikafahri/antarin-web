@@ -127,4 +127,8 @@ transition: none;
 		width: 85%;
 		padding: 55px 45px;
 	}
+
+	.top .logo {
+		width: 23%;
+	}
 }

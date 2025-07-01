@@ -136,7 +136,7 @@ const MenuPage = () => {
 				<div className={s.body}>
 				{item.menus.map((menu, j) => {
 					return (
-						<div role='button' className={s.card} key={j} onClick={() => handleModalEditMenu(menu, item)}>
+						<div role='button' className={clsx(s.card, 'notHighlight')} key={j} onClick={() => handleModalEditMenu(menu, item)}>
 						{menu.is_ready ? (<span className={s.ready}>Tersedia</span>) : (<span className={s.notReady}>Tidak Tersedia</span>)}
 						<div className={s.picture}>
 						{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${menu.image}`} alt="" 

@@ -38,7 +38,7 @@
 	color: black;
 }
 
-.container .box .list .row .btnAdd {
+.container .box .list .row button {
 	width: 100%;
 	height: 30px;
 	border-radius: 10px;
@@ -200,6 +200,104 @@ justify-content: flex-end;
 	border-radius: 7px;
 	font-size: .7rem;
 	letter-spacing: 1px;
+}
+
+/* MODAL UPDATE ALL */
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #00000050;
+	opacity: 0;
+	pointer-events: none;
+	transition: .3s;
+}
+
+.modal.open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.modal .box {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(.9);
+	width: 300px;
+	background: white;
+	box-shadow: var(--box-shadow);
+	padding: 20px;
+	box-sizing: border-box;
+	border-radius: 25px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-family: var(--font);
+	opacity: 0;
+	transition: .5s;
+}
+
+.modal.open .box {
+	opacity: 1;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.modal .box .header {
+	margin-bottom: 10px;
+}
+
+.modal .box .header h2 {
+	text-align: center;
+	font-weight: bold;
+}
+
+.modal .box .buttonGroup {
+	display: flex;
+	gap: 5px;
+}
+
+.modal .box .body {
+	display: flex;
+}
+
+.modal .box .body input {
+	width: 40%;
+	height: 30px;
+	border: none;
+/* 	border-bottom: 1px solid var(--blue-2-color); */
+border-bottom: 1px solid var(--gray-color);
+font-family: var(--font);
+letter-spacing: 1px;
+text-align: center;
+}
+
+.modal .box .body input::placeholder {
+	font-family: var(--font);
+	font-size: .7rem;
+	color: #cfcfcf;
+	font-style: italic;
+	text-align: center;
+}
+
+.modal .box .body input:focus {
+	outline: none;
+	border-bottom: 1px solid #0066ff;
+}
+
+.modal .box .body span {
+	flex: 1;
+	text-align: center;
+	align-content: center;
+	color: var(--gray-color);
+}
+
+.modal .box .buttonGroup button {
+	width: 50%;
+	height: 30px;
+	border-radius: 10px;
+	font-family: var(--font);
 }
 
 @media (max-width: 500px) {

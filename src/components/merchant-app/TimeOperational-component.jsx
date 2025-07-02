@@ -97,13 +97,14 @@ const TimeOperationalComponent = ({isOpen, onClose}) => {
 						<div className={s.row} key={day?.id}>
 						<span className={s.day}>{item.name}</span>
 						<span className={s.time}>{day?.start_time} - {day?.end_time}</span>
-						<span className={s.status}><label className={s.open}>BUKA</label></span>
+						{/*<span className={s.status}><label className={s.open}>BUKA</label></span>*/}
 						</div>
 						) : (
 						<div className={s.row} key={day?.id}>
 						<span className={s.day}>{item.name}</span>
-						<span className={s.time}>-</span>
-						<span className={s.status}><label className={s.close}>LIBUR</label></span>
+						{/*<span className={s.time}>-</span>*/}
+						{/*<span className={s.status}><label className={s.close}>LIBUR</label></span>*/}
+						<span className={s.time}><label className={s.close}>LIBUR</label></span>
 						</div>
 						)
 						)

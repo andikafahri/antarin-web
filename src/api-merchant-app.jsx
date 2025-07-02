@@ -175,6 +175,16 @@ async function reqUpdateTimeOperational(id, request) {
 	}
 }
 
+async function reqUpdateAllTimeOperational(request) {
+	try{
+		const result = await api.put(`/merchant/alltimeoperational/`, request)
+
+		return result.data.message
+	}catch(error){
+		throw error
+	}
+}
+
 async function reqDeleteTimeOperational(id) {
 	try{
 		const result = await api.delete(`/merchant/timeoperational/${id}`)
@@ -212,6 +222,7 @@ export {
 	getTimeOperational,
 	reqAddTimeOperational,
 	reqUpdateTimeOperational,
+	reqUpdateAllTimeOperational,
 	reqDeleteTimeOperational,
 	reqChangeMode
 }

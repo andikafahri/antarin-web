@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import clsx from 'clsx'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {TimeOperationalContext} from '../../context/merchant-app/Time-operational-context.jsx'
-import {getTimeOperational, reqAddTimeOperational, reqUpdateTimeOperational, reqDeleteTimeOperational} from '../../api-merchant-app.jsx'
+import {getTimeOperational, reqAddTimeOperational, reqUpdateTimeOperational, reqDeleteTimeOperational, reqUpdateAllTimeOperational} from '../../api-merchant-app.jsx'
 import SelectComponent from '../../components/Select-component.jsx'
 import s from '../../styles/pages/merchant-app/TimeOperational.module.css'
 
@@ -60,6 +60,66 @@ const ListComponent = ({listLoading, list, updating, setUpdating, handleDayDropd
 				</div>
 				)
 				))}
+		</>
+		)
+}
+
+const ModalUpdateAllTimeOperational = ({isOpen, onClose, btnLoading, setBtnLoading, refresh}) => {
+	const {setAlert} = useContext(AlertContext)
+	const inputRef = useRef({})
+	const [requestUpdateAll, setRequestUpdateAll] = useState({start_time: '', end_time: ''})
+
+	useEffect(() => {
+		if(isOpen){
+			inputRef.current.start_time.focus()
+		}
+	}, [isOpen])
+
+	const handleCancel = () => {
+		setRequestUpdateAll({start_time: '', end_time: ''})
+		onClose()
+	}
+
+	const handleUpdateAll = () => {
+		console.log(requestUpdateAll)
+		setBtnLoading(true)
+		reqUpdateAllTimeOperational(requestUpdateAll).then(result => {
+			handleCancel()
+			refresh()
+		}).catch(error => {
+			if(error.status === 500){
+				setAlert({isOpen: true, status: 'danger', message: 'Server error'})
+			}else if(error.status === 401){
+				navigate('/merchant/login', {state: {from: location}, replace: true})
+			}else if(error.status === 400 || error.status === 402 || error.status === 403 || error.status === 404){
+				setAlert({isOpen: true, status: 'danger', message: error.response.data.errors})
+			}else{
+				setAlert({isOpen: true, status: 'danger', message: 'Maaf, terjadi kesalahan'})
+			}
+			return
+		}).finally(() => {
+			setBtnLoading(false)
+		})
+	}
+
+	return (
+		<>
+		<div role='button' className={clsx(s.modal, isOpen && s.open)} onClick={e => e.target === e.currentTarget && handleCancel()}>
+		<div className={s.box}>
+		<div className={s.header}>
+		<h2>Ubah Semua Jam Operasional</h2>
+		</div>
+		<div className={s.body}>
+		<input type="text" ref={e => inputRef.current.start_time = e} value={requestUpdateAll?.start_time} placeholder='Jam Buka' onChange={e => setRequestUpdateAll(prev => ({...prev, start_time: e.target.value}))} onKeyDown={e => e.key === 'Enter' && handleUpdateAll()} />
+		<span> - </span>
+		<input type="text" value={requestUpdateAll?.end_time} placeholder='Jam Tutup' onChange={e => setRequestUpdateAll(prev => ({...prev, end_time: e.target.value}))} onKeyDown={e => e.key === 'Enter' && handleUpdateAll()} />
+		</div>
+		<div className={s.buttonGroup}>
+		<button className='btn-second' disabled={btnLoading} onClick={() => handleCancel()}>BATAL</button>
+		<button className='btn-primary' disabled={btnLoading} onClick={() => handleUpdateAll()}>SIMPAN</button>
+		</div>
+		</div>
+		</div>
 		</>
 		)
 }
@@ -188,7 +248,7 @@ const TimeOperationalPage = () => {
 	const handleDelete = (id) => {
 		setBtnLoading(true)
 		reqDeleteTimeOperational(id).then(result => {
-			setAlert({isOpen: true, status: 'success', message: result})
+			// setAlert({isOpen: true, status: 'success', message: result})
 			// getList()
 			getTime()
 		}).catch(error => {
@@ -207,11 +267,18 @@ const TimeOperationalPage = () => {
 		})
 	}
 
+	const [isOpenUpdateAll, setIsOpenUpdateAll] = useState(false)
+	const handleOpenUpdateAll = () => {
+		setIsOpenUpdateAll(true)
+		// inputRef.current.start_time_2.focus()
+	}
+
 	const handleCancel = () => {
 		setIsOpenAddingRow(false)
 		setUpdating(null)
 		setBtnLoading(false)
 		setRequest({})
+		setIsOpenUpdateAll(false)
 		// setStartTimeValue(null)
 		// setEndTimeValue(null)
 	}
@@ -259,11 +326,16 @@ const TimeOperationalPage = () => {
 	}
 
 	<div className={s.row}>
-	<button className={clsx(s.btnAdd, 'btn-primary')} onClick={() => {handleCancel(); setIsOpenAddingRow(true)}} disabled={isOpenAddingRow || btnLoading}>TAMBAH</button>
+	<button className={clsx('btn-primary')} onClick={() => {handleCancel(); setIsOpenAddingRow(true)}} disabled={isOpenAddingRow || btnLoading}>TAMBAH</button>
+	</div>
+	<div className={s.row}>
+	<button className={clsx('btn-second')} onClick={() => {handleCancel(); handleOpenUpdateAll()}}>UBAH SEMUA JAM OPERASIONAL</button>
 	</div>
 	</div>
 	</div>
 	</div>
+
+	<ModalUpdateAllTimeOperational isOpen={isOpenUpdateAll} onClose={handleCancel} btnLoading={btnLoading} setBtnLoading={setBtnLoading} refresh={getTime} />
 	</>
 	)
 }

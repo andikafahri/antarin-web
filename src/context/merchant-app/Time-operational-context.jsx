@@ -1,5 +1,6 @@
-import {useState, useEffect, createContext} from 'react'
+import {useState, useEffect, useContext, createContext} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
+import {AlertContext} from '../../context/Alert-context.jsx'
 import {getTimeOperational} from '../../api-merchant-app.jsx'
 
 const TimeOperationalContext = createContext()
@@ -7,6 +8,7 @@ const TimeOperationalContext = createContext()
 const TimeOperationalProvider = ({children}) => {
 	const navigate = useNavigate()
 	const location = useLocation()
+	const {setAlert} = useContext(AlertContext)
 	const [loading, setLoading] = useState(true)
 	const [timeOperational, setTimeOperational] = useState([])
 

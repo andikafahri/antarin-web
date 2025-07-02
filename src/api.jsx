@@ -26,9 +26,9 @@ async function getCurrentMerchant(id_merchant) {
 	return merchant.data.data
 }
 
-async function getTimeOperational() {
+async function getTimeOperational(id_merchant) {
 	try{
-		const result = await api.get('/public/timeoperational')
+		const result = await api.get(`/public/timeoperational/${id_merchant}`)
 
 		return result.data.data
 	}catch(error){

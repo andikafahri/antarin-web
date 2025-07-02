@@ -279,7 +279,7 @@ const MerchantPage = () => {
 	const [listTimeOperational, setListTimeOperational] = useState(null)
 	const getTime = () => {
 		setLoadingTimeOperational(true)
-		getTimeOperational().then(result => {
+		getTimeOperational(id_merchant).then(result => {
 			setListTimeOperational(result)
 		}).catch(error => {
 			if(error.status === 500){

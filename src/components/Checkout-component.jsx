@@ -7,6 +7,57 @@ import {OrderContext} from '../context/Order-context.jsx'
 import {LoginContext} from '../context/Login-context.jsx'
 import {getSystemCost, reqCheckout} from '../api.jsx'
 import merchantStyle from '../styles/pages/Merchant.module.css'
+import ModalEditMenu from '../modal/Edit-menu-modal.jsx'
+
+const CartItem = ({data, shipping_cost, service_cost, handleModal}) => {
+	const {id_merchant} = useParams()
+
+	if(data.length === 0) {
+		return <div style={{textAlign: 'center', padding: '50px', color: 'var(--gray-color)'}}>Belum Ada Item</div>
+	}
+
+	return (
+		<>
+		{data.map((item, i) => {
+			return (
+				<>
+				<div role='button' style={{cursor: 'pointer'}} key={i} onClick={() => handleModal(item)}>
+				<div className={merchantStyle.item}>
+				<div className={merchantStyle.picture}>
+				<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${item.image}`} />
+				</div>
+				<div className={merchantStyle.infoItem}>
+				<div className={merchantStyle.top}>
+				<div className={merchantStyle.left}>
+				<h3>{item.name}</h3>
+				<h4>{item.variant.name}</h4>
+				</div>
+				<div className={merchantStyle.right}>
+				<h4>x{item.qty}</h4>
+				</div>
+				</div>
+				<div className={merchantStyle.bottom}>
+				<label htmlFor="">{((Number(item.price) + Number(item.variant.price)) * item.qty).toLocaleString('id-ID')}</label>
+				</div>
+				</div>
+				</div>
+				</div>
+				</>
+				)
+		})}
+		<div className={merchantStyle.itemSystem}>
+		<div className={merchantStyle.shippingCostItem}>
+		<h3>Ongkos kirim</h3>
+		<h4>{shipping_cost.toLocaleString('id-ID')}</h4>
+		</div>
+		<div className={merchantStyle.serviceCost}>
+		<h3>Biaya layanan</h3>
+		<h4>{service_cost.toLocaleString('id-ID')}</h4>
+		</div>
+		</div>
+		</>
+		)
+}
 
 const CheckoutComponent = () => {
 	// GET NAME MERCHANT
@@ -49,53 +100,28 @@ const CheckoutComponent = () => {
 			setTotalPrice(0)
 		}
 	}, [cartItems, shippingCost, serviceCost])
-	
-	const CartItem = () => {
-		if(cartItems.length === 0) {
-			return <div style={{textAlign: 'center', padding: '50px', color: 'var(--gray-color)'}}>Belum Ada Item</div>
-		}
 
 
-		return (
-			<>
-			{cartItems.map((item, i) => {
-				return (
-					<div key={i}>
-					<div className={merchantStyle.item}>
-					<div className={merchantStyle.picture}>
-					<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${item.image}`} />
-					</div>
-					<div className={merchantStyle.infoItem}>
-					<div className={merchantStyle.top}>
-					<div className={merchantStyle.left}>
-					<h3>{item.name}</h3>
-					<h4>{item.variant.name}</h4>
-					</div>
-					<div className={merchantStyle.right}>
-					<h4>x{item.qty}</h4>
-					</div>
-					</div>
-					<div className={merchantStyle.bottom}>
-					<label htmlFor="">{((Number(item.price) + Number(item.variant.price)) * item.qty).toLocaleString('id-ID')}</label>
-					</div>
-					</div>
-					</div>
-					</div>
-					)
-			})}
-			<div className={merchantStyle.itemSystem}>
-			<div className={merchantStyle.shippingCostItem}>
-			<h3>Ongkos kirim</h3>
-			<h4>{shippingCost.toLocaleString('id-ID')}</h4>
-			</div>
-			<div className={merchantStyle.serviceCost}>
-			<h3>Biaya layanan</h3>
-			<h4>{serviceCost.toLocaleString('id-ID')}</h4>
-			</div>
-			</div>
-			</>
-			)
-		// })
+
+	// MODAL DETAIL & EDIT MENU
+	const [isOpenModalEditMenu, setIsOpenModalEditMenu] = useState(false)
+	// const [idMenu, setIdMenu] = useState(null)
+	const [itemSelected, setItemSelected] = useState({})
+	const handleOpenModalEditMenu = (item) => {
+		// setIdMenu(id_menu)
+		setItemSelected(item)
+		setIsOpenModalEditMenu(true)
+	}
+
+	// useEffect(() => {
+	// 	if(idMenu){
+	// 		getDetail(idMenu)
+	// 	}
+	// }, [idMenu])
+
+	const handleCloseModalEditMenu = () => {
+		setIsOpenModalEditMenu(false)
+		// setIdMenu(null)
 	}
 
 
@@ -171,7 +197,7 @@ const CheckoutComponent = () => {
 		<div className={clsx(merchantStyle.listItemContainer, isCheckoutOpen && merchantStyle.open)}>
 		<div className={merchantStyle.listItem}>
 		<div className={merchantStyle.itemGroup}>
-		<CartItem />
+		<CartItem data={cartItems} shipping_cost={shippingCost} service_cost={serviceCost} handleModal={(item) => handleOpenModalEditMenu(item)} />
 		</div>
 		</div>
 		</div>
@@ -197,6 +223,8 @@ const CheckoutComponent = () => {
 			if(e.target === e.currentTarget){setIsCheckoutOpen(false)}
 		}}>
 	</div>
+
+	<ModalEditMenu isOpen={isOpenModalEditMenu} onClose={handleCloseModalEditMenu} selected={itemSelected} />
 	</>
 	)
 }

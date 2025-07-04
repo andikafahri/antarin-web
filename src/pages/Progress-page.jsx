@@ -1,5 +1,6 @@
 import {useContext, useEffect, useState, useRef} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
+import {Helmet} from 'react-helmet'
 import clsx from 'clsx'
 import socket from '../function/Socket-function.jsx'
 import progressStyle from '../styles/pages/Progress.module.css'
@@ -138,6 +139,9 @@ const ProgressPage = () => {
 
 	return (
 		<>
+		<Helmet>
+		<title>Progres Order</title>
+		</Helmet>
 		{dataOrderContext ? (
 			<div className={progressStyle.border}>
 			<div className={progressStyle.box}>

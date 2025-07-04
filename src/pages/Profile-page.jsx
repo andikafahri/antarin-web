@@ -1,5 +1,6 @@
 import {useState, useEffect, useContext} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
+import {Helmet} from 'react-helmet'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {getProfile, reqUpdateProfile} from '../api.jsx'
 import profileStyle from '../styles/pages/Profile.module.css'
@@ -61,7 +62,9 @@ const ProfilePage = () => {
 
 	return (
 		<>
-
+		<Helmet>
+		<title>Profil</title>
+		</Helmet>
 		<div className={profileStyle.box}>
 		<div className={profileStyle.profile}>
 		<div className={profileStyle.profilePicture}>

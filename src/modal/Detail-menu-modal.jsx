@@ -105,7 +105,7 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 		setQty(qtyValue)
 	}
 
-	const decrease = () => { setQty(prev => Math.max(0, prev-1))}
+	const decrease = () => { setQty(prev => Math.max(1, prev-1))}
 	const increase = () => { setQty(prev => prev+1)}
 
 	const {idMerchant, setIdMerchant, setNameMerchant, addToCart} = useContext(OrderContext)
@@ -205,7 +205,7 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 	</div>
 	<div className={merchantStyle.qtyGroup}>
 	<button className='btn-second' onClick={decrease}><i className='fas fa-minus'></i></button>
-	<input type="number" value={qty} onChange={(e) => handleQty(Math.max(0, parseInt(e.target.value)))}/>
+	<input type="number" value={qty} onChange={(e) => handleQty(Math.max(1, parseInt(e.target.value)))}/>
 	<button className='btn-primary' onClick={increase}><i className='fas fa-plus'></i></button>
 	</div>
 	<div className={merchantStyle.buttonGroup}>

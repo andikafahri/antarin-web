@@ -1,0 +1,228 @@
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	opacity: 0;
+	transition: .3s;
+	pointer-events: none;
+}
+
+.modal.open {
+	opacity: 1;
+	backdrop-filter: blur(3px);
+	pointer-events: auto;
+}
+
+.modalDetailMenu {
+/* 	position: fixed; */
+width: 50%;
+max-height: 100%;
+transition: .5s ease-out;
+	/* top: 30%;
+	left: 50%;
+	transform: translate(-50%, -30%); */
+	margin: auto;
+	background: white;
+	border-radius: 25px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0px 15px 30px -5px #0000007a;
+	transform: scaleY(.9);
+/* 	transform-origin: top; */
+transition: .3s ease-in-out;
+}
+
+.modal.open .modalDetailMenu {
+	max-height: 1000px;
+/* 	transform: scaleY(1); */
+transform: scale(.9);
+}
+
+.modalDetailMenu .cover {
+	width: 100%;
+	height: 200px;
+	overflow: hidden;
+}
+
+.modalDetailMenu .cover img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+
+.modalDetailMenu .body {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 25px;
+	box-sizing: border-box;
+	font-family: var(--font);
+}
+
+.modalDetailMenu .body h1 {
+/* 	font-size: 1.9rem; */
+font-size: 1.7rem;
+}
+
+.modalDetailMenu .body p {
+	font-size: .85rem;
+	color: var(--gray-color);
+}
+
+.modalDetailMenu .body .variant h2 {
+	font-size: .95rem;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+.modalDetailMenu .body .variant h2.loadingBg {
+	background: var(--gray-2-color);
+	width: 70px;
+	height: 25px;
+	border-radius: 7px;
+}
+
+.modalDetailMenu .body .variant .listVariant {
+	font-size: .85rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+}
+
+.modalDetailMenu .body .variant .listVariant label {
+	display: inline-block;
+/* 	padding: 5px 10px; */
+padding: 9px 15px;
+box-sizing: border-box;
+background: transparent;
+border-radius: 5px;
+border: 1px solid black;
+cursor: pointer;
+}
+
+.modalDetailMenu .body .variant label.loadingBg {
+	background: var(--gray-2-color);
+	width: 80px;
+	height: 30px;
+	border-radius: 7px;
+	border: none;
+}
+
+.modalDetailMenu .body .variant .listVariant label.active {
+/* 	background: var(--blue-2-color); */
+background: black;
+/* 	border: none; */
+color: white;
+}
+
+.modalDetailMenu .footerDetailMenu {
+	display:  flex;
+	flex-direction: column;
+	font-family: var(--font);
+}
+
+.modalDetailMenu .footerDetailMenu .infoPrice {
+	display: flex;
+	flex-direction: column;
+	padding: 25px;
+	box-sizing: border-box;
+/* 	letter-spacing: 1px; */
+/* color: var(--gray-color); */
+}
+
+.modalDetailMenu .footerDetailMenu .infoPrice span {
+	display: flex;
+	border-bottom: 1px dashed var(--gray-color);
+	padding-top: 10px;
+	padding-bottom: 5px;
+/* 	font-size: .85rem; */
+font-size: .9rem;
+}
+
+.modalDetailMenu .footerDetailMenu .infoPrice label {
+	width: 50%;
+/* 	font-size: 1.2rem; */
+align-content: center;
+}
+
+.modalDetailMenu .footerDetailMenu .infoPrice h4 {
+	width: 50%;
+	text-align: right;
+	/* font-weight: bold;
+	font-size: 1.8rem; */
+}
+
+.modalDetailMenu .footerDetailMenu .infoPrice .total {
+	border: none;
+	color: black;
+	font-size: 1rem;
+	padding-top: 15px;
+}
+
+.modalDetailMenu .footerDetailMenu .qtyGroup {
+	height: 40px;
+	display: flex;
+	gap: 5px;
+	padding: 0 25px;
+	padding-bottom: 15px;
+}
+
+.modalDetailMenu .footerDetailMenu .qtyGroup button {
+/* 	flex: 1; */
+width: 20%;
+transition: .05s linear;
+}
+
+.modalDetailMenu .footerDetailMenu .qtyGroup button:active {
+	transform: scale(.9);
+	filter: brightness(0.9);
+}
+
+.modalDetailMenu .footerDetailMenu .qtyGroup input {
+/* 	flex: 1; */
+width: 60%;
+/* height: 100%; */
+border: 1px solid #5b87ff;
+border-radius: 15px;
+padding: 10px;
+box-sizing: border-box;
+/* box-shadow: 3px 10px 20px -10px #0000008f; */
+font-family: var(--font);
+font-size: .9rem;
+text-align: center;
+}
+
+.modalDetailMenu .footerDetailMenu .buttonGroup {
+	display: flex;
+	padding: 10px 25px;
+	padding-bottom: 25px;
+	box-sizing: border-box;
+	gap: 5px;
+}
+
+.modalDetailMenu .footerDetailMenu .buttonGroup button {
+/* 	width: 50%; */
+flex: 1;
+height: 40px;
+transition: .05s ease;
+}
+
+.modalDetailMenu .footerDetailMenu .buttonGroup button:active {
+	transform: scale(.9);
+	filter: brightness(0.9);
+}
+
+.modalDetailMenu .footerDetailMenu .buttonGroup button:disabled {
+	background: var(--gray-color);
+	cursor: no-drop;
+}
+
+.modalDetailMenu .footerDetailMenu .buttonGroup button.btnDelete {
+	background: var(--danger-color);
+	color: white;
+}

@@ -42,6 +42,12 @@ async function getMenuList(id_merchant, filter) {
 	return menu.data.data
 }
 
+async function getDetailMenu(id_menu) {
+	const menu = await api.get(`/public/menu/${id_menu}`)
+
+	return menu.data.data
+}
+
 async function getSystemCost(destination) {
 	try {
 		const result = await api.post('/public/system-cost', {destination})
@@ -125,6 +131,7 @@ export {
 	getCurrentMerchant,
 	getTimeOperational,
 	getMenuList,
+	getDetailMenu,
 	getSystemCost,
 	reqLogin,
 	reqRegister,

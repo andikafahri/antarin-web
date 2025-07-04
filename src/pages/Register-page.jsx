@@ -1,5 +1,6 @@
 import {useState, useContext} from 'react'
 import {useNavigate, useLocation, Link} from "react-router-dom";
+import {Helmet} from 'react-helmet'
 import registerStyle from '../styles/pages/Register.module.css'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {reqRegister} from '../api.jsx'
@@ -35,47 +36,50 @@ const RegisterPage = () => {
 	}
 
 	return (
-	<>
-	<div className={registerStyle.box}>
+		<>
+		<Helmet>
+		<title>Register | Antarin</title>
+		</Helmet>
+		<div className={registerStyle.box}>
 		<div className={registerStyle.top}>
-			<h1>Register</h1>
-			<div className={registerStyle.logo}>
-				<img src="/img/Logo Antarin.png" alt="" />
-			</div>
+		<h1>Register</h1>
+		<div className={registerStyle.logo}>
+		<img src="/img/Logo Antarin.png" alt="" />
+		</div>
 		</div>
 		<div className={registerStyle.middle}>
-			<div className={registerStyle.form}>
-				<span>Nama<i className='required'> *</i></span>
-				<input type="text" placeholder="Masukkan Nama" autoCapitalize="" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
-			</div>
-			<div className={registerStyle.form}>
-				<span>Username<i className='required'> *</i></span>
-				<input type="text" placeholder="Masukkan Username" autoCapitalize="none" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
-			</div>
-			<div className={registerStyle.form}>
-				<span>Password<i className='required'> *</i></span>
-				<input type="text" placeholder="Masukkan Password" autoCapitalize="none" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
-			</div>
-			<div className={registerStyle.form}>
-				<span>Ulangi Password<i className='required'> *</i></span>
-				<input type="text" placeholder="Ulangi Password" autoCapitalize="none" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
-			</div>
-			<div className={registerStyle.form}>
-				<span>Email<i className='required'> *</i></span>
-				<input type="email" placeholder="Masukkan Email" autoCapitalize="none" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
-			</div>
-			<div className={registerStyle.form}>
-				<span>No. WhatsApp</span>
-				<input type="number" placeholder="Masukkan No. WhatsApp" autoCapitalize="none" value={phone} onChange={(e) => setPhone(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
-			</div>
-			<button onClick={handleRegister} disabled={loading}>{loading ? `Proses . . .` : 'REGISTER'}</button>
+		<div className={registerStyle.form}>
+		<span>Nama<i className='required'> *</i></span>
+		<input type="text" placeholder="Masukkan Nama" autoCapitalize="" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
+		</div>
+		<div className={registerStyle.form}>
+		<span>Username<i className='required'> *</i></span>
+		<input type="text" placeholder="Masukkan Username" autoCapitalize="none" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
+		</div>
+		<div className={registerStyle.form}>
+		<span>Password<i className='required'> *</i></span>
+		<input type="text" placeholder="Masukkan Password" autoCapitalize="none" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
+		</div>
+		<div className={registerStyle.form}>
+		<span>Ulangi Password<i className='required'> *</i></span>
+		<input type="text" placeholder="Ulangi Password" autoCapitalize="none" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
+		</div>
+		<div className={registerStyle.form}>
+		<span>Email<i className='required'> *</i></span>
+		<input type="email" placeholder="Masukkan Email" autoCapitalize="none" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
+		</div>
+		<div className={registerStyle.form}>
+		<span>No. WhatsApp</span>
+		<input type="number" placeholder="Masukkan No. WhatsApp" autoCapitalize="none" value={phone} onChange={(e) => setPhone(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleRegister()} />
+		</div>
+		<button onClick={handleRegister} disabled={loading}>{loading ? `Proses . . .` : 'REGISTER'}</button>
 		</div>
 		{/*<div className={registerStyle.bottom}>
 			Belum punya akun?&nbsp;<Link>Daftar Sekarang</Link>
 		</div>*/}
-	</div>
-	</>
-	)
+		</div>
+		</>
+		)
 }
 
 export default RegisterPage

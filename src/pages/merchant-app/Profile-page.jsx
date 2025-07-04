@@ -1,6 +1,7 @@
 import {useState, useEffect, useContext, useRef} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import {jwtDecode} from 'jwt-decode'
+import {Helmet} from 'react-helmet'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {getProvince, getCity, getSubdistrict} from '../../api-public.jsx'
 import {getProfile, reqUpdateProfile} from '../../api-merchant-app.jsx'
@@ -224,6 +225,9 @@ const ProfilePage = () => {
 
 	return (
 		<>
+		<Helmet>
+		<title>Profil | Merchant</title>
+		</Helmet>
 		<div className={s.box}>
 		<label>PROFIL</label>
 		<div className={s.profile}>

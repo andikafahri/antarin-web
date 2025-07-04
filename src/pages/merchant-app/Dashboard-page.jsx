@@ -1,6 +1,7 @@
 import {useState, useEffect, useContext} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import clsx from 'clsx'
+import {Helmet} from 'react-helmet'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {SocketContext} from '../../context/Socket-context.jsx'
 import {getOrder} from '../../api-merchant-app.jsx'
@@ -349,6 +350,9 @@ const DashboardPage = () => {
 
 	return (
 		<>
+		<Helmet>
+		<title>Dashboard | Merchant</title>
+		</Helmet>
 		<div className={style.container}>
 		<div className={style.widgetGroup}>
 		<div className={clsx(style.widget, style.toBeConfirm)}>

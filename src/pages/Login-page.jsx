@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import {Helmet} from 'react-helmet'
 import loginStyle from '../styles/pages/Login.module.css'
 import { LoginContext } from "../context/Login-context.jsx";
 import {AlertContext} from '../context/Alert-context.jsx'
@@ -46,6 +47,9 @@ const LoginPage = () => {
 
 	return (
 		<>
+		<Helmet>
+		<title>Login | Antarin</title>
+		</Helmet>
 		<div className={loginStyle.box}>
 		<div className={loginStyle.top}>
 		<h1>Login</h1>

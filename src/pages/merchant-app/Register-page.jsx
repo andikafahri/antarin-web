@@ -1,6 +1,7 @@
 import {useState, useEffect, useContext, useRef} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import clsx from 'clsx'
+import {Helmet} from 'react-helmet'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {getProvince, getCity, getSubdistrict} from '../../api-public.jsx'
 import {reqRegister} from '../../api-merchant-app.jsx'
@@ -159,6 +160,9 @@ const RegisterPage = () => {
 
 	return (
 		<>
+		<Helmet>
+		<title>Register | Antarin Merchant</title>
+		</Helmet>
 		<div className={s.box}>
 		<label>REGISTER</label>
 		<div className={s.logo}>

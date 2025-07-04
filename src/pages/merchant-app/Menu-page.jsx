@@ -3,6 +3,7 @@ import {Link, useNavigate, useLocation} from 'react-router-dom'
 import debounce from 'lodash.debounce'
 import clsx from 'clsx'
 import {jwtDecode} from 'jwt-decode'
+import {Helmet} from 'react-helmet'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {getCategory, getMenu} from '../../api-merchant-app.jsx'
 import AddMenuModal from '../../modal/merchant-app/Add-menu-modal.jsx'
@@ -193,6 +194,9 @@ const MenuPage = () => {
 
 	return (
 		<>
+		<Helmet>
+		<title>Kelola Menu | Merchant</title>
+		</Helmet>
 		<div className={s.container}>
 		<h1>Kelola Menu</h1>
 		<div className={s.header}>

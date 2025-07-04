@@ -30,12 +30,19 @@ dist-ssr
 
 src/api OLD/jsx
 src/App OLD/jsx
+
 src/components/Select-with-search-component OLD.jsx
 src/components/merchant-app/SideMenu-component OLD.jsx
+src/components/Card2-component OLD.jsx
+src/components/Checkout-component OLD.jsx
+
 src/modal/merchant-app/Add-menu-modal OLD.jsx
 src/modal/Detail-menu-modal OLD.jsx
+
 src/pages/Login-page OLD.jsx
 src/pages/Merchant-page OLD.jsx
 src/pages/merchant-app/Time-operational-page OLD.jsx
+
 src/styles/modal/merchant-app/Add-menu-modal OLD.module.css
 src/styles/components/merchant-app/SideMenu OLD.module.css
+src/styles/pages/Merchant OLD.module.css

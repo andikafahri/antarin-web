@@ -1,6 +1,7 @@
 import {useState, useEffect, useContext, useRef} from 'react'
 import {useLocation, useNavigate} from 'react-router-dom'
 import clsx from 'clsx'
+import {Helmet} from 'react-helmet'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {TimeOperationalContext} from '../../context/merchant-app/Time-operational-context.jsx'
 import {getTimeOperational, reqAddTimeOperational, reqUpdateTimeOperational, reqDeleteTimeOperational, reqUpdateAllTimeOperational} from '../../api-merchant-app.jsx'
@@ -285,6 +286,9 @@ const TimeOperationalPage = () => {
 
 	return (
 		<>
+		<Helmet>
+		<title>Kelola Jam Operasional | Merchant</title>
+		</Helmet>
 		<div className={s.container}>
 		<div className={s.box}>
 		<h1>Jam Operasional</h1>

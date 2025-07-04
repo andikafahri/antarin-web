@@ -1,7 +1,8 @@
-import {useState, useEffect, useMemo, useRef, useContext} from 'react'
+import {useState, useEffect, useMemo, useRef, useContext, Suspense, lazy} from 'react'
 import clsx from 'clsx'
 import {Link, useSearchParams, useParams, useNavigate, useLocation, useNavigationType} from 'react-router-dom'
 import debounce from 'lodash.debounce'
+import {Helmet} from 'react-helmet'
 import socket from '../function/Socket-function.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {DestinationContext} from '../context/Destination-context.jsx'
@@ -15,16 +16,39 @@ import CheckoutComponent from '../components/Checkout-component.jsx'
 import FooterComponent from '../components/Footer-component.jsx'
 import ModalDetailMenu from '../modal/Detail-menu-modal.jsx'
 
+const LazyTimeOperational = lazy(() => import ('../modal/Time-operational-modal.jsx'))
+
+const MenuByCategoryList = ({menu_list, handleDetail}) => {
+	if(!menu_list){
+		return <div className={merchantStyle.loading}>Memuat . . .</div>
+	}
+
+	if(menu_list.length === 0){
+		return <div className={merchantStyle.loading}><div>Data Kosong</div></div>
+	}
+
+	return menu_list?.map(category => {
+		return (
+			<div key={category.id}>
+			<div className={merchantStyle.headerContent}>
+			<h1 className={merchantStyle.title}>{category.name}</h1>
+			</div>
+			<div className={merchantStyle.cardsGroup}>
+			{Object.values(category?.menus).map(menu => (
+				<Card2Component key={menu.id} data={menu} role='button' onClick={() => handleDetail({menu})}/>
+				))}
+			</div>
+			</div>
+			)
+	})
+}
+
 const MerchantPage = () => {
 	const {setAlert} = useContext(AlertContext)
 	const {id_merchant} = useParams()
 	const [params] = useSearchParams()
 	const searchParams = params.get('search')
 	const categoryParams = params.get('category')
-
-	// ALERT
-	// const [isOpenAlert, setIsOpenAlert] = useState(true)
-	// const [statusAlert, setStatusAlert] = useState('warning')
 	
 	// QUERY GENERATOR
 	const navigate = useNavigate()
@@ -32,21 +56,17 @@ const MerchantPage = () => {
 	const queryFilter = ({name, category}) => {
 		const query = new URLSearchParams(location.search)
 
-		// if(name !== null){
 		if(name){
 			query.set('search', name)
 		}else{
 			query.delete('search')	
 		}
-			// }
 
-			// if(category !== null){
 		if(category){
 			query.set('category', category)
 		}else{
 			query.delete('category')	
 		}
-				// }
 
 		navigate(`?${query.toString()}`, {replace: true})
 	}
@@ -56,9 +76,6 @@ const MerchantPage = () => {
 			// SEARCH
 	const searchInput = useRef()
 	const [searchValue, setSearchValue] = useState('')
-			// const searchButton = () => {
-				// 	queryFilter({name: searchInput.current.value})
-				// }
 
 	const clearButton = () => {
 		setSearchValue('')
@@ -100,7 +117,6 @@ const MerchantPage = () => {
 		getCurrentMerchant(id_merchant).then((result) => {
 			setCurrentMerchant(result)
 		})
-		getTime()
 	}, [id_merchant])
 
 	const TabCategory = () => {
@@ -139,32 +155,6 @@ const MerchantPage = () => {
 		})
 	}, [id_merchant, filter])
 
-	const MenuByCategoryList = () => {
-		if(!menuList){
-			return <div className={merchantStyle.loading}>Memuat . . .</div>
-		}
-
-		if(menuList.length === 0){
-			return <div className={merchantStyle.loading}><div>Data Kosong</div></div>
-		}
-
-		return menuList?.map(category => {
-			return (
-				<div key={category.id}>
-				<div className={merchantStyle.headerContent}>
-				<h1 className={merchantStyle.title}>{category.name}</h1>
-				</div>
-				<div className={merchantStyle.cardsGroup}>
-				{Object.values(category?.menus).map(menu => (
-					<Card2Component key={menu.id} data={menu} role='button' onClick={() => handleOpenModalDetailMenu({menu})}/>
-					))}
-				</div>
-				</div>
-				)
-		})
-						// return <div className={merchantStyle.loading}>Memuat . . .</div>
-	}
-
 
 
 
@@ -179,11 +169,8 @@ const MerchantPage = () => {
 		2: 'Pesanan diproses merchant',
 		5: 'Kurir mengambil pesanan'
 	}
-	// const navigationType = useNavigationType()
+
 	useEffect(() => {
-		// setTimeout(() => getDataOrder(), 0)
-		// getDataOrder()
-		// console.log('INI GET ORDER DARI MERCHANT PAGE USEEFFECT []')
 		getDataOrder()
 		console.log('MERCHANT PAGE MOUNT AGAIN')
 		console.log(dataOrderContext)
@@ -265,76 +252,13 @@ const MerchantPage = () => {
 
 
 
-	// GET TIME OPERATIONAL
-	const dataDay = [
-		{'id': 1, 'name': 'Senin'},
-		{'id': 2, 'name': 'Selasa'},
-		{'id': 3, 'name': 'Rabu'},
-		{'id': 4, 'name': 'Kamis'},
-		{'id': 5, 'name': "Jum'at"},
-		{'id': 6, 'name': 'Sabtu'},
-		{'id': 7, 'name': 'Minggu'}
-	]
-	const [loadingTimeOperational, setLoadingTimeOperational] = useState(true)
-	const [listTimeOperational, setListTimeOperational] = useState(null)
-	const getTime = () => {
-		setLoadingTimeOperational(true)
-		getTimeOperational(id_merchant).then(result => {
-			setListTimeOperational(result)
-		}).catch(error => {
-			if(error.status === 500){
-				setAlert({isOpen: true, status: 'danger', message: 'Server error'})
-			}else if(error.status === 401){
-				navigate('/merchant/login', {state: {from: location}, replace: true})
-			}else if(error.status === 400 || error.status === 402 || error.status === 403 || error.status === 404){
-				setAlert({isOpen: true, status: 'danger', message: error.response.data.errors})
-			}else{
-				setAlert({isOpen: true, status: 'danger', message: 'Maaf, terjadi kesalahan'})
-			}
-			return
-		}).finally(() => {
-			setLoadingTimeOperational(false)
-		})
-	}
 
-	const TimeOperationalList = () => {
-		// return listTimeOperational.map(time => {
-		// 	return (
-		// 		<span className={merchantStyle.active}>
-		// 		<h3>{dataDay.find(day => day.id === time.day).name}</h3>
-		// 		<h3>{time.start_time} - {time.end_time}</h3>
-		// 		</span>
-		// 		)
-		// })
-
-		return dataDay.map(time => {
-			const day = listTimeOperational?.find(x => x.day === time.id)
-			return (
-				day ? (
-					<span className={new Date().getDay() === time.id ? merchantStyle.active : ''}>
-					<h3>{time.name}</h3>
-					<h3>{day.start_time} - {day.end_time}</h3>
-					</span>
-					) : (
-					<span className={new Date().getDay() === time.id ? merchantStyle.active : ''}>
-					<h3>{time.name}</h3>
-					<h3 style={{
-						color: 'var(--danger-color)',
-						fontWeight: 'bold',
-						letterSpacing: '1px',
-						fontSize: '.9rem',
-						textAlign: 'center',
-						alignContent: 'center',
-						width: '100%'
-					}}>LIBUR</h3>
-					</span>
-					)
-					)
-		})
-	}
 
 	return(
 		<>
+		<Helmet>
+		<title>{currentMerchant?.name}</title>
+		</Helmet>
 		<AlertComponent isOpen={alert.isOpen} status={alert.status} message={alert.message} />
 
 		<div className={merchantStyle.coverCurrentMerchant}>
@@ -354,7 +278,7 @@ const MerchantPage = () => {
 		</div>
 		</div>
 		<div className={merchantStyle.right}>
-		<div role='button' onClick={toggleModalOperationalTime}className={merchantStyle.top}>
+		<div role='button' onClick={toggleModalOperationalTime} className={merchantStyle.top}>
 		<div className={merchantStyle.text}>
 		{currentMerchant?.is_open?.status ? (
 			<>
@@ -391,7 +315,7 @@ const MerchantPage = () => {
 			<div className={merchantStyle.category}>
 			<TabCategory />
 			</div>
-			<MenuByCategoryList />
+			<MenuByCategoryList menu_list={menuList} handleDetail={menu => handleOpenModalDetailMenu(menu)} />
 			</div>
 
 			{!dataOrderContext ? (
@@ -414,55 +338,15 @@ const MerchantPage = () => {
 
 			<FooterComponent />
 
-			<div role='button' className={clsx(merchantStyle.modal, isModalOperationalTimeOpen && merchantStyle.open)} onClick={(e) => {
-				if(e.target === e.currentTarget){setIsModalOperationalTimeOpen(false)
-			}
-	}}>
+			{/* {isModalOperationalTimeOpen && ( */}
+			<Suspense fallback={<div>Memuat . . .</div>}>
+			<LazyTimeOperational idMerchant={id_merchant} isOpen={isModalOperationalTimeOpen} onClose={() => setIsModalOperationalTimeOpen(false)} />
+			</Suspense>
+				{/*)}*/}
 
-	<div className={merchantStyle.modalOperationalTime}>
-	<button className={merchantStyle.btnClose} onClick={() => setIsModalOperationalTimeOpen(false)}><i className="fas fa-close"></i></button>
-	<h2>Jam Buka</h2>
-	<div className={merchantStyle.containerListTime}>
-	<div className={merchantStyle.listTime}>
-
-	{/*<span>
-	<h3>Senin</h3>
-	<h3>08.00 - 21.00</h3>
-	</span>
-	<span className={merchantStyle.active}>
-	<h3>Selasa</h3>
-	<h3>08.00 - 21.00</h3>
-	</span>
-	<span>
-	<h3>Rabu</h3>
-	<h3>08.00 - 21.00</h3>
-	</span>
-	<span>
-	<h3>Kamis</h3>
-	<h3>08.00 - 21.00</h3>
-	</span>
-	<span>
-	<h3>Jum'at</h3>
-	<h3>08.00 - 21.00</h3>
-	</span>
-	<span>
-	<h3>Sabtu</h3>
-	<h3>08.00 - 21.00</h3>
-	</span>
-	<span>
-	<h3>Minggu</h3>
-	<h3>08.00 - 21.00</h3>
-	</span>*/}
-	<TimeOperationalList />
-
-	</div>
-	</div>
-	</div>
-	</div>
-
-	<ModalDetailMenu isOpen={isOpenModalDetailMenu} onClose={handleCloseModalDetailMenu} nameMerchant={currentMerchant?.name} data={dataDetailMenu} />
-	</>
-	)
+			<ModalDetailMenu isOpen={isOpenModalDetailMenu} onClose={handleCloseModalDetailMenu} nameMerchant={currentMerchant?.name} data={dataDetailMenu} />
+			</>
+			)
 }
 
 export default MerchantPage

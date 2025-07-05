@@ -39,7 +39,7 @@ const ModalEditMenu = ({isOpen, onClose, selected}) => {
 					<div className={s.listVariant}>
 					{variant.items.map(item => (
 						<div key={item.id}>
-						<label className={`${variantItemSelected.id === item.id ? s.active : ''}`}><input type="radio" hidden checked={variantItemSelected.id === item.id} onChange={() => setVariantItemSelected(item)} />{item.name}</label>
+						<label className={`${!item.is_ready ? s.disabled : variantItemSelected.id === item.id ? s.active : ''}`}><input type="radio" hidden checked={variantItemSelected.id === item.id} onChange={() => setVariantItemSelected(item)} />{item.name}</label>
 						</div>
 						))}
 					</div>

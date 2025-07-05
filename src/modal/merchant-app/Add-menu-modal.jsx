@@ -98,7 +98,7 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 				</div>
 				<div className={s.multipleInput}>
 				{variant[iv].items?.map((item, i) => (
-					<div role='button' className={s.card} onClick={() => handleEditVariantItem(iv, i)} key={i}>
+					<div role='button' className={clsx(s.card, item.is_ready === true && s.ready)} onClick={() => handleEditVariantItem(iv, i)} key={i}>
 					<h2>{item.name}</h2>
 					<h3>{item.price}</h3>
 					</div>
@@ -114,9 +114,10 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 
 	const [isOpenPopUpAddVariantItem, setIsOpenPopUpAddVariantItem] = useState(false)
 	const [indexVariant, setIndexVariant] = useState(null)
-	const [variantItemValue, setVariantItemValue] = useState({name: '', price: 0})
+	const [variantItemValue, setVariantItemValue] = useState({name: '', price: 0, is_ready: null})
 	const handleAddVariantItem = (index) => {
 		setIndexVariant(index)
+		setVariantItemValue({is_ready: true})
 		inputRef.current[1].focus()
 		setIsOpenPopUpAddVariantItem(true)
 	}
@@ -124,13 +125,13 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 	const saveVariantItem = (index) => {
 		setVariant(prev => prev.map((v, i) => {
 			if(i === index){
-				return {...v, items: [...v.items, {name: variantItemValue.name, price: variantItemValue.price ? variantItemValue.price : 0}]}
+				return {...v, items: [...v.items, {name: variantItemValue.name, price: variantItemValue.price ? variantItemValue.price : 0, is_ready: variantItemValue.is_ready ?? true}]}
 			}
 			return v
 		}))
 		handleClosePopUp()
-		console.log(variantItemValue)
 	}
+	console.log(variantItemValue)
 
 
 
@@ -158,12 +159,12 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		handleClosePopUp()
 	}
 
-	const [editVariantItemValue, setEditVariantItemValue] = useState({name: '', price: 0})
+	const [editVariantItemValue, setEditVariantItemValue] = useState({name: '', price: 0, is_ready: null})
 	const [indexVariantItem, setIndexVariantItem] = useState(null)
 	const handleEditVariantItem = (indexVariant, indexItem) => {
 		setIndexVariant(indexVariant)
 		setIndexVariantItem(indexItem)
-		setEditVariantItemValue({name: variant[indexVariant].items[indexItem].name, price: variant[indexVariant].items[indexItem].price})
+		setEditVariantItemValue({name: variant[indexVariant].items[indexItem].name, price: variant[indexVariant].items[indexItem].price, is_ready: variant[indexVariant].items[indexItem].is_ready})
 		inputRef.current[3].focus()
 		setIsOpenPopUpEditVariantItem(true)
 	}
@@ -173,7 +174,7 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 			if(i === indexVariant){
 				const updateItem = v.items.map((item, i) => {
 					if(i === indexItem){
-						return {...item, name: editVariantItemValue.name, price: editVariantItemValue.price ? editVariantItemValue.price : 0}
+						return {...item, name: editVariantItemValue.name, price: editVariantItemValue.price ? editVariantItemValue.price : 0, is_ready: editVariantItemValue.is_ready}
 					}
 					return item
 				})
@@ -210,9 +211,9 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		setIndexVariant(null)
 		setIndexVariantItem(null)
 		setVariantValue('')
-		setVariantItemValue({name: '', price: 0})
+		setVariantItemValue({name: '', price: 0, is_ready: null})
 		setEditVariantValue('')
-		setEditVariantItemValue({name: '', price: 0})
+		setEditVariantItemValue({name: '', price: 0, is_ready: null})
 	}
 
 	const [loadingSave, setLoadingSave] = useState(false)
@@ -235,7 +236,10 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 			formData.append(key, value)
 		})
 		console.log(variant)
-		variant.forEach(v => formData.append('variants', JSON.stringify([v])))
+		// variant.forEach(v => formData.append('variants', JSON.stringify([v])))
+		if(variant?.length !== 0){
+			formData.append('variants', JSON.stringify(variant))
+		}
 
 		console.log([...formData.entries()])
 		setLoadingSave(true)
@@ -276,8 +280,8 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		Unggah Gambar
 		</label>
 		<span>Ketersediaan Menu</span>
-		<input type="checkbox" id='isReady' checked={request?.is_ready ?? true} onChange={e => setRequest({...request, is_ready: e.target.checked})} />
-		<label className={clsx(s.isReady, 'notHighlight')} htmlFor='isReady'></label>
+		<input type="checkbox" id='isReady' className={sa.isReady} checked={request?.is_ready ?? true} onChange={e => setRequest({...request, is_ready: e.target.checked})} />
+		<label className={clsx(sa.isReady, 'notHighlight')} htmlFor='isReady'></label>
 		</div>
 		<div className={s.middle}>
 		<div className={s.inputGroup}>
@@ -354,6 +358,9 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		<input type="text" ref={e => inputRef.current[1] = e} value={variantItemValue?.name} placeholder='Cth: Level 1' onChange={(e) => setVariantItemValue({...variantItemValue, name: e.target.value})} onKeyDown={e => e.key === 'Enter' && saveVariantItem(indexVariant)} />
 		<label>Harga Tambahan</label>
 		<input type="number" style={{textAlign: 'right'}} value={variantItemValue?.price} placeholder='Cth: 1000' onChange={(e) => setVariantItemValue({...variantItemValue, price: e.target.value})} onKeyDown={e => e.key === 'Enter' && saveVariantItem(indexVariant)} />
+		<label>Ketersediaan Item Varian<i className='required'> *</i></label>
+		<input type="checkbox" id='isReadyVariantItem' className={sa.isReady} checked={variantItemValue?.is_ready} onChange={e => setVariantItemValue({...variantItemValue, is_ready: e.target.checked})} />
+		<label className={clsx(sa.isReady, 'notHighlight')} style={{alignSelf: 'center', transform: 'scale(.9)'}} htmlFor='isReadyVariantItem'></label>
 		<div className={s.btnGroup}>
 		<button className={'btn-second'} onClick={handleClosePopUp}>BATAL</button>
 		<button className={'btn-primary'} onClick={() => saveVariantItem(indexVariant)}>TAMBAH</button>
@@ -386,6 +393,9 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 		<input type="text" ref={e => inputRef.current[3] = e} value={editVariantItemValue.name ?? ''} placeholder='Cth: Level 1' onChange={(e) => setEditVariantItemValue({...editVariantItemValue, name: e.target.value})} onKeyDown={(e) => {if(e.key === 'Enter'){editVariantItem(indexVariant, indexVariantItem)}}} />
 		<label>Harga Tambahan</label>
 		<input type="number" style={{textAlign: 'right'}} value={editVariantItemValue.price ?? 0} placeholder='Cth: 1000' onChange={(e) => setEditVariantItemValue({...editVariantItemValue, price: e.target.value})} onKeyDown={e => e.key === 'Enter' && editVariantItem(indexVariant, indexVariantItem)} />
+		<label>Ketersediaan Item Varian<i className='required'> *</i></label>
+		<input type="checkbox" id='isReadyVariantItemUpdate' className={sa.isReady} checked={editVariantItemValue?.is_ready ?? true} onChange={e => setEditVariantItemValue({...editVariantItemValue, is_ready: e.target.checked})} />
+		<label className={clsx(sa.isReady, 'notHighlight')} style={{alignSelf: 'center', transform: 'scale(.9)'}} htmlFor='isReadyVariantItemUpdate'></label>
 		<div className={s.btnGroup}>
 		<button className={'btn-danger'} onClick={() => deleteVariantItem(indexVariant, indexVariantItem)}>HAPUS</button>
 		<button className={'btn-primary'} onClick={() => editVariantItem(indexVariant, indexVariantItem)}>SIMPAN</button>

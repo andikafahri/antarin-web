@@ -24,7 +24,8 @@ const CartItem = ({data, shipping_cost, service_cost, handleModal}) => {
 				<div role='button' style={{cursor: 'pointer'}} key={i} onClick={() => handleModal(item)}>
 				<div className={merchantStyle.item}>
 				<div className={merchantStyle.picture}>
-				<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${item.image}`} />
+				{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${item.image}`} />*/}
+				<img src={item.image} />
 				</div>
 				<div className={merchantStyle.infoItem}>
 				<div className={merchantStyle.top}>

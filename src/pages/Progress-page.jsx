@@ -163,7 +163,7 @@ const ProgressPage = () => {
 			<div className={progressStyle.middle}>
 			<div className={clsx(progressStyle.cardCourier, hideCourier && progressStyle.hide)}>
 			<div className={progressStyle.profile}>
-			<img src="/img/profile.jpg" />
+			<img src={dataOrderContext?.courier?.image} />
 			</div>
 			<div className={progressStyle.info}>
 			<h2>{dataOrderContext?.courier?.name || ''}</h2>
@@ -175,7 +175,8 @@ const ProgressPage = () => {
 			</div>
 			<div className={progressStyle.cardMerchant}>
 			<div className={progressStyle.cover}>
-			<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${dataOrderContext?.merchant?.id}/${dataOrderContext?.merchant?.image}`} />
+			{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${dataOrderContext?.merchant?.id}/${dataOrderContext?.merchant?.image}`} />*/}
+			<img src={dataOrderContext?.merchant?.image} />
 			</div>
 			<div className={progressStyle.infoContainer}>
 			<div className={progressStyle.info}>
@@ -196,7 +197,8 @@ const ProgressPage = () => {
 			{dataOrderContext?.items.map((item, key) => { return (
 				<div className={progressStyle.row} key={key}>
 				<div className={progressStyle.picture}>
-				<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${dataOrderContext?.merchant?.id}/${item.image}`} alt="" />
+				{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${dataOrderContext?.merchant?.id}/${item.image}`} alt="" />*/}
+				<img src={item.image} alt="" />
 				</div>
 				<div className={progressStyle.info}>
 				<div className={progressStyle.top}>

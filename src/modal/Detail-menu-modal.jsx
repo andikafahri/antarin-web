@@ -29,7 +29,7 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 						{/*<ItemVariantComponent variant={variant}/>*/}
 					{variant.items.map(item => (
 						<div key={item.id}>
-						<label className={`${variantItemSelected.id === item.id ? merchantStyle.active : ''}`}><input type="radio" hidden checked={variantItemSelected.id === item.id} onChange={() => setVariantItemSelected(item)} />{item.name}</label>
+						<label className={`${!item.is_ready ? merchantStyle.disabled : variantItemSelected.id === item.id ? merchantStyle.active : ''}`}><input type="radio" hidden checked={variantItemSelected.id === item.id} onChange={() => setVariantItemSelected(item)} />{item.name}</label>
 						</div>
 						))}
 					</div>
@@ -186,6 +186,9 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 	<img src={data.image} alt="" />
 	</div>
 	<div className={merchantStyle.body}>
+	{!data.is_ready ? (
+		<label className={merchantStyle.notReady}>Tidak Tersedia</label>
+		) : ''}
 	<h1>{data.name}</h1>
 	<p>{data.detail}</p>
 	<div className={merchantStyle.variant}>
@@ -210,7 +213,7 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 	</div>
 	<div className={merchantStyle.buttonGroup}>
 	<button className="btn-second" onClick={onClose}>BATAL</button>
-	<button className="btn-primary" onClick={() => addItem({data: data, qtyItem: qty})} disabled={!!dataOrderContext?.id_order}>TAMBAH</button>
+	<button className="btn-primary" onClick={() => addItem({data: data, qtyItem: qty})} disabled={!!dataOrderContext?.id_order || !data.is_ready}>TAMBAH</button>
 	</div>
 	</div>
 	</div>

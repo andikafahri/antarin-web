@@ -113,6 +113,15 @@ cursor: pointer;
 	border: none;
 }
 
+.modalDetailMenu .body .variant .listVariant label.disabled {
+	pointer-events: none;
+	cursor: not-allowed;
+	background: var(--gray-2-color);
+	border-color: var(--gray-2-color);
+	color: gray;
+	user-select: none;
+}
+
 .modalDetailMenu .body .variant .listVariant label.active {
 /* 	background: var(--blue-2-color); */
 background: black;

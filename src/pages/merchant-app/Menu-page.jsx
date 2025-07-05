@@ -175,6 +175,8 @@ const MenuPage = () => {
 	const [isOpenModalEditMenu, setIsOpenModalEditMenu] = useState(false)
 	const [dataEdit, setDataEdit] = useState({})
 	const handleModalEditMenu = (menu, category) => {
+		console.log('MENU')
+		console.log(menu)
 		setIsOpenModalEditMenu(x => !x)
 		if(!isOpenModalEditMenu){
 			document.body.classList.add('no-scroll')

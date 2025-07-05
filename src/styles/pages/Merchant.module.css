@@ -816,6 +816,15 @@ transform: scale(.9);
 	font-family: var(--font);
 }
 
+.modalDetailMenu .body .notReady {
+	width: max-content;
+	padding: 5px 15px;
+	box-sizing: border-box;
+	border-radius: 50px;
+	font-size: .7rem;
+	background: #f77373;
+}
+
 .modalDetailMenu .body h1 {
 /* 	font-size: 1.9rem; */
 font-size: 1.7rem;
@@ -863,6 +872,15 @@ cursor: pointer;
 	height: 30px;
 	border-radius: 7px;
 	border: none;
+}
+
+.modalDetailMenu .body .variant .listVariant label.disabled {
+	pointer-events: none;
+	cursor: not-allowed;
+	background: var(--gray-2-color);
+	border-color: var(--gray-2-color);
+	color: gray;
+	user-select: none;
 }
 
 .modalDetailMenu .body .variant .listVariant label.active {

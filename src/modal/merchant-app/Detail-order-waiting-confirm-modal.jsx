@@ -94,7 +94,7 @@ const DetailOrderWaitingConfirmModal = ({isOpen, onClose, data}) => {
 		<div className={d.body}>
 		<div className={d.buyer}>
 		<div className={d.profile}>
-		<img src={CloudinaryOptimized(data?.image)} />
+		<img src="/img/profile.jpg" />
 		</div>
 		<div className={d.info}>
 		<h2>{data?.user}</h2>

@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import {useLocation, Link, useNavigate} from 'react-router-dom'
 import clsx from 'clsx'
 import {jwtDecode} from 'jwt-decode'
+import {CloudinaryOptimized} from '../../helper/Cloudinary-optimized-helper.jsx'
 import s from '../../styles/components/merchant-app/SideMenu.module.css'
 
 const SideMenuComponent = ({isOpen, onClose, data}) => {
@@ -23,7 +24,7 @@ const SideMenuComponent = ({isOpen, onClose, data}) => {
 		<div role='button' className={clsx(s.container, isOpen && s.open)} onClick={e => e.target === e.currentTarget && onClose()}>
 		<div className={s.box}>
 		<div role='button' className={s.boxProfile} onClick={handleProfile}>
-		<img src={data.image || '/public/img/no-image.jpg'} alt="" />
+		<img src={data.image ? CloudinaryOptimized(data.image) : '/public/img/no-image.jpg'} alt="" />
 		<div className={s.info}>
 		<h1>{data.name}</h1>
 		</div>

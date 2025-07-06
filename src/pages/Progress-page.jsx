@@ -2,6 +2,7 @@ import {useContext, useEffect, useState, useRef} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import {Helmet} from 'react-helmet'
 import clsx from 'clsx'
+import {CloudinaryOptimized} from '../helper/Cloudinary-optimized-helper.jsx'
 import socket from '../function/Socket-function.jsx'
 import progressStyle from '../styles/pages/Progress.module.css'
 import {OrderContext} from '../context/Order-context.jsx'
@@ -163,7 +164,7 @@ const ProgressPage = () => {
 			<div className={progressStyle.middle}>
 			<div className={clsx(progressStyle.cardCourier, hideCourier && progressStyle.hide)}>
 			<div className={progressStyle.profile}>
-			<img src={dataOrderContext?.courier?.image} />
+			<img src={CloudinaryOptimized(dataOrderContext?.courier?.image)} />
 			</div>
 			<div className={progressStyle.info}>
 			<h2>{dataOrderContext?.courier?.name || ''}</h2>
@@ -176,7 +177,7 @@ const ProgressPage = () => {
 			<div className={progressStyle.cardMerchant}>
 			<div className={progressStyle.cover}>
 			{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${dataOrderContext?.merchant?.id}/${dataOrderContext?.merchant?.image}`} />*/}
-			<img src={dataOrderContext?.merchant?.image} />
+			<img src={CloudinaryOptimized(dataOrderContext?.merchant?.image)} />
 			</div>
 			<div className={progressStyle.infoContainer}>
 			<div className={progressStyle.info}>
@@ -198,7 +199,7 @@ const ProgressPage = () => {
 				<div className={progressStyle.row} key={key}>
 				<div className={progressStyle.picture}>
 				{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${dataOrderContext?.merchant?.id}/${item.image}`} alt="" />*/}
-				<img src={item.image} alt="" />
+				<img src={CloudinaryOptimized(item.image)} alt="" />
 				</div>
 				<div className={progressStyle.info}>
 				<div className={progressStyle.top}>

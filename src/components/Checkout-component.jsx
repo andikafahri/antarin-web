@@ -1,6 +1,7 @@
 import {useState, useEffect, useContext} from 'react'
 import {useParams, Link} from 'react-router-dom'
 import clsx from 'clsx'
+import {CloudinaryOptimized} from '../helper/Cloudinary-optimized-helper.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {DestinationContext} from '../context/Destination-context.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
@@ -25,7 +26,7 @@ const CartItem = ({data, shipping_cost, service_cost, handleModal}) => {
 				<div className={merchantStyle.item}>
 				<div className={merchantStyle.picture}>
 				{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${item.image}`} />*/}
-				<img src={item.image} />
+				<img src={CloudinaryOptimized(item.image)} />
 				</div>
 				<div className={merchantStyle.infoItem}>
 				<div className={merchantStyle.top}>

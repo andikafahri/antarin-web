@@ -1,6 +1,7 @@
 import {useState, useContext} from 'react'
-import d from '../../styles/modal/merchant-app/Detail-order-finish-modal.module.css'
 import clsx from 'clsx'
+import {CloudinaryOptimized} from '../../helper/Cloudinary-optimized-helper.jsx'
+import d from '../../styles/modal/merchant-app/Detail-order-finish-modal.module.css'
 
 const DetailOrderFinish = ({isOpen, onClose, data, status}) => {
 	// LIST ITEM COMPONENT
@@ -9,7 +10,7 @@ const DetailOrderFinish = ({isOpen, onClose, data, status}) => {
 			return (
 				<div className={d.row} key={i}>
 				<div className={d.picture}>
-				<img src='/img/mi-chili-oil.jpg' alt="" />
+				<img src={CloudinaryOptimized(item.image)} alt="" />
 				</div>
 				<div className={d.info}>
 				<div className={d.top}>
@@ -63,7 +64,7 @@ const DetailOrderFinish = ({isOpen, onClose, data, status}) => {
 		<label>Pembeli</label>
 		<div className={d.buyer}>
 		<div className={d.profile}>
-		<img src="/img/profile.jpg" />
+		<img src={CloudinaryOptimized(data?.image)} />
 		</div>
 		<div className={d.info}>
 		<h2>{data?.user}</h2>
@@ -73,7 +74,7 @@ const DetailOrderFinish = ({isOpen, onClose, data, status}) => {
 		<label>Kurir</label>
 		<div className={d.courier}>
 		<div className={d.profile}>
-		<img src="/img/profile.jpg" />
+		<img src={CloudinaryOptimized(data?.courier?.image)} />
 		</div>
 		<div className={d.info}>
 		<h2>{data?.courier?.name}</h2>

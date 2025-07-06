@@ -1,6 +1,7 @@
 import {useEffect, useState, useMemo, useContext} from 'react'
 import {useParams} from 'react-router-dom'
 import clsx from 'clsx'
+import {CloudinaryOptimized} from '../helper/Cloudinary-optimized-helper.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
 import {getDetailMenu} from '../api.jsx'
@@ -111,7 +112,7 @@ const ModalEditMenu = ({isOpen, onClose, selected}) => {
 		}}>
 	<div className={s.modalDetailMenu}>
 	<div className={s.cover}>
-	<img src={data?.image} alt="" />
+	<img src={CloudinaryOptimized(data?.image)} alt="" />
 	</div>
 	<div className={s.body}>
 	<h1>{data?.name}</h1>

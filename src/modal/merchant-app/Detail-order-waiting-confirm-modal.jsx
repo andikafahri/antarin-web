@@ -1,8 +1,9 @@
 import {useState, useContext} from 'react'
-import d from '../../styles/modal/merchant-app/Detail-order-waiting-confirm-modal.module.css'
+import {CloudinaryOptimized} from '../../helper/Cloudinary-optimized-helper.jsx'
 import clsx from 'clsx'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {reqAccept, reqReject} from '../../api-merchant-app.jsx'
+import d from '../../styles/modal/merchant-app/Detail-order-waiting-confirm-modal.module.css'
 
 const DetailOrderWaitingConfirmModal = ({isOpen, onClose, data}) => {
 	const {setAlert} = useContext(AlertContext)
@@ -13,7 +14,7 @@ const DetailOrderWaitingConfirmModal = ({isOpen, onClose, data}) => {
 			return (
 				<div className={d.row} key={i}>
 				<div className={d.picture}>
-				<img src='/img/mi-chili-oil.jpg' alt="" />
+				<img src={CloudinaryOptimized(item.image)} alt="" />
 				</div>
 				<div className={d.info}>
 				<div className={d.top}>
@@ -93,7 +94,7 @@ const DetailOrderWaitingConfirmModal = ({isOpen, onClose, data}) => {
 		<div className={d.body}>
 		<div className={d.buyer}>
 		<div className={d.profile}>
-		<img src="/img/profile.jpg" />
+		<img src={CloudinaryOptimized(data?.image)} />
 		</div>
 		<div className={d.info}>
 		<h2>{data?.user}</h2>

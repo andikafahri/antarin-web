@@ -1,5 +1,6 @@
 import {useParams} from 'react-router-dom'
 import clsx from 'clsx'
+import {CloudinaryOptimized} from '../helper/Cloudinary-optimized-helper.jsx'
 import s from '../styles/pages/Merchant.module.css'
 
 const Card2Component = ({onClick, data}) => {
@@ -9,7 +10,7 @@ const Card2Component = ({onClick, data}) => {
 		<div role='button' className={clsx(s.card, 'notHighlight')} onClick={onClick}>
 		{data.is_ready ? (<span className={s.ready}>Tersedia</span>) : (<span className={s.notReady}>Tidak Tersedia</span>)}
 		<div className={s.picture}>
-		<img src={data.image} alt="" />
+		<img src={CloudinaryOptimized(data.image)} alt="" />
 		</div>
 		<div className={s.info}>
 		<h2>{data.name}</h2>

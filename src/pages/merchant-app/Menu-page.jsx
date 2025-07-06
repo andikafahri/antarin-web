@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce'
 import clsx from 'clsx'
 import {jwtDecode} from 'jwt-decode'
 import {Helmet} from 'react-helmet'
+import {CloudinaryOptimized} from '../../helper/Cloudinary-optimized-helper.jsx'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {getCategory, getMenu} from '../../api-merchant-app.jsx'
 import AddMenuModal from '../../modal/merchant-app/Add-menu-modal.jsx'
@@ -142,7 +143,7 @@ const MenuPage = () => {
 						<div className={s.picture}>
 						{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${idMerchant}/${menu.image}`} alt="" 
 						/>*/}
-						<img src={menu.image} alt="" />
+						<img src={CloudinaryOptimized(menu.image)} alt="" />
 						</div>
 						<div className={s.info}>
 						<h2>{menu.name}</h2>

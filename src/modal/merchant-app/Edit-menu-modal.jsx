@@ -1,6 +1,7 @@
 import {useState, useEffect, useRef, useContext} from 'react'
 import {Link, useNavigate, useLocation} from 'react-router-dom'
 import clsx from 'clsx'
+import {CloudinaryOptimized} from '../../helper/Cloudinary-optimized-helper.jsx'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {getCategory} from '../../api-public.jsx'
 import {reqUpdateMenu, reqDeleteMenu} from '../../api-merchant-app.jsx'
@@ -19,7 +20,7 @@ const EditMenuModal = ({isOpen, data, onClose, updated}) => {
 	useEffect(() => {
 		setImageValue(null)
 		inputFileRef.current.value = ''
-		setImageReview(data.image)
+		setImageReview(CloudinaryOptimized(data.image))
 		setRequest(data)
 		setVariant(data?.variants)
 	}, [isOpen])

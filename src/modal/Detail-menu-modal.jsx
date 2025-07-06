@@ -1,6 +1,7 @@
 import {useEffect, useState, useMemo, useContext} from 'react'
 import {useParams} from 'react-router-dom'
 import clsx from 'clsx'
+import {CloudinaryOptimized} from '../helper/Cloudinary-optimized-helper.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
 import AlertComponent from '../components/Alert-component.jsx'
@@ -183,7 +184,7 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 	<div className={merchantStyle.modalDetailMenu}>
 	<div className={merchantStyle.cover}>
 	{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${data.image}`} alt="" />*/}
-	<img src={data.image} alt="" />
+	<img src={CloudinaryOptimized(data.image)} alt="" />
 	</div>
 	<div className={merchantStyle.body}>
 	{!data.is_ready ? (

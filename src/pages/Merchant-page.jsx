@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import {Link, useSearchParams, useParams, useNavigate, useLocation, useNavigationType} from 'react-router-dom'
 import debounce from 'lodash.debounce'
 import {Helmet} from 'react-helmet'
+import {CloudinaryOptimized} from '../helper/Cloudinary-optimized-helper.jsx'
 import socket from '../function/Socket-function.jsx'
 import {AlertContext} from '../context/Alert-context.jsx'
 import {DestinationContext} from '../context/Destination-context.jsx'
@@ -263,7 +264,7 @@ const MerchantPage = () => {
 
 		<div className={merchantStyle.coverCurrentMerchant}>
 		{/*<img src={`${import.meta.env.VITE_BASEURL}/img/merchant/${id_merchant}/${currentMerchant?.image}`} alt="" />*/}
-		<img src={currentMerchant?.image} alt="" />
+		<img src={CloudinaryOptimized(currentMerchant?.image)} alt="" />
 		<div className={merchantStyle.infoCurrentMerchant}>
 		<div className={merchantStyle.left}>
 		<h1 className={merchantStyle.nameCurrentMerchant}>{currentMerchant?.name}</h1>

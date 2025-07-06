@@ -42,6 +42,7 @@ const TimeOperationalModal = ({idMerchant, isOpen, onClose}) => {
 
 	const TimeOperationalList = () => {
 		return dataDay.map(time => {
+			time.id = time.id === 7 ? 0 : time.id
 			const day = listTimeOperational?.find(x => x.day === time.id)
 			return (
 				day ? (
@@ -50,7 +51,7 @@ const TimeOperationalModal = ({idMerchant, isOpen, onClose}) => {
 					<h3>{day.start_time} - {day.end_time}</h3>
 					</span>
 					) : (
-					<span className={new Date().getDay() === 0 ? merchantStyle.active : ''}>
+					<span className={new Date().getDay() === time.id ? merchantStyle.active : ''}>
 					<h3>{time.name}</h3>
 					<h3 style={{
 						color: 'var(--danger-color)',

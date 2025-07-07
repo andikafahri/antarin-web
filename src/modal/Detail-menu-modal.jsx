@@ -115,9 +115,13 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 	const [isOpenConfirm, setIsOpenConfirm] = useState(false)
 	const [newItemForChange, setNewItemForChange] = useState({})
 	const addItem = ({data, qtyItem}) => {
-		if(!variantItemSelected.id || !variantItemSelected.name){
-			setAlert({isOpen: true, status: 'warning', message: 'Harap pilih varian dahulu'})
-			return
+		console.log(variant)
+		if(Object.keys(variant || {}).length !== 0){
+			// if(!variantItemSelected.id && Object.values(variant).some(v => v.items.some(i => i.is_ready))){
+			if(!variantItemSelected.id){
+				setAlert({isOpen: true, status: 'warning', message: 'Harap pilih varian dahulu'})
+				return
+			}	
 		}
 
 		if(!qty || qty < 1){
@@ -134,7 +138,7 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 			variant: {
 				id: variantItemSelected.id,
 				name: variantItemSelected.name,
-				price: variantItemSelected.price
+				price: variantItemSelected.price || 0
 			}
 		}
 		console.log('Id Merchant: '+idMerchant)
@@ -187,7 +191,7 @@ const ModalDetailMenu = ({isOpen, onClose, nameMerchant, data, cart}) => {
 	<img src={CloudinaryOptimized(data.image)} alt="" />
 	</div>
 	<div className={merchantStyle.body}>
-	{!data.is_ready ? (
+	{data.is_ready === false ? (
 		<label className={merchantStyle.notReady}>Tidak Tersedia</label>
 		) : ''}
 	<h1>{data.name}</h1>

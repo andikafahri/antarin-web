@@ -218,8 +218,7 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 
 	const [loadingSave, setLoadingSave] = useState(false)
 	const handleSaveMenu = () => {
-		const {category, ...payload} = request
-
+		const {category, is_ready, ...payload} = request
 		payload.id_category = category?.id
 		// payload.variants = variant
 
@@ -232,14 +231,29 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 			return
 		}
 
+		if(variant.length > 1){
+			setAlert({isOpen: true, status: 'warning', message: 'Kamu hanya boleh menambahkan 1 kategori varian'})
+			return
+		}
+
+
 		Object.entries(payload).forEach(([key, value]) => {
 			formData.append(key, value)
 		})
 		console.log(variant)
 		// variant.forEach(v => formData.append('variants', JSON.stringify([v])))
+
+		let isReady = request.is_ready
+
 		if(variant?.length !== 0){
+			if(!variant[0].items.some(v => !!v.is_ready)){
+				isReady = false
+			}
+
 			formData.append('variants', JSON.stringify(variant))
 		}
+
+		formData.append('is_ready', isReady)
 
 		console.log([...formData.entries()])
 		setLoadingSave(true)
@@ -258,7 +272,7 @@ const AddMenuModal = ({isOpen, onClose, saved}) => {
 				navigate('/merchant/login', {state: {from: location}, replace: true})
 			}
 
-			setAlert({isOpen: true, status: 'danger', message: error.response.data.errors})
+			setAlert({isOpen: true, status: 'warning', message: error.response.data.errors})
 		}).finally(() => {
 			setLoadingSave(false)
 		})

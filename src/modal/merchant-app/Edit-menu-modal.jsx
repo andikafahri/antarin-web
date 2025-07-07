@@ -220,7 +220,7 @@ const EditMenuModal = ({isOpen, data, onClose, updated}) => {
 	const [loadingSaveAndDelete, setLoadingSaveAndDelete] = useState(false)
 	const handleSaveMenu = () => {
 		const idMenu = data?.id
-		const {id, category, image, ...payload} = request
+		const {id, category, image, is_ready, ...payload} = request
 
 		console.log(payload)
 		payload.id_category = category?.id
@@ -233,12 +233,26 @@ const EditMenuModal = ({isOpen, data, onClose, updated}) => {
 			formData.append('file', imageValue)
 		}
 
+		if(variant.length > 1){
+			setAlert({isOpen: true, status: 'warning', message: 'Kamu hanya boleh menambahkan 1 kategori varian'})
+			return
+		}
+
 		// if(variant?.length !== 0){
 		// 	variant.forEach(v => formData.append('variants', JSON.stringify([v])))
 		// }
+
+		let isReady = request.is_ready
+
 		if(variant?.length !== 0){
+			if(!variant[0].items.some(v => !!v.is_ready)){
+				isReady = false
+			}
+
 			formData.append('variants', JSON.stringify(variant))
 		}
+
+		formData.append('is_ready', isReady)
 
 		Object.entries(payload).forEach(([key, value]) => {
 			formData.append(key, value)

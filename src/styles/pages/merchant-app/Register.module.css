@@ -6,7 +6,8 @@ left: 50%; */
 /* 	transform: translate(-50%, -50%) scale(.9); */
 /* transform: translateX(-50%) scale(.9); */
 margin: 15px auto;
-width: 50%;
+width: 70%;
+max-width: 600px;
 background: white;
 border-radius: 25px;
 padding: 35px;
@@ -128,6 +129,33 @@ transition: .5s ease;
 .input textarea:focus {
 	outline: none;
 	border-bottom: 1px solid #0066ff;
+}
+
+.input button {
+	height: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	font-family: var(--font);
+	font-size: .85rem;
+}
+
+.input .detailLocation {
+	margin-top: 5px;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.input .detailLocation label {
+	font-weight: bold;
+	color: black;
+}
+
+.input .detailLocation span {
+	margin-bottom: 5px;
+	font-size: .9rem;
 }
 
 .buttonGroup {

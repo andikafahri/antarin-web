@@ -1,0 +1,96 @@
+.container {
+	position: absolute;
+	top: 35%;
+	transform: translateY(-35%);
+	width: 100%;
+	font-family: var(--font);
+	justify-items: center;
+}
+
+.container .box {
+	width: 450px;
+	background: white;
+	box-shadow: var(--box-shadow);
+	border-radius: 25px;
+	padding: 25px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.container .box .bookmark {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
+.container .box .bookmark input::placeholder {
+	font-family: var(--font);
+	font-size: .85rem;
+	color: #cfcfcf;
+}
+
+.container .box .bookmark input {
+	flex: 1;
+	height: 35px;
+	padding: 10px;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border: 1px solid var(--blue-2-color);
+	font-family: var(--font);
+	font-size: .9rem;
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: .3s ease;
+}
+
+.container .box .bookmark input.open {
+	transform: scaleX(1);
+}
+
+.container .box .bookmark button {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	font-size: 1rem;
+	cursor: pointer;
+}
+
+.container .box .bookmark button i {
+	color: gray;
+}
+
+.container .box .bookmark button i.open {
+	color: var(--blue-3-color);
+}
+
+.container .box label {
+	font-size: .85rem;
+	font-weight: bold;
+}
+
+.container .box textarea::placeholder {
+	font-family: var(--font);
+	font-size: .85rem;
+	color: #cfcfcf;
+	font-style: italic;
+}
+
+.container .box textarea {
+	flex: 1;
+	height: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	border-radius: 15px;
+	border: 1px solid var(--blue-2-color);
+	font-family: var(--font);
+	font-size: .9rem;
+	resize: none;
+}
+
+.container .box button {
+	width: 100%;
+	height: 35px;
+	font-family: var(--font);
+}

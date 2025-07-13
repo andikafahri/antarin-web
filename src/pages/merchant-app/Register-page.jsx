@@ -3,6 +3,7 @@ import {useNavigate, useLocation} from 'react-router-dom'
 import clsx from 'clsx'
 import {Helmet} from 'react-helmet'
 import {AlertContext} from '../../context/Alert-context.jsx'
+import MapComponent from '../../components/merchant-app/Map-component.jsx'
 import {getProvince, getCity, getSubdistrict} from '../../api-public.jsx'
 import {reqRegister} from '../../api-merchant-app.jsx'
 import s from '../../styles/pages/merchant-app/Register.module.css'
@@ -123,22 +124,33 @@ const RegisterPage = () => {
 	}
 	console.log(imageValue)
 
+	const [isOpenMap, setIsOpenMap] = useState(false)
+	const handleMap = () => {
+		setIsOpenMap(x => !x)
+		if(!isOpenMap){
+			document.body.classList.add('no-scroll')
+		}else{
+			document.body.classList.remove('no-scroll')
+		}
+	}
+
 	// HANDLE REGISTER
 	const [loadingBtnRegister, setLoadingBtnRegister] = useState(false)
 	const handleRegister = () => {
-		const {subd, city, prov, ...req} = request
-		req.id_subd = request?.subd?.id
-		req.id_city = request?.city?.id
-		req.id_prov = request?.prov?.id
-
+		const {subd, city, prov, cityNameView, provNameView, coordinates, ...req} = request
 		const formData = new FormData()
 
 		formData.append('role', 'merchant')
 		formData.append('file', imageValue)
+		formData.append('coordinates', JSON.stringify(coordinates))
+
+		if(!phone){
+			req.phone = ''
+		}
+
 		Object.entries(req).forEach(([key, value]) => {
 			formData.append(key, value)
 		})
-		// console.log(Object.fromEntries(formData.entries()))
 
 		setLoadingBtnRegister(true)
 		reqRegister(formData).then(result => {
@@ -210,16 +222,20 @@ const RegisterPage = () => {
 		<input type="number" value={request?.phone ?? ''} onChange={(e) => setRequest({...request, phone: e.target.value})} />
 		</div>
 		<div className={s.input}>
-		<label>Provinsi<i className='required'> *</i></label>
-		<SelectWithSearchComponent isLoading={loadingProv} handle={handleOpenSelectProvince} isOpen={isOpenSelectProvince} data={province} netral={'Pilih Provinsi'} onSelect={(newProv) => setRequest({...request, prov: newProv, city: null})} selected={request?.prov} />
-		</div>
-		<div className={s.input}>
-		<label>Kabupaten<i className='required'> *</i></label>
-		<SelectWithSearchComponent isLoading={loadingCity} handle={handleOpenSelectCity} isOpen={isOpenSelectCity} data={city} netral={'Pilih Kota/Kabupaten'} onSelect={(newCity) => setRequest({...request, city: newCity, subd: null})} selected={request?.city} />
-		</div>
-		<div className={s.input}>
-		<label>Kecamatan<i className='required'> *</i></label>
-		<SelectWithSearchComponent isLoading={loadingSubd} handle={handleOpenSelectSubdistrict} isOpen={isOpenSelectSubdistrict} data={subdistrict} netral={'Pilih Kecamatan'} onSelect={(newSubdistrict) => setRequest({...request, subd: newSubdistrict})} selected={request?.subd} />
+		<label>Titik Lokasi<i className='required'> *</i></label>
+		{
+			request?.coordinates?.lng ? (
+				<div className={s.detailLocation}>
+				<label>Titik koordinat :</label>
+				<span>{`${request?.coordinates?.lng}, ${request?.coordinates?.lat}`}</span>
+				<label>Kabupaten/Kota :</label>
+				<span>{request?.cityNameView ?? request?.city?.name}</span>
+				<label>Provinsi :</label>
+				<span>{request?.provNameView ?? request?.prov?.name}</span>
+				</div>
+				) : ''
+		}
+		<button className='btn-second' onClick={handleMap}>Buka Peta</button>
 		</div>
 		<div className={s.input}>
 		<label>Detail Alamat<i className='required'> *</i></label>
@@ -233,6 +249,8 @@ const RegisterPage = () => {
 		<button className='btn-primary' onClick={handleRegister} disabled={loadingBtnRegister}>REGISTER</button>
 		</div>
 		</div>
+
+		<MapComponent isOpen={isOpenMap} onClose={handleMap} data={request} newData={val => setRequest(prev => ({...prev, ...val}))} />
 		</>
 		)
 }

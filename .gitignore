@@ -42,7 +42,11 @@ src/modal/Detail-menu-modal OLD.jsx
 src/pages/Login-page OLD.jsx
 src/pages/Merchant-page OLD.jsx
 src/pages/merchant-app/Time-operational-page OLD.jsx
+src/pages/merchant-app/Profile-page OLD.jsx
+src/pages/merchant-app/Register-page OLD.jsx
 
 src/styles/modal/merchant-app/Add-menu-modal OLD.module.css
 src/styles/components/merchant-app/SideMenu OLD.module.css
 src/styles/pages/Merchant OLD.module.css
+src/styles/pages/merchant-app/Profile OLD.module.css
+src/styles/pages/merchant-app/Register OLD.module.css

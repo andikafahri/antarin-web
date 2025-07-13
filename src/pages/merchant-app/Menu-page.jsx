@@ -36,10 +36,10 @@ const MenuPage = () => {
 		return () => delaySearch.cancel()
 	}, [searchValue])
 
-	const filterQuery = useMemo(() => ({
-		search: searchValue,
-		category: filter.category
-	}), [searchValue, filter.category])
+	// const filterQuery = useMemo(() => ({
+	// 	search: searchValue,
+	// 	category: filter.category
+	// }), [searchValue, filter.category])
 
 	useEffect(() => {
 		getDataMenu(filter)

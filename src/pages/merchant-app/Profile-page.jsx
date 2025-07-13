@@ -1,17 +1,19 @@
 import {useState, useEffect, useContext, useRef} from 'react'
-import {useNavigate, useLocation} from 'react-router-dom'
+import {useNavigate, useLocation, Link} from 'react-router-dom'
 import {jwtDecode} from 'jwt-decode'
 import {Helmet} from 'react-helmet'
 import {CloudinaryOptimized} from '../../helper/Cloudinary-optimized-helper.jsx'
 import {AlertContext} from '../../context/Alert-context.jsx'
 import {getProvince, getCity, getSubdistrict} from '../../api-public.jsx'
 import {getProfile, reqUpdateProfile} from '../../api-merchant-app.jsx'
+import MapComponent from '../../components/merchant-app/Map-component.jsx'
 import s from '../../styles/pages/merchant-app/Profile.module.css'
 import SelectWithSearchComponent from '../../components/Select-with-search-component.jsx'
 
 const ProfilePage = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
+	// const addressLocation = JSON.parse(sessionStorage.getItem('location'))
 	const inputFileRef = useRef(null)
 	const [imageReview, setImageReview] = useState(null)
 	const [imageValue, setImageValue] = useState(null)
@@ -39,6 +41,12 @@ const ProfilePage = () => {
 		setLoading(true)
 		getProfile().then(result => {
 			console.log(result)
+			let location = {}
+			location.lng = result.coordinates.lng
+			location.lat = result.coordinates.lat
+			location.city = result.city.name
+			location.prov = result.prov.name
+			// sessionStorage.setItem('location', JSON.stringify(location))
 			setDataProfile(result)
 		}).catch(error => {
 			console.log(error)
@@ -154,6 +162,18 @@ const ProfilePage = () => {
 		}
 	}
 
+	const [isOpenMap, setIsOpenMap] = useState(false)
+	const handleMap = () => {
+		setIsOpenMap(x => !x)
+		if(!isOpenMap){
+			document.body.classList.add('no-scroll')
+		}else{
+			document.body.classList.remove('no-scroll')
+		}
+	}
+
+	console.log(dataProfile)
+
 	const {setAlert} = useContext(AlertContext)
 	const [loadingSave, setLoadingSave] = useState(false)
 	const btnSave = () => {
@@ -166,7 +186,8 @@ const ProfilePage = () => {
 		// delete dataProfile.prov
 		// delete dataProfile.city
 		// delete dataProfile.subd
-		const {status, subd, city, prov, phone, ...req} = dataProfile
+		// const {status, subd, city, prov, phone, ...req} = dataProfile
+		const {status, subd, city, prov, cityNameView, provNameView, coordinates, phone, ...req} = dataProfile
 		// const payload = {
 		// 	...req,
 		// 	id_subd: subd?.id ?? null,
@@ -174,10 +195,15 @@ const ProfilePage = () => {
 		// 	id_prov: prov?.id ?? null,
 		// 	phone: phone ?? null
 		// }
-		req.id_subd = dataProfile?.subd?.id
-		req.id_city = dataProfile?.city?.id
-		req.id_prov = dataProfile?.prov?.id
-		req.phone = phone ?? null
+
+		// req.id_subd = dataProfile?.subd?.id
+		// req.id_city = dataProfile?.city?.id
+		// req.id_prov = dataProfile?.prov?.id
+		// req.coordinates = {
+		// 	lng: addressLocation?.lng ?? null,
+		// 	lat: addressLocation?.lat ?? null
+		// }
+		req.phone = phone ?? ''
 
 		const formData = new FormData()
 
@@ -187,6 +213,8 @@ const ProfilePage = () => {
 		Object.entries(req).forEach(([key, value]) => {
 			formData.append(key, value)
 		})
+
+		formData.append('coordinates', JSON.stringify(coordinates))
 		console.log(Object.fromEntries(formData.entries()))
 
 		// if(!dataProfile.phone){
@@ -263,21 +291,25 @@ const ProfilePage = () => {
 		<div className={s.right}>
 		<div className={s.inputGroup}>
 		<div className={s.input}>
-		<label>Provinsi<i className='required'> *</i></label>
-		<SelectWithSearchComponent isLoading={loadingProv} handle={handleOpenSelectProvince} isOpen={isOpenSelectProvince} data={province} netral={'Pilih Provinsi'} onSelect={(newProv) => setDataProfile({...dataProfile, prov: newProv, city: null})} selected={dataProfile?.prov} />
-		</div>
-		<div className={s.input}>
-		<label>Kabupaten<i className='required'> *</i></label>
-		<SelectWithSearchComponent isLoading={loadingCity} handle={handleOpenSelectCity} isOpen={isOpenSelectCity} data={city} netral={'Pilih Kota/Kabupaten'} onSelect={(newCity) => setDataProfile({...dataProfile, city: newCity, subd: null})} selected={dataProfile?.city} />
-		</div>
-		<div className={s.input}>
-		<label>Kecamatan<i className='required'> *</i></label>
-		<SelectWithSearchComponent isLoading={loadingSubd} handle={handleOpenSelectSubdistrict} isOpen={isOpenSelectSubdistrict} data={subdistrict} netral={'Pilih Kecamatan'} onSelect={(newSubdistrict) => setDataProfile({...dataProfile, subd: newSubdistrict})} selected={dataProfile?.subd} />
+		<label>Titik Lokasi<i className='required'> *</i></label>
+		{
+			dataProfile?.coordinates?.lng ? (
+				<div className={s.detailLocation}>
+				<label>Titik koordinat :</label>
+				<span>{`${dataProfile?.coordinates?.lng}, ${dataProfile?.coordinates?.lat}`}</span>
+				<label>Kabupaten/Kota :</label>
+				<span>{dataProfile?.cityNameView ?? dataProfile?.city?.name}</span>
+				<label>Provinsi :</label>
+				<span>{dataProfile?.provNameView ?? dataProfile?.prov?.name}</span>
+				</div>
+				) : ''
+		}
+		<button className='btn-second' onClick={handleMap}>Buka Peta</button>
 		</div>
 		<div className={s.input}>
 		<label>Detail Alamat<i className='required'> *</i></label>
 		{/*<input type="text" value={dataProfile?.address} onChange={(e) => setDataProfile({...dataProfile, address: e.target.value})} />*/}
-		<textarea rows='3' value={dataProfile?.address} onChange={(e) => setDataProfile({...dataProfile, address: e.target.value})} />
+		<textarea rows='3' value={dataProfile?.address ?? dataProfile?.address} onChange={(e) => setDataProfile({...dataProfile, address: e.target.value})} />
 		</div>
 		</div>
 		</div>
@@ -287,6 +319,8 @@ const ProfilePage = () => {
 		<button className='btn-primary' onClick={btnSave} disabled={loadingSave}>SIMPAN</button>
 		</div>
 		</div>
+
+		<MapComponent isOpen={isOpenMap} onClose={handleMap} data={dataProfile} newData={val => setDataProfile(prev => ({...prev, ...val}))} />
 		</>
 		)
 }

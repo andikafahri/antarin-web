@@ -72,7 +72,7 @@ const CheckoutComponent = () => {
 	const [serviceCost, setServiceCost] = useState(0)
 	useEffect(() => {
 		if(!destinationSelected) return
-			getSystemCost(destinationSelected).then(result => {
+			getSystemCost(id_merchant, destinationSelected).then(result => {
 				setShippingCost(result.data.data.shipping_cost)
 				setServiceCost(result.data.data.service_cost)
 			}).catch(error => {
@@ -144,10 +144,11 @@ const CheckoutComponent = () => {
 		}))
 
 		const request = {
-			destination: destinationSelected,
-			id_subd: 1,
-			id_city: 1,
-			id_prov: 1,
+			destination: destinationSelected.address,
+			coordinate: {
+				lat: destinationSelected.lat,
+				lng: destinationSelected.lng
+			},
 			items
 		}
 

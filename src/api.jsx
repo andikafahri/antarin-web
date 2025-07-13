@@ -48,9 +48,9 @@ async function getDetailMenu(id_menu) {
 	return menu.data.data
 }
 
-async function getSystemCost(destination) {
+async function getSystemCost(id_merchant, destination) {
 	try {
-		const result = await api.post('/public/system-cost', {destination})
+		const result = await api.post(`/public/system-cost/${id_merchant}`, {destination})
 
 		return result
 	}catch(error){
@@ -98,6 +98,66 @@ async function reqUpdateProfile(request) {
 	}
 }
 
+async function getAddress() {
+	try {
+		const result = await api.get('/user/address')
+
+		return result.data.data
+	}catch(error) {
+		throw error
+	}
+}
+
+async function reqAddAddress(request) {
+	try {
+		const result = await api.post('/user/address', request)
+
+		return result
+	}catch(error) {
+		throw error
+	}
+}
+
+async function getAddressBookmarkedForUpdate(id_address) {
+	try {
+		const result = await api.get(`/user/address_bookmarked/${id_address}`)
+
+		return result.data.data
+	}catch(error) {
+		throw error
+	}
+}
+
+async function reqUpdateAddress(id_address, request) {
+	try {
+		const result = await api.put(`/user/address_bookmarked/${id_address}`, request)
+
+		return result
+	}catch(error) {
+		throw error
+	}
+}
+
+async function reqDeleteAddress(id_address) {
+	try {
+		const result = await api.delete(`/user/address/${id_address}`)
+
+		return result
+	}catch(error) {
+		throw error
+	}
+}
+
+async function reqBookmarkAddress(id_address) {
+	try {
+		const result = await api.put(`/user/address/${id_address}/to_bookmark`)
+
+		return result
+	}catch(error) {
+		throw error
+	}
+}
+
 async function reqCheckout(id_merchant, request) {
 	try {
 		const result = await api.post(`/user/order/create/${id_merchant}`, request)
@@ -137,6 +197,12 @@ export {
 	reqRegister,
 	getProfile,
 	reqUpdateProfile,
+	getAddress,
+	reqAddAddress,
+	getAddressBookmarkedForUpdate,
+	reqUpdateAddress,
+	reqDeleteAddress,
+	reqBookmarkAddress,
 	reqCheckout,
 	getOrder,
 	reqCancel

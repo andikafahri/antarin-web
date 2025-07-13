@@ -137,11 +137,10 @@ const ProgressPage = () => {
 		return 'Memuat . . .'
 	}
 
-
 	return (
 		<>
 		<Helmet>
-		<title>Progres Order</title>
+		<title>Progress Order</title>
 		</Helmet>
 		{dataOrderContext ? (
 			<div className={progressStyle.border}>

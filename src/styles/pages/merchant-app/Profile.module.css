@@ -3,7 +3,8 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%) scale(.9);
-	width: 50%;
+	width: 70%;
+	max-width: 600px;
 	background: white;
 	border-radius: 25px;
 	padding: 35px;
@@ -138,6 +139,33 @@ transition: .5s ease;
 	border-bottom: 1px solid #0066ff;
 }
 
+.input button {
+	height: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	font-family: var(--font);
+	font-size: .85rem;
+}
+
+.input .detailLocation {
+	margin-top: 5px;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.input .detailLocation label {
+	font-weight: bold;
+	color: black;
+}
+
+.input .detailLocation span {
+	margin-bottom: 5px;
+	font-size: .9rem;
+}
+
 .buttonGroup {
 	width: 100%;
 	margin-top: 10px;
@@ -181,6 +209,10 @@ transition: .5s ease;
 		width: 100%;
 	}
 
+	.input button {
+		height: 35px;
+	}
+
 	.buttonGroup {
 		width: 100%;
 		flex-direction: column-reverse;
@@ -194,6 +226,10 @@ transition: .5s ease;
 
 	.input input {
 		font-size: 1rem;
+	}
+
+	.input button {
+		height: 35px;
 	}
 
 	.buttonGroup button {

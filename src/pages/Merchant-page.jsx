@@ -101,7 +101,12 @@ const MerchantPage = () => {
 	const [serviceCost, setServiceCost] = useState(0)
 	useEffect(() => {
 		if(!destinationSelected) return
-			getSystemCost(destinationSelected).then(result => {
+			const destination = {
+				lat: destinationSelected.lat,
+				lng: destinationSelected.lng
+			}
+			
+			getSystemCost(id_merchant, destination).then(result => {
 				setShippingCost(result.data.data.shipping_cost)
 				setServiceCost(result.data.data.service_cost)
 			}).catch(error => {

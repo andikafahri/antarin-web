@@ -6,6 +6,9 @@ import { OrderProvider } from "../context/Order-context.jsx";
 import HeaderComponent from "../components/Header-component.jsx";
 import HomePage from "../pages/Home-page.jsx";
 import MerchantPage from "../pages/Merchant-page.jsx";
+import MapPage from "../pages/Map-page.jsx";
+import AddressPage from "../pages/Address-page.jsx";
+import UpdateAddressPage from "../pages/Update-address-page.jsx";
 import LoginPage from "../pages/Login-page.jsx";
 import RegisterPage from "../pages/Register-page.jsx";
 import ProfilePage from "../pages/Profile-page.jsx";
@@ -53,11 +56,11 @@ const UserRoutes = () => {
 			);
 	};
 
-	const ContextGroup = ({children}) => {
+	const ContextGroup = () => {
 		return (
 			<DestinationProvider>
 			<OrderProvider>
-			{children}
+			<Outlet />
 			</OrderProvider>
 			</DestinationProvider>
 			)
@@ -67,14 +70,22 @@ const UserRoutes = () => {
 		<Routes>
 		<Route path="/login" element={<LoginPage />} />
 		<Route path="/register" element={<RegisterPage />} />
-		<Route element={<ContextGroup><WithHeader /></ContextGroup>}>
+		
+		<Route element={<ContextGroup />}>
+		<Route element={<WithHeader />}>
 		<Route path="/" element={<HomePage />} />
 		<Route path="/menu/:id_merchant" element={<MerchantPage />} />
+		</Route>
+		<Route path='/map' element={<MapPage />} />
+		<Route path='/map/address' element={<AddressPage />} />
+		<Route path='/address/:id_address' element={<UpdateAddressPage />} />
 		</Route>
 		
 		<Route element={<Auth />}>
 		<Route path="/profile" element={<ProfilePage />} />
-		<Route path="/progress" element={<ContextGroup><ProgressPage /></ContextGroup>} />
+		<Route element={<ContextGroup />}>
+		<Route path="/progress" element={<ProgressPage />} />
+		</Route>
 		</Route>
 
 		{/*NOT FOUND PAGE*/}

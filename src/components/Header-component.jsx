@@ -91,7 +91,7 @@ const HeaderComponent = () => {
 		<div role='button' className={clsx(headerStyle.addressContainer, 'notHighlight')} onClick={togglePopUpDestination}>
 		<div className={headerStyle.left}>
 		<label className={headerStyle.label}>Alamat</label>
-		<label className={headerStyle.addressName}>{!destinationSelected ? 'Tentukan alamat tujuan' : destinationSelected}</label>
+		<label className={headerStyle.addressName}>{destinationSelected?.name || destinationSelected?.address || 'Tentukan alamat tujuan'}</label>
 		</div>
 		<div className={clsx(headerStyle.right, isOpenPopUpDestination && headerStyle.up)}>
 		<i className="fas fa-chevron-down"></i>

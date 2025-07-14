@@ -32,6 +32,7 @@ const HeaderComponent = () => {
 	useEffect(() => {
 		if(token){
 			setIsLogin(true)
+			console.log('INI TRUE')
 			// getProfile().then(result => {
 			// 	setProfile(result)
 			// }).catch(error => {
@@ -43,14 +44,19 @@ const HeaderComponent = () => {
 			// })
 		}else{
 			setIsLogin(false)
+			console.log('INI FALSE')
 			// navigate('/')
 			// navigate('/login', {state: {from: location}, replace: true})
 		}
 	}, [token])
+	console.log('IS LOGIN: '+isLogin)
+	console.log(token)
 
 	useEffect(() => {
 		if(Object.keys(profileCtx).length === 0){
 			setIsLogin(false)
+		}else{
+			setIsLogin(true)
 		}
 
 		setProfile(profileCtx)

@@ -62,7 +62,7 @@
 }
 
 .container .box .bookmark button i.open {
-	color: var(--blue-3-color);
+	color: var(--blue-2-color);
 }
 
 .container .box label {
@@ -93,4 +93,14 @@
 	width: 100%;
 	height: 35px;
 	font-family: var(--font);
+}
+
+@media (max-width: 500px) {
+	.container .box {
+		width: 90%;
+	}
+
+	.container .box .bookmark input {
+		width: calc(100% - 50px)
+	}
 }

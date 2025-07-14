@@ -11,6 +11,7 @@ const LoginProvider = ({children}) => {
 			setToken(tokenValue)
 		}else{
 			setToken('')
+			localStorage.removeItem('token')
 		}
 	}, [tokenValue])
 	console.log('Token: '+token)

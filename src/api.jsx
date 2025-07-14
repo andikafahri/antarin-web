@@ -14,8 +14,8 @@ api.interceptors.request.use((config) => {
 	return config
 })
 
-async function getMerchantList(filter) {
-	const merchant = await api.get(`/public/home/merchant/list`, {params: filter})
+async function getMerchantList(params) {
+	const merchant = await api.get(`/public/home/merchant/list`, {params: params})
 
 	return merchant.data.data
 }

@@ -18,7 +18,9 @@ const Card1Component = ({data}) => {
 		</div>
 		<div className={homeStyle.infoMerchant}>
 		<h2>{data.name}</h2>
-		<h3>{data.address} | 2 km</h3>
+		{/*<h3>{data.address} | 2 km</h3>*/}
+		{/*<h3>{data.distance ? data.distance+' km' : ''}</h3>*/}
+		<h3></h3>
 		<div className={homeStyle.rating}>
 		<div className={homeStyle.star}>
 		<i className="fas fa-star"></i>

@@ -6,10 +6,12 @@
 	width: 100%;
 	height: 100%;
 /* 	opacity: 0; */
+transition: .3s;
 pointer-events: none;
 }
 
 .container.open {
+	background: #0000003a;
 /* 	opacity: 1; */
 pointer-events: auto;
 }

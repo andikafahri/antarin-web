@@ -3,6 +3,8 @@ import {Link, useSearchParams, useLocation, useNavigate} from 'react-router-dom'
 import debounce from 'lodash.debounce'
 import homeStyle from '../styles/pages/Home.module.css'
 import socket from '../function/Socket-function.jsx'
+import {AccountContext} from '../context/Account-context.jsx'
+import {DestinationContext} from '../context/Destination-context.jsx'
 import {OrderContext} from '../context/Order-context.jsx'
 import {SocketContext} from '../context/Socket-context.jsx'
 import Card1Component from '../components/Card1-component.jsx'
@@ -12,6 +14,7 @@ import {getMerchantList} from '../api.jsx'
 
 const HomePage = () => {
 	// GET STATUS ORDER
+	const {destinationSelected} = useContext(DestinationContext)
 	const {loadingDataOrder, getDataOrder, dataOrderContext} = useContext(OrderContext)
 	const [statusOrder, setStatusOrder] = useState({})
 
@@ -71,15 +74,17 @@ const HomePage = () => {
 
 	const filter = useMemo(() => ({
 		search: searchParam,
-		category: categoryParam
-	}), [searchParam, categoryParam])
+		category: categoryParam,
+		lng: destinationSelected.lng,
+		lat: destinationSelected.lat
+	}), [searchParam, categoryParam, destinationSelected])
 	const [merchantList, setMerchantList] = useState([])
 	useEffect(() => {
 		getMerchantList(filter).then((result) => {
 			setMerchantList(result)
 		})
 		setMerchantList(null)
-	}, [filter])
+	}, [filter, destinationSelected])
 
 	const MerchantList = () => {
 		if(!merchantList){
@@ -138,7 +143,9 @@ const HomePage = () => {
 	const {cartItems} = useContext(OrderContext)
 	console.log('Cart Items: '+cartItems.length)
 
-	if(loadingDataOrder){
+	const {loadingProfileCtx, profileCtx} = useContext(AccountContext)
+
+	if(loadingDataOrder || loadingProfileCtx){
 		return 'Memuat . . .'
 	}
 
@@ -146,16 +153,18 @@ const HomePage = () => {
 		<div>
 		{/*<HeaderComponent />*/}
 
-		<div className={homeStyle.info}>
-		<div className={homeStyle.progress} role='button' onClick={handleProgress}>
+		{localStorage.getItem('token') ? (
+			<div className={homeStyle.info}>
+			<div className={homeStyle.progress} role='button' onClick={handleProgress}>
 		{/*<label>Sedang Diantar</label>*/}
-		<label>{statusOrder?.message || 'Order Sekarang'}</label>
-		</div>
-		<div className={homeStyle.point}>
-		<label>Poin</label>
-		<p>5000</p>
-		</div>
-		</div>
+			<label>{statusOrder?.message || 'Order Sekarang'}</label>
+			</div>
+			<div className={homeStyle.point}>
+			<label>Poin</label>
+			<p>{profileCtx.poin}</p>
+			</div>
+			</div>
+			) : ''}
 
 		<div className={homeStyle.content}>
 		<div className={homeStyle.searchBar2}>

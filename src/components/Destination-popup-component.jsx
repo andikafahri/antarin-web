@@ -68,7 +68,7 @@ const DestinationPopupComponent = ({isOpen, onClose}) => {
 	const handleDelete = (id_address) => {
 		setLoadingBtn(true)
 		reqDeleteAddress(id_address).then(result => {
-			setAlert({isOpen: true, status: 'success', message: 'Berhasil'})
+			// setAlert({isOpen: true, status: 'success', message: 'Berhasil'})
 			getDataAddress()
 		}).catch(error => {
 			if(error.status === 500){

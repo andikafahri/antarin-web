@@ -2,9 +2,10 @@ import {useState, useContext, useEffect} from 'react'
 import {useLocation, Link, useNavigate} from 'react-router-dom'
 import clsx from 'clsx'
 import {LoginContext} from '../context/Login-context.jsx'
+import {AccountContext} from '../context/Account-context.jsx'
 import {DestinationContext} from '../context/Destination-context.jsx'
 import headerStyle from '../styles/components/Header.module.css'
-import {getProfile} from '../api.jsx'
+// import {getProfile} from '../api.jsx'
 import DestinationPopupComponent from '../components/Destination-popup-component.jsx'
 
 const HeaderComponent = () => {
@@ -26,24 +27,32 @@ const HeaderComponent = () => {
 	// IS LOGIN AND GET USER
 	const {token, setToken} = useContext(LoginContext)
 	const [isLogin, setIsLogin] = useState(false)
-	const [profile, setProfile] = useState('')
+	const [profile, setProfile] = useState({})
+	const {loadingProfileCtx, profileCtx} = useContext(AccountContext)
 	useEffect(() => {
 		if(token){
 			setIsLogin(true)
-			getProfile().then(result => {
-				setProfile(result.name)
-			}).catch(error => {
-				console.log(error)
-				if(error.status === 401){
-					setIsLogin(false)
-				}
-			})
+			// getProfile().then(result => {
+			// 	setProfile(result)
+			// }).catch(error => {
+			// 	console.log(error)
+			// 	if(error.status === 401){
+			// 		setIsLogin(false)
+			// 		localStorage.removeItem('token')
+			// 	}
+			// })
 		}else{
 			setIsLogin(false)
 			// navigate('/')
 			// navigate('/login', {state: {from: location}, replace: true})
 		}
 	}, [token])
+
+	useEffect(() => {
+		// if(!loadingProfileCtx){
+		setProfile(profileCtx)
+		// }
+	}, [profileCtx])
 
 
 
@@ -91,41 +100,45 @@ const HeaderComponent = () => {
 		<div role='button' className={clsx(headerStyle.addressContainer, 'notHighlight')} onClick={togglePopUpDestination}>
 		<div className={headerStyle.left}>
 		<label className={headerStyle.label}>Alamat</label>
-		<label className={headerStyle.addressName}>{destinationSelected?.name || destinationSelected?.address || 'Tentukan alamat tujuan'}</label>
-		</div>
-		<div className={clsx(headerStyle.right, isOpenPopUpDestination && headerStyle.up)}>
-		<i className="fas fa-chevron-down"></i>
-		</div>
-		</div>
-		</div>
-		{isLogin ? (
-			<>
-			<div role='button' className={clsx(headerStyle.profile, 'notHighlight')} onClick={togglePopUpProfile}>
-			<div className={headerStyle.pictProfile}>
-			<img src='/img/profile.jpg' />
-			</div>
-			</div>
-		{/*<div className={`${headerStyle.dropdownProfile} ${headerStyle.hide}`}>*/}
-			{/*<div className={`${headerStyle.dropdownProfile} ${'hide'}`}>*/}
-			<div className={clsx(headerStyle.dropdownProfile, isOpenPopUpProfile && headerStyle.open)}>
-			<span className={headerStyle.name}>{profile}</span>
-			<div className={headerStyle.action}>
-			<Link to='/profile' className='notHighlight'>Edit Profil</Link>
-			<Link className='notHighlight'>Order</Link>
-			<Link className='notHighlight'>Riwayat</Link>
-			<Link className={clsx(headerStyle.btnLogout, 'notHighlight')} onClick={logout}>Logout</Link>
-			</div>
-			</div>
-			</>
-
+		{localStorage.getItem('token') ? (
+			<label className={headerStyle.addressName}>{destinationSelected?.name || destinationSelected?.address || 'Tentukan alamat tujuan'}</label>
 			) : (
-			<button className={clsx(headerStyle.btnLogin, 'btn-second notHighlight')} onClick={btnLogin}>LOGIN</button>
+			<label className={headerStyle.addressName}>Cek Ongkir</label>
 			)}
 			</div>
+			<div className={clsx(headerStyle.right, isOpenPopUpDestination && headerStyle.up)}>
+			<i className="fas fa-chevron-down"></i>
+			</div>
+			</div>
+			</div>
+			{isLogin ? (
+				<>
+				<div role='button' className={clsx(headerStyle.profile, 'notHighlight')} onClick={togglePopUpProfile}>
+				<div className={headerStyle.pictProfile}>
+				<img src='/img/profile.jpg' />
+				</div>
+				</div>
+		{/*<div className={`${headerStyle.dropdownProfile} ${headerStyle.hide}`}>*/}
+			{/*<div className={`${headerStyle.dropdownProfile} ${'hide'}`}>*/}
+				<div className={clsx(headerStyle.dropdownProfile, isOpenPopUpProfile && headerStyle.open)}>
+				<span className={headerStyle.name}>{profile?.name}</span>
+				<div className={headerStyle.action}>
+				<Link to='/profile' className='notHighlight'>Edit Profil</Link>
+				<Link className='notHighlight'>Order</Link>
+				<Link className='notHighlight'>Riwayat</Link>
+				<Link className={clsx(headerStyle.btnLogout, 'notHighlight')} onClick={logout}>Logout</Link>
+				</div>
+				</div>
+				</>
 
-			<DestinationPopupComponent isOpen={isOpenPopUpDestination} onClose={togglePopUpDestination} />
-			</>
-			)
+				) : (
+				<button className={clsx(headerStyle.btnLogin, 'btn-second notHighlight')} onClick={btnLogin}>LOGIN</button>
+				)}
+				</div>
+
+				<DestinationPopupComponent isOpen={isOpenPopUpDestination} onClose={togglePopUpDestination} />
+				</>
+				)
 }
 
 export default HeaderComponent

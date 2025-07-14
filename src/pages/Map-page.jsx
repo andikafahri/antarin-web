@@ -216,6 +216,13 @@ const MapPage = () => {
 		setDestinationSelected(addressData)
 		navigate('/map/address')
 	}
+
+	const handleCheck = () => {
+		console.log('ADDRESS APPLYED: ')
+		setDestinationSelected(addressData)
+		navigate(sessionStorage.getItem('fromURL') || '/')
+	}
+	
 	console.log(destinationSelected)
 
 	return (
@@ -271,12 +278,16 @@ const MapPage = () => {
 		{/*<textarea rows='2' value={addressData.address} placeholder="Cth: Jl. KH.Abdul Majid, RT.15 RW.3, Desa Ngebruk, Kec. Sumberpucung" onChange={e => setAddressData(e.target.value)} />*/}
 		<label>{addressData.address ?? 'Tentukan titik tujuan'}</label>
 		<span className={s.info}>Jika Kamu yakin titik sudah benar namun alamat tidak lengkap atau kurang sesuai, Kamu bisa ubah detail alamat di halaman selanjutnya.</span>
-		<button className='btn-primary' onClick={handleNext}>Selanjutnya</button>
-		</div>
-		</div>
-		</div>
-		</>
-		)
+		{localStorage.getItem('token') ? (
+			<button className='btn-primary' onClick={handleNext}>Selanjutnya</button>
+			) : (
+			<button className='btn-primary' onClick={handleCheck}>Cek Ongkir</button>
+			)}
+			</div>
+			</div>
+			</div>
+			</>
+			)
 }
 
 export default MapPage

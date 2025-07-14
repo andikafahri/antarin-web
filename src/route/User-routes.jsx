@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate, Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { AccountProvider } from "../context/Account-context.jsx";
 import { DestinationProvider } from "../context/Destination-context.jsx";
 import { OrderProvider } from "../context/Order-context.jsx";
 import HeaderComponent from "../components/Header-component.jsx";
@@ -59,9 +60,11 @@ const UserRoutes = () => {
 	const ContextGroup = () => {
 		return (
 			<DestinationProvider>
+			<AccountProvider>
 			<OrderProvider>
 			<Outlet />
 			</OrderProvider>
+			</AccountProvider>
 			</DestinationProvider>
 			)
 	}

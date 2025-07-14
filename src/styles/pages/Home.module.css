@@ -267,8 +267,9 @@ overflow: hidden;
 }
 
 .card .infoMerchant h2 {
-	font-size: 1.1rem;
 	margin-bottom: 5px;
+	font-size: .9rem;
+	font-weight: bold;
 }
 
 .card .infoMerchant > h3 {

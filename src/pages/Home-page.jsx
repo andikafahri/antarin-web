@@ -153,7 +153,7 @@ const HomePage = () => {
 		<div>
 		{/*<HeaderComponent />*/}
 
-		{localStorage.getItem('token') ? (
+		{Object.keys(profileCtx).length > 0 ? (
 			<div className={homeStyle.info}>
 			<div className={homeStyle.progress} role='button' onClick={handleProgress}>
 		{/*<label>Sedang Diantar</label>*/}

@@ -49,9 +49,11 @@ const HeaderComponent = () => {
 	}, [token])
 
 	useEffect(() => {
-		// if(!loadingProfileCtx){
+		if(Object.keys(profileCtx).length === 0){
+			setIsLogin(false)
+		}
+
 		setProfile(profileCtx)
-		// }
 	}, [profileCtx])
 
 
@@ -100,7 +102,7 @@ const HeaderComponent = () => {
 		<div role='button' className={clsx(headerStyle.addressContainer, 'notHighlight')} onClick={togglePopUpDestination}>
 		<div className={headerStyle.left}>
 		<label className={headerStyle.label}>Alamat</label>
-		{localStorage.getItem('token') ? (
+		{isLogin ? (
 			<label className={headerStyle.addressName}>{destinationSelected?.name || destinationSelected?.address || 'Tentukan alamat tujuan'}</label>
 			) : (
 			<label className={headerStyle.addressName}>Cek Ongkir</label>

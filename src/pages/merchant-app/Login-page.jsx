@@ -47,7 +47,7 @@ const LoginPage = () => {
 		<div className={loginStyle.top}>
 		<h1>Login</h1>
 		<div className={loginStyle.logo}>
-		<img src="/img/Logo Antarin Merchant.png" alt="" />
+		<img src="/img/Logo Merchant.png" alt="" />
 		</div>
 		</div>
 		<div className={loginStyle.middle}>

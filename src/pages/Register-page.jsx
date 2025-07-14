@@ -44,7 +44,7 @@ const RegisterPage = () => {
 		<div className={registerStyle.top}>
 		<h1>Register</h1>
 		<div className={registerStyle.logo}>
-		<img src="/img/Logo Antarin.png" alt="" />
+		<img src="/img/Logo.png" alt="" />
 		</div>
 		</div>
 		<div className={registerStyle.middle}>

@@ -83,7 +83,7 @@ const HeaderComponent = () => {
 		<div className={h.header}>
 		<div className={h.logo}>
 		<a href='/'>
-		<img src='/img/Logo Antarin Merchant.png' />
+		<img src='/img/Logo Merchant.png' />
 		</a>
 		</div>
 		<div role='button' className={h.operational} onClick={toggleTimeOperational}>

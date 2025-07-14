@@ -178,7 +178,7 @@ const RegisterPage = () => {
 		<div className={s.box}>
 		<label>REGISTER</label>
 		<div className={s.logo}>
-		<img src="/img/Logo Antarin Merchant.png" alt="" />
+		<img src="/img/Logo Merchant.png" alt="" />
 		</div>
 		<div className={s.profile}>
 		<div className={s.profilePicture}>

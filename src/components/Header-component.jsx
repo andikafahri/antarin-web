@@ -84,7 +84,7 @@ const HeaderComponent = () => {
 		<div className={headerStyle.header}>
 		<div className={headerStyle.logo}>
 		<a href='/'>
-		<img src='/img/Logo Antarin.png' />
+		<img src='/img/Logo.png' />
 		</a>
 		</div>
 		<div className={headerStyle.address}>

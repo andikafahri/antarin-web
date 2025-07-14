@@ -27,9 +27,9 @@ const FaviconUpdater = () => {
 		const favicon = document.querySelector("link[rel~='icon']")
 
 		if(location.pathname.startsWith('/merchant')){
-			favicon.href = '/img/Favicon Antarin Merchant.png'
+			favicon.href = '/img/Favicon Merchant.png'
 		}else{
-			favicon.href = '/img/Favicon Antarin.png'
+			favicon.href = '/img/Favicon.png'
 		}
 	}, [location])
 

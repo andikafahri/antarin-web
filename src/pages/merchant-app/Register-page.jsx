@@ -137,17 +137,15 @@ const RegisterPage = () => {
 	// HANDLE REGISTER
 	const [loadingBtnRegister, setLoadingBtnRegister] = useState(false)
 	const handleRegister = () => {
-		const {subd, city, prov, cityNameView, provNameView, coordinates, ...req} = request
+		const {subd, city, prov, cityNameView, provNameView, coordinates, phone, ...req} = request
 		const formData = new FormData()
 
 		formData.append('role', 'merchant')
 		formData.append('file', imageValue)
 		formData.append('coordinates', JSON.stringify(coordinates))
 
-		if(!phone){
-			req.phone = ''
-		}
-
+		req.phone = phone ?? ''
+		
 		Object.entries(req).forEach(([key, value]) => {
 			formData.append(key, value)
 		})

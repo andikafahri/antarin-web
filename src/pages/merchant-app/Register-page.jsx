@@ -141,8 +141,11 @@ const RegisterPage = () => {
 		const formData = new FormData()
 
 		formData.append('role', 'merchant')
-		formData.append('file', imageValue)
 		formData.append('coordinates', JSON.stringify(coordinates))
+
+		if(imageValue){
+			formData.append('file', imageValue)
+		}
 
 		req.phone = phone ?? ''
 		

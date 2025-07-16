@@ -266,6 +266,8 @@ flex-direction: column;
 	width: 100%;
 	border-radius: 15px;
 	box-shadow: var(--box-shadow);
+	display: flex;
+	flex-direction: column;
 	overflow: hidden;
 	cursor: pointer;
 }
@@ -312,6 +314,9 @@ flex-direction: column;
 }
 
 .card .info h3 {
+	flex: 1;
+	margin-top: 5px;
+	align-content: flex-end;
 	text-align: right;
 	font-weight: bold;
 }

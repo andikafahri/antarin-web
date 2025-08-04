@@ -7,12 +7,13 @@ A simple and efficient delivery service platform built with **React JS**.
 🌐 [Live Demo User](https://antarin-web.vercel.app)
 🌐 [Live Demo Merchant](https://antarin-web.vercel.app/merchant/login)
 
-## Admin
+## Merchant
 > Account :
 - Username: admin
 - Password: admin123A
 
 > 📦 Features
+- Register
 - Update Account
 - CRUD Time Operational
 - CRUD Menu

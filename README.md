@@ -17,7 +17,7 @@ A simple and efficient delivery service platform built with **React JS**.
 - CRUD Menu
 - Manage Order
 
-## 📦 User
+## User
 > 📦 Features
 - Register
 - Update Account

@@ -4,7 +4,8 @@ A simple and efficient delivery service platform built with **React JS**.
 
 ## 🔗 Live Preview
 
-🌐 [Live Demo](https://antarin-web.vercel.app)
+🌐 [Live Demo User](https://antarin-web.vercel.app)
+🌐 [Live Demo Merchant](https://antarin-web.vercel.app/merchant/login)
 
 ## Admin
 > Account :

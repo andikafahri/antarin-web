@@ -12,55 +12,37 @@ import CheckoutComponent from '../components/Checkout-component.jsx'
 import FooterComponent from '../components/Footer-component.jsx'
 import {getMerchantList} from '../api.jsx'
 
+const MerchantList = ({data}) => {
+	return data?.map((merchant) => {
+		return (
+			<Card1Component key={merchant.id} data={merchant}/>
+			)
+	})
+}
+
+
 const HomePage = () => {
-	// GET STATUS ORDER
-	const {destinationSelected} = useContext(DestinationContext)
-	const {loadingDataOrder, getDataOrder, dataOrderContext} = useContext(OrderContext)
-	const [statusOrder, setStatusOrder] = useState({})
+	const navigate = useNavigate()
+	const {cartItems} = useContext(OrderContext)
+	const {loadingProfileCtx, profileCtx} = useContext(AccountContext)
+	const [filter, setFilter] = useState({})
+	const [loadingMerchantList, setLoadingMerchantList] = useState(true)
+	const [merchantList, setMerchantList] = useState([])
 
 	useEffect(() => {
-		const result = async () => {
-			await getDataOrder()
-		}
+		getMerchantList(filter).then((result) => {
+			setMerchantList(result)
+		}).finally(() => {
+			setLoadingMerchantList(false)
+		})
+	}, [filter])
 
-		result()
-	}, [])
-
-	const navigate = useNavigate()
-	// useEffect(() => {
-	// 	const token = localStorage.getItem('token')
-	// 	if(!token){
-	// 		navigate('/login')
-	// 		return
-	// 	}
-	// })
-	// const [params] = useSearchParams()
-	const location = useLocation()
-	const params = new URLSearchParams(location.search)
-	const searchParam = params.get('search')
-	const categoryParam = params.get('category')
-
-	const setFilterParams = ({name, category}) => {
-		if(name){
-			params.set('search', name)
-		}else{
-			params.delete('search')
-		}
-
-		if(category){
-			params.set('category', category)
-		}else{
-			params.delete('category')
-		}
-
-		navigate(`?${params.toString()}`, {replace: true})
-	}
-
+	// SEARCH
 	const searchInput = useRef()
 	const [searchValue, setSearchValue] = useState('')
 	const delaySearch = useMemo(() => 
 		debounce((val) => {
-			setFilterParams({name: val, category: categoryParam})
+			setFilter(prev => ({...prev, search: val}))
 		}, 500), [searchValue])
 
 	useEffect(() => {
@@ -71,38 +53,16 @@ const HomePage = () => {
 	const btnClear = () => {
 		setSearchValue('')
 	}
+	// ===
 
-	const filter = useMemo(() => ({
-		search: searchParam,
-		category: categoryParam,
-		lng: destinationSelected.lng,
-		lat: destinationSelected.lat
-	}), [searchParam, categoryParam, destinationSelected])
-	const [merchantList, setMerchantList] = useState([])
+	// GET STATUS ORDER
+	const {loadingDataOrder, getDataOrder, dataOrderContext} = useContext(OrderContext)
+	const [statusOrder, setStatusOrder] = useState({})
+
 	useEffect(() => {
-		getMerchantList(filter).then((result) => {
-			setMerchantList(result)
-		})
-		setMerchantList(null)
-	}, [filter, destinationSelected])
-
-	const MerchantList = () => {
-		if(!merchantList){
-			return <div className={homeStyle.loading}>Memuat . . .</div>
-		}
-
-		if(merchantList.length === 0){
-			return <div className={homeStyle.loading}><div>Data Kosong</div></div>
-		}
-
-		return merchantList.map((merchant) => {
-			return (
-				<Card1Component key={merchant.id} data={merchant}/>
-				)
-		})
-	}
-
-
+		getDataOrder()
+	}, [])
+	// ===
 
 	// REALTIME UPDATE STATUS ORDER
 	const token = localStorage.getItem('token')
@@ -111,9 +71,6 @@ const HomePage = () => {
 		setRoleSocket('user')
 		if(token && dataOrderContext){
 			setStatusOrder(dataOrderContext?.status)
-			console.log('HOME MOUNT AGAIN')
-			console.log(statusOrder)
-			console.log(dataOrderContext)
 			if(useSocket?.connected){
 				useSocket?.emit('subscribeOrderUser', dataOrderContext?.id_order)
 			}else{
@@ -123,27 +80,19 @@ const HomePage = () => {
 			}
 
 			useSocket?.on('updateStatusOrder', (data) => {
-			// getDataOrder()
 				setStatusOrder(data?.status)
-				console.log('UPDATE REALTIME')
-				console.log(data)
 			})
 			return () => {
 				useSocket?.off('updateStatusOrder')
 				useSocket?.off('connect')
 			}
-			console.log('UPDATE STATUS ORDER VIA SOCKET')
 		}
 	}, [dataOrderContext, loadingDataOrder])
+	// ===
 
 	const handleProgress = () => {
 		navigate('/progress')
 	}
-
-	const {cartItems} = useContext(OrderContext)
-	console.log('Cart Items: '+cartItems.length)
-
-	const {loadingProfileCtx, profileCtx} = useContext(AccountContext)
 
 	if(loadingDataOrder || loadingProfileCtx){
 		return 'Memuat . . .'
@@ -151,12 +100,9 @@ const HomePage = () => {
 
 	return (
 		<div>
-		{/*<HeaderComponent />*/}
-
 		{Object.keys(profileCtx).length > 0 ? (
 			<div className={homeStyle.info}>
 			<div className={homeStyle.progress} role='button' onClick={handleProgress}>
-		{/*<label>Sedang Diantar</label>*/}
 			<label>{statusOrder?.message || 'Order Sekarang'}</label>
 			</div>
 			<div className={homeStyle.point}>
@@ -169,48 +115,63 @@ const HomePage = () => {
 		<div className={homeStyle.content}>
 		<div className={homeStyle.searchBar2}>
 		<input type="text" ref={searchInput} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Cari Di sini" />
-		<button type="button" className={homeStyle.btnClear} onClick={btnClear} disabled={searchValue.trim() === ''}>Hapus</button>
+		<button type="button" className={homeStyle.btnClear} onClick={(btnClear)} disabled={searchValue.trim() === ''}>Hapus</button>
 		</div>
 		<div className={homeStyle.headerContent}>
 		<h1 className={homeStyle.title}>Rekomendasi</h1>
 		<div className={homeStyle.category}>
 		<Link onClick={(e) => {
 			e.preventDefault()
-			setFilterParams({name: searchParam})
-		}} className={!categoryParam && homeStyle.active}>Semua</Link>
-		<Link className={categoryParam === 'makanan' ? homeStyle.active : ''} onClick={(e) => {
+			setFilter(prev => {
+				const {category, ...prevFilter} = prev
+				return prevFilter
+			})
+		}} className={!filter?.category && homeStyle.active}>Semua</Link>
+		<Link className={filter?.category === 'makanan' ? homeStyle.active : ''} onClick={(e) => {
 			e.preventDefault()
-			setFilterParams({name: searchParam, category: 'makanan'})
+			setFilter(prev => ({...prev, category: 'makanan'}))
 		}}>Makanan</Link>
-		<Link className={categoryParam === 'minuman' ? homeStyle.active : ''} onClick={(e) => {
+		<Link className={filter?.category === 'minuman' ? homeStyle.active : ''} onClick={(e) => {
 			e.preventDefault()
-			setFilterParams({name: searchParam, category: 'minuman'})
+			setFilter(prev => ({...prev, category: 'minuman'}))
 		}}>Minuman</Link>
 		</div>
 		</div>
 		<div className={homeStyle.cardsGroup}>
-		<MerchantList />
-		</div>
+		{loadingMerchantList ? (
+			<div className={homeStyle.loading}>Memuat . . .</div>
+			) : merchantList.length !== 0 ? (
+			<MerchantList data={merchantList} />
+			) : (
+			<div className={homeStyle.loading}><div>Data Kosong</div></div>
+			)}
+			</div>
 
 
-		<div className={homeStyle.headerContent}>
-		<h1 className={homeStyle.title}>Terdekat</h1>
-		<div className={homeStyle.category}>
-		<a href="" className={homeStyle.active}>Semua</a>
-		<a href="">Makanan</a>
-		<a href="">Minuman</a>
-		</div>
-		</div>
-		<div className={homeStyle.cardsGroup}>
-		<MerchantList />
-		</div>
-		</div>
+			<div className={homeStyle.headerContent}>
+			<h1 className={homeStyle.title}>Terdekat</h1>
+			<div className={homeStyle.category}>
+			<a href="" className={homeStyle.active}>Semua</a>
+			<a href="">Makanan</a>
+			<a href="">Minuman</a>
+			</div>
+			</div>
+			<div className={homeStyle.cardsGroup}>
+			{loadingMerchantList ? (
+				<div className={homeStyle.loading}>Memuat . . .</div>
+				) : merchantList.length !== 0 ? (
+				<MerchantList data={merchantList} />
+				) : (
+				<div className={homeStyle.loading}><div>Data Kosong</div></div>
+				)}
+				</div>
+				</div>
 
-		{cartItems.length !== 0 ? <CheckoutComponent /> : ''}
+				{cartItems.length !== 0 ? <CheckoutComponent /> : ''}
 
-		<FooterComponent />
-		</div>
-		)
+				<FooterComponent />
+				</div>
+				)
 }
 
 export default HomePage

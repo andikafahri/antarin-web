@@ -30,30 +30,13 @@ const HomePage = () => {
 	const [merchantList, setMerchantList] = useState([])
 
 	useEffect(() => {
+		setLoadingMerchantList(true)
 		getMerchantList(filter).then((result) => {
 			setMerchantList(result)
 		}).finally(() => {
 			setLoadingMerchantList(false)
 		})
 	}, [filter])
-
-	// SEARCH
-	const searchInput = useRef()
-	const [searchValue, setSearchValue] = useState('')
-	const delaySearch = useMemo(() => 
-		debounce((val) => {
-			setFilter(prev => ({...prev, search: val}))
-		}, 500), [searchValue])
-
-	useEffect(() => {
-		delaySearch(searchValue)
-		return() => delaySearch.cancel()
-	}, [searchValue])
-
-	const btnClear = () => {
-		setSearchValue('')
-	}
-	// ===
 
 	// GET STATUS ORDER
 	const {loadingDataOrder, getDataOrder, dataOrderContext} = useContext(OrderContext)
@@ -89,6 +72,26 @@ const HomePage = () => {
 		}
 	}, [dataOrderContext, loadingDataOrder])
 	// ===
+
+	// SEARCH
+	const searchInput = useRef()
+	const [searchValue, setSearchValue] = useState('')
+	const delaySearch = useMemo(() => 
+		debounce((val) => {
+			setFilter(prev => ({...prev, search: val}))
+		}, 500), [searchValue])
+
+	useEffect(() => {
+		delaySearch(searchValue)
+		return() => delaySearch.cancel()
+	}, [searchValue])
+
+	const btnClear = () => {
+		setSearchValue('')
+	}
+	// ===
+
+	
 
 	const handleProgress = () => {
 		navigate('/progress')

@@ -30,7 +30,7 @@ const ProfilePage = () => {
 	const {setAlert} = useContext(AlertContext)
 	const [loading, setLoading] = useState(false)
 	const btnSave = () => {
-		const {status, ...request} = dataProfile
+		const {poin, status, ...request} = dataProfile
 		if(!dataProfile.phone){
 			delete request.phone
 		}
